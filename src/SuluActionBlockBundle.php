@@ -7,6 +7,7 @@ namespace PERSPEQTIVE\SuluActionBlockBundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
+use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 use function dirname;
 use function glob;
@@ -25,5 +26,10 @@ class SuluActionBlockBundle extends AbstractBundle
         foreach (glob(__DIR__ . '/../config/packages/*.yaml') as $file) {
             $container->import($file);
         }
+    }
+
+    public function configureRoutes(RoutingConfigurator $routes): void
+    {
+        $routes->import(__DIR__ . '/../config/routes/admin_api.yaml');
     }
 }

@@ -19,8 +19,6 @@ services:
             $restHelper: '@sulu_core.rest_helper'
             $actionBlockRepository: '@PERSPEQTIVE\SuluActionBlockBundle\Repository\ActionBlockRepository'
             $entityManager: '@doctrine.orm.entity_manager'
-        tags:
-            - { name: sulu.rest_api, resource: action_blocks }
         calls:
             - [setContainer, ['@service_container']]
 

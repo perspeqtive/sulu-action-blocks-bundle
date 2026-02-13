@@ -8,6 +8,7 @@ use PERSPEQTIVE\SuluActionBlockBundle\Entity\ActionBlock;
 use Sulu\Bundle\AdminBundle\Admin\Admin;
 use Sulu\Bundle\AdminBundle\Admin\Navigation\NavigationItem;
 use Sulu\Bundle\AdminBundle\Admin\Navigation\NavigationItemCollection;
+use Sulu\Bundle\AdminBundle\Admin\View\ToolbarAction;
 use Sulu\Bundle\AdminBundle\Admin\View\ViewBuilderFactoryInterface;
 use Sulu\Bundle\AdminBundle\Admin\View\ViewCollection;
 use Sulu\Component\Security\Authorization\PermissionTypes;
@@ -52,7 +53,7 @@ class ActionBlockAdmin extends Admin
                 ->addListAdapters(['table'])
                 ->setAddView(static::ADD_FORM_VIEW)
                 ->setEditView(static::EDIT_FORM_VIEW)
-                ->addToolbarActions(['sulu_admin.add', 'sulu_admin.delete']),
+                ->addToolbarActions([new ToolbarAction('sulu_admin.add'), new ToolbarAction('sulu_admin.delete')]),
         );
 
         $viewCollection->add(
@@ -67,7 +68,7 @@ class ActionBlockAdmin extends Admin
                 ->setFormKey('action_block_details')
                 ->setTabTitle('sulu_admin.details')
                 ->setEditView(static::EDIT_FORM_VIEW)
-                ->addToolbarActions(['sulu_admin.save'])
+                ->addToolbarActions([new ToolbarAction('sulu_admin.save')])
                 ->setParent(static::ADD_FORM_VIEW),
         );
 
@@ -83,7 +84,7 @@ class ActionBlockAdmin extends Admin
                 ->setResourceKey(ActionBlock::RESOURCE_KEY)
                 ->setFormKey('action_block_details')
                 ->setTabTitle('sulu_admin.details')
-                ->addToolbarActions(['sulu_admin.save', 'sulu_admin.delete'])
+                ->addToolbarActions([new ToolbarAction('sulu_admin.save'), new ToolbarAction('sulu_admin.delete')])
                 ->setParent(static::EDIT_FORM_VIEW),
         );
     }

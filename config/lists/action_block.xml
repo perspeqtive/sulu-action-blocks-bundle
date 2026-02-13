@@ -8,14 +8,12 @@
             <entity-name>PERSPEQTIVE\SuluActionBlockBundle\Entity\ActionBlock</entity-name>
         </property>
 
-        <case-property name="title" translation="sulu_admin.title" visibility="always" searchability="yes">
-            <field>
-                <field-name>title</field-name>
-                <entity-name>PERSPEQTIVE\SuluActionBlockBundle\Entity\ActionBlock</entity-name>
-            </field>
+        <property name="title" translation="sulu_admin.title" visibility="always" searchability="yes">
+            <field-name>title</field-name>
+            <entity-name>PERSPEQTIVE\SuluActionBlockBundle\Entity\ActionBlock</entity-name>
 
             <transformer type="title"/>
-        </case-property>
+        </property>
 
     </properties>
 </list>

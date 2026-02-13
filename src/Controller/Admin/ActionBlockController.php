@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PERSPEQTIVE\SuluActionBlockBundle\Controller\Admin;
 
 use Doctrine\ORM\EntityManagerInterface;
+use HandcraftedInTheAlps\RestRoutingBundle\Controller\Annotations\RouteResource;
 use PERSPEQTIVE\SuluActionBlockBundle\Entity\ActionBlock;
 use PERSPEQTIVE\SuluActionBlockBundle\Repository\ActionBlockRepository;
 use Sulu\Bundle\AdminBundle\ListBuilder\ListRestHelperInterface;
@@ -16,6 +17,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+/**
+ * @RouteResource("action-block")
+ */
 class ActionBlockController extends AbstractRestController
 {
     public function __construct(
@@ -73,7 +77,7 @@ class ActionBlockController extends AbstractRestController
         return $this->handleView($this->view(null, 204));
     }
 
-    public function cgetAction(): Response
+    public function cgetAction(Request $request): Response
     {
         $fieldDescriptors = $this->fieldDescriptorFactory->getFieldDescriptors(ActionBlock::RESOURCE_KEY);
         $listBuilder = $this->listBuilderFactory->create(ActionBlock::class);
