@@ -1,0 +1,32 @@
+services:
+
+    PERSPEQTIVE\SuluActionBlockBundle\Repository\ActionBlockRepository:
+        arguments:
+            $registry: '@doctrine'
+
+    PERSPEQTIVE\SuluActionBlockBundle\Admin\ActionBlockAdmin:
+        arguments:
+            $viewBuilderFactory: '@sulu_admin.view_builder_factory'
+            $securityChecker: '@sulu_security.security_checker'
+        tags:
+            - { name: sulu.admin }
+
+    PERSPEQTIVE\SuluActionBlockBundle\Controller\Admin\ActionBlockController:
+        arguments:
+            $listRestHelper: '@sulu_admin.list_rest_helper'
+            $listBuilderFactory: '@sulu_core.doctrine_list_builder_factory'
+            $fieldDescriptorFactory: '@sulu_core.list_builder.field_descriptor_factory'
+            $restHelper: '@sulu_core.rest_helper'
+            $actionBlockRepository: '@PERSPEQTIVE\SuluActionBlockBundle\Repository\ActionBlockRepository'
+            $entityManager: '@doctrine.orm.entity_manager'
+        tags:
+            - { name: sulu.rest_api, resource: action_blocks }
+        calls:
+            - [setContainer, ['@service_container']]
+
+    PERSPEQTIVE\SuluActionBlockBundle\Content\Types\SingleActionBlockSelectionContentType:
+        arguments:
+            $actionBlockRepository: '@PERSPEQTIVE\SuluActionBlockBundle\Repository\ActionBlockRepository'
+        tags:
+            - { name: sulu.content.type, alias: single_action_block_selection }
+

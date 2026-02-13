@@ -1,0 +1,7 @@
+sulu_admin:
+    forms:
+        directories:
+            - "%perspeqtive_sulu_action_block_bundle_path%/config/forms"
+    lists:
+        directories:
+            - "%perspeqtive_sulu_action_block_bundle_path%/config/lists"
