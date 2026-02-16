@@ -20,7 +20,7 @@
                 <title>Action</title>
             </meta>
             <params>
-                <param name="action" type="expression" value="service('PERSPEQTIVE\\SuluActionBlockBundle\\Content\\Select\\ActionSelect').getValues()"/>
+                <param name="values" type="expression" value="service('PERSPEQTIVE\\SuluActionBlockBundle\\Content\\Select\\ActionSelect').getValues()"/>
             </params>
         </property>
     </properties>
