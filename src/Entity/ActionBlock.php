@@ -12,6 +12,8 @@ class ActionBlock
 
     private ?string $title;
 
+    private ?string $action;
+
     private array $configuration = [];
 
     public function getId(): ?int
@@ -29,6 +31,16 @@ class ActionBlock
         $this->title = $title;
 
         return $this;
+    }
+
+    public function getAction(): ?string
+    {
+        return $this->action;
+    }
+
+    public function setAction(?string $action): void
+    {
+        $this->action = $action;
     }
 
     public function getConfiguration(): array
