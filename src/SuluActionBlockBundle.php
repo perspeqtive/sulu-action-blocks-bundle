@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PERSPEQTIVE\SuluActionBlockBundle;
 
+use PERSPEQTIVE\SuluActionBlockBundle\Registry\ServiceActionItemInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
@@ -17,6 +18,7 @@ class SuluActionBlockBundle extends AbstractBundle
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
         $container->import(__DIR__ . '/../config/services.yaml');
+        $this->configureAutoconfigurationInterface($builder);
     }
 
     public function prependExtension(ContainerConfigurator $container, ContainerBuilder $builder): void
@@ -28,8 +30,10 @@ class SuluActionBlockBundle extends AbstractBundle
         }
     }
 
-    public function configureRoutes(RoutingConfigurator $routes): void
+    protected function configureAutoconfigurationInterface(ContainerBuilder $builder): void
     {
-        $routes->import(__DIR__ . '/../config/routes/admin_api.yaml');
+        $builder
+            ->registerForAutoconfiguration(ServiceActionItemInterface::class)
+            ->addTag('perspeqtive.sulu_action_block.action');
     }
 }

@@ -24,6 +24,16 @@ services:
         tags:
             - { name: controller.service_arguments }
 
+    PERSPEQTIVE\SuluActionBlockBundle\Registry\ActionRegistry:
+        class: PERSPEQTIVE\SuluActionBlockBundle\Registry\ActionRegistry
+        arguments:
+            $actions: !tagged_iterator perspeqtive.sulu_action_block.action
+
+    PERSPEQTIVE\SuluActionBlockBundle\Content\Select\ActionSelect:
+        class: PERSPEQTIVE\SuluActionBlockBundle\Content\Select\ActionSelect
+        public: true
+        arguments:
+            $actionRegistry: '@PERSPEQTIVE\SuluActionBlockBundle\Registry\ActionRegistry'
 
     PERSPEQTIVE\SuluActionBlockBundle\Content\Select\ActionBlockSelect:
         class: PERSPEQTIVE\SuluActionBlockBundle\Content\Select\ActionBlockSelect

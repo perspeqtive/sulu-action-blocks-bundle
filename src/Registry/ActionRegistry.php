@@ -1,0 +1,33 @@
+<?php
+
+declare(strict_types=1);
+
+namespace PERSPEQTIVE\SuluActionBlockBundle\Registry;
+
+readonly class ActionRegistry
+{
+
+    /**
+     * @param iterable<ServiceActionItemInterface> $actions
+     */
+    public function __construct(private iterable $actions) {
+        $this->validateActions();
+    }
+
+    /**
+     * @return iterable<ServiceActionItemInterface>
+     */
+    public function getActions(): iterable {
+        return $this->actions;
+    }
+
+    private function validateActions(): void
+    {
+        foreach ($this->actions as $action) {
+            if ($action instanceof ServiceActionItemInterface === true) {
+                continue;
+            }
+            throw new \InvalidArgumentException('Action must implement ServiceActionItemInterface: ' . get_class($action));
+        }
+    }
+}
