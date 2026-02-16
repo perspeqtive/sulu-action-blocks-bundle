@@ -22,9 +22,8 @@ services:
         calls:
             - [setContainer, ['@service_container']]
 
-    PERSPEQTIVE\SuluActionBlockBundle\Content\Types\SingleActionBlockSelectionContentType:
+    PERSPEQTIVE\SuluActionBlockBundle\Content\Select\ActionBlockSelect:
+        class: PERSPEQTIVE\SuluActionBlockBundle\Content\Select\ActionBlockSelect
         arguments:
             $actionBlockRepository: '@PERSPEQTIVE\SuluActionBlockBundle\Repository\ActionBlockRepository'
-        tags:
-            - { name: sulu.content.type, alias: single_action_block_selection }
 
