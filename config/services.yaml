@@ -24,6 +24,7 @@ services:
 
     PERSPEQTIVE\SuluActionBlockBundle\Content\Select\ActionBlockSelect:
         class: PERSPEQTIVE\SuluActionBlockBundle\Content\Select\ActionBlockSelect
+        public: true
         arguments:
             $actionBlockRepository: '@PERSPEQTIVE\SuluActionBlockBundle\Repository\ActionBlockRepository'
 
