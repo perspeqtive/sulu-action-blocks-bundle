@@ -9,17 +9,22 @@ use PERSPEQTIVE\SuluActionBlockBundle\Repository\ActionBlockRepository;
 readonly class ActionBlockSelect
 {
 
-    public function __construct(private ActionBlockRepository $actionBlockRepository) {
+    public function __construct(private ActionBlockRepository $actionBlockRepository)
+    {
 
     }
 
-    public function getValues(): array {
+    public function getValues(): array
+    {
         $actionBlocks = $this->actionBlockRepository->findAll();
 
-        $values = [0 => 'Bitte auswählen'];
+        $values = [];
 
         foreach ($actionBlocks as $actionBlock) {
-            $values[$actionBlock->getId()] = $actionBlock->getTitle();
+            $values[] = [
+                'name' => $actionBlock->getId(),
+                'title' => $actionBlock->getTitle()
+            ];
         }
 
         return $values;

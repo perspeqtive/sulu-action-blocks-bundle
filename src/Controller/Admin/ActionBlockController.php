@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace PERSPEQTIVE\SuluActionBlockBundle\Controller\Admin;
 
 use Doctrine\ORM\EntityManagerInterface;
+use FOS\RestBundle\View\ViewHandlerInterface;
 use HandcraftedInTheAlps\RestRoutingBundle\Controller\Annotations\RouteResource;
 use PERSPEQTIVE\SuluActionBlockBundle\Entity\ActionBlock;
 use PERSPEQTIVE\SuluActionBlockBundle\Repository\ActionBlockRepository;
-use Sulu\Bundle\AdminBundle\ListBuilder\ListRestHelperInterface;
+use Sulu\Component\Rest\ListBuilder\ListRestHelperInterface;
 use Sulu\Component\Rest\AbstractRestController;
 use Sulu\Component\Rest\ListBuilder\Doctrine\DoctrineListBuilderFactoryInterface;
 use Sulu\Component\Rest\ListBuilder\Metadata\FieldDescriptorFactoryInterface;
@@ -23,6 +24,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class ActionBlockController extends AbstractRestController
 {
     public function __construct(
+        ViewHandlerInterface $viewHandler,
         private readonly ListRestHelperInterface $listRestHelper,
         private readonly DoctrineListBuilderFactoryInterface $listBuilderFactory,
         private readonly FieldDescriptorFactoryInterface $fieldDescriptorFactory,
@@ -30,6 +32,7 @@ class ActionBlockController extends AbstractRestController
         private readonly ActionBlockRepository $actionBlockRepository,
         private readonly EntityManagerInterface $entityManager,
     ) {
+        parent::__construct($viewHandler);
     }
 
     public function getAction(int $id): Response
@@ -81,7 +84,7 @@ class ActionBlockController extends AbstractRestController
     {
         $fieldDescriptors = $this->fieldDescriptorFactory->getFieldDescriptors(ActionBlock::RESOURCE_KEY);
         $listBuilder = $this->listBuilderFactory->create(ActionBlock::class);
-        $this->listRestHelper->initializeListBuilder($listBuilder, $fieldDescriptors);
+        $this->restHelper->initializeListBuilder($listBuilder, $fieldDescriptors);
 
         $list = $listBuilder->execute();
 

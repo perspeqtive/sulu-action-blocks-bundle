@@ -12,15 +12,18 @@ services:
             - { name: sulu.admin }
 
     PERSPEQTIVE\SuluActionBlockBundle\Controller\Admin\ActionBlockController:
+        class: PERSPEQTIVE\SuluActionBlockBundle\Controller\Admin\ActionBlockController
         arguments:
-            $listRestHelper: '@sulu_admin.list_rest_helper'
+            $viewHandler: '@fos_rest.view_handler'
+            $listRestHelper: '@sulu_core.list_rest_helper'
             $listBuilderFactory: '@sulu_core.doctrine_list_builder_factory'
             $fieldDescriptorFactory: '@sulu_core.list_builder.field_descriptor_factory'
             $restHelper: '@sulu_core.rest_helper'
             $actionBlockRepository: '@PERSPEQTIVE\SuluActionBlockBundle\Repository\ActionBlockRepository'
             $entityManager: '@doctrine.orm.entity_manager'
-        calls:
-            - [setContainer, ['@service_container']]
+        tags:
+            - { name: controller.service_arguments }
+
 
     PERSPEQTIVE\SuluActionBlockBundle\Content\Select\ActionBlockSelect:
         class: PERSPEQTIVE\SuluActionBlockBundle\Content\Select\ActionBlockSelect
