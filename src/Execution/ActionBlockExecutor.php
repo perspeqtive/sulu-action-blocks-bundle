@@ -4,15 +4,18 @@ declare(strict_types=1);
 
 namespace PERSPEQTIVE\SuluActionBlockBundle\Execution;
 
+use PERSPEQTIVE\SuluActionBlockBundle\Event\ActionBlockExecutedEvent;
 use PERSPEQTIVE\SuluActionBlockBundle\Registry\ActionRegistry;
 use PERSPEQTIVE\SuluActionBlockBundle\Registry\ServiceActionItemInterface;
 use PERSPEQTIVE\SuluActionBlockBundle\Repository\ActionBlockRepository;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 readonly class ActionBlockExecutor
 {
     public function __construct(
         private ActionBlockRepository $actionBlockRepository,
-        private ActionRegistry $actionRegistry
+        private ActionRegistry $actionRegistry,
+        private EventDispatcherInterface $eventDispatcher
     )
     {
     }
@@ -26,6 +29,16 @@ readonly class ActionBlockExecutor
             return '';
         }
 
-        return $action->execute($actionBlock->getConfiguration(), $options);
+        $result = $action->execute($actionBlock->getConfiguration(), $options);
+
+        if (empty($result->redirect) === false) {
+            $this->eventDispatcher->dispatch(
+                new ActionBlockExecutedEvent($result->redirect),
+                ActionBlockExecutedEvent::NAME
+            );
+            return '';
+        }
+
+        return $result->html;
     }
 }

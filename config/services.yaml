@@ -55,4 +55,11 @@ services:
         arguments:
             $actionBlockRepository: '@PERSPEQTIVE\SuluActionBlockBundle\Repository\ActionBlockRepository'
             $actionRegistry: '@PERSPEQTIVE\SuluActionBlockBundle\Registry\ActionRegistry'
+            $eventDispatcher: '@event_dispatcher'
 
+    PERSPEQTIVE\SuluActionBlockBundle\EventSubscriber\ActionBlockRedirectSubscriber:
+        class: PERSPEQTIVE\SuluActionBlockBundle\EventSubscriber\ActionBlockRedirectSubscriber
+        arguments:
+            $requestStack: '@request_stack'
+        tags:
+            - { name: kernel.event_subscriber }
