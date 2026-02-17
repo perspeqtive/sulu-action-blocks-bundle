@@ -19,7 +19,7 @@ readonly class ActionBlockSelect
         $values = [];
         foreach ($actionBlocks as $actionBlock) {
             $values[] = [
-                'name' => $actionBlock->getAction(),
+                'name' => $actionBlock->getId(),
                 'title' => $actionBlock->getTitle(),
             ];
         }
