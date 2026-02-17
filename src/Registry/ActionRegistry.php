@@ -4,20 +4,23 @@ declare(strict_types=1);
 
 namespace PERSPEQTIVE\SuluActionBlockBundle\Registry;
 
+use InvalidArgumentException;
+
 readonly class ActionRegistry
 {
-
     /**
      * @param iterable<ServiceActionItemInterface> $actions
      */
-    public function __construct(private iterable $actions) {
+    public function __construct(private iterable $actions)
+    {
         $this->validateActions();
     }
 
     /**
      * @return iterable<ServiceActionItemInterface>
      */
-    public function getActions(): iterable {
+    public function getActions(): iterable
+    {
         return $this->actions;
     }
 
@@ -27,7 +30,7 @@ readonly class ActionRegistry
             if ($action instanceof ServiceActionItemInterface === true) {
                 continue;
             }
-            throw new \InvalidArgumentException('Action must implement ServiceActionItemInterface: ' . get_class($action));
+            throw new InvalidArgumentException('Action must implement ServiceActionItemInterface: ' . $action::class);
         }
     }
 
@@ -38,6 +41,7 @@ readonly class ActionRegistry
                 return $action;
             }
         }
+
         return null;
     }
 }

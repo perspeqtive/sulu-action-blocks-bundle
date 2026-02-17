@@ -9,14 +9,16 @@ use FOS\RestBundle\View\ViewHandlerInterface;
 use HandcraftedInTheAlps\RestRoutingBundle\Controller\Annotations\RouteResource;
 use PERSPEQTIVE\SuluActionBlockBundle\Entity\ActionBlock;
 use PERSPEQTIVE\SuluActionBlockBundle\Repository\ActionBlockRepository;
-use Sulu\Component\Rest\ListBuilder\ListRestHelperInterface;
 use Sulu\Component\Rest\AbstractRestController;
 use Sulu\Component\Rest\ListBuilder\Doctrine\DoctrineListBuilderFactoryInterface;
+use Sulu\Component\Rest\ListBuilder\ListRestHelperInterface;
 use Sulu\Component\Rest\ListBuilder\Metadata\FieldDescriptorFactoryInterface;
 use Sulu\Component\Rest\RestHelperInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+use function array_merge;
 
 /**
  * @RouteResource("action-block")
@@ -44,8 +46,8 @@ class ActionBlockController extends AbstractRestController
 
         return $this->handleView(
             $this->view(
-                $this->normalize($entity)
-            )
+                $this->normalize($entity),
+            ),
         );
     }
 
@@ -112,8 +114,8 @@ class ActionBlockController extends AbstractRestController
         $entity->setConfiguration($configuration);
     }
 
-    private function normalize($data): array {
-
+    private function normalize($data): array
+    {
         $result = [];
         $result['id'] = $data->getId();
         $result['title'] = $data->getTitle();
@@ -121,7 +123,5 @@ class ActionBlockController extends AbstractRestController
         $configuration = $data->getConfiguration();
 
         return array_merge($result, $configuration);
-
     }
-
 }

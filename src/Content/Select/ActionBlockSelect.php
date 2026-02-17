@@ -8,10 +8,8 @@ use PERSPEQTIVE\SuluActionBlockBundle\Repository\ActionBlockRepository;
 
 readonly class ActionBlockSelect
 {
-
     public function __construct(private ActionBlockRepository $actionBlockRepository)
     {
-
     }
 
     public function getValues(): array
@@ -22,11 +20,10 @@ readonly class ActionBlockSelect
         foreach ($actionBlocks as $actionBlock) {
             $values[] = [
                 'name' => $actionBlock->getId(),
-                'title' => $actionBlock->getTitle()
+                'title' => $actionBlock->getTitle(),
             ];
         }
 
         return $values;
     }
-
 }

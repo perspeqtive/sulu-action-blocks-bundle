@@ -10,8 +10,10 @@ use Twig\Extension\AbstractExtension;
 
 class RenderActionBlockExtension extends AbstractExtension
 {
+    public function __construct(private readonly ActionBlockExecutor $executor)
+    {
+    }
 
-    public function __construct(private readonly ActionBlockExecutor $executor) {}
     #[AsTwigFunction('render_action_block')]
     public function renderActionBlock(string $actionBlockIdentifier, array $configuration = []): string
     {

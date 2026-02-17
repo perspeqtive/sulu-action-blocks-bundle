@@ -6,11 +6,9 @@ namespace PERSPEQTIVE\SuluActionBlockBundle\Registry;
 
 interface ServiceActionItemInterface
 {
-
     public function getIdentifier(): string;
 
     public function getTitle(): string;
 
     public function execute(array $configuration = []): string;
-
 }
