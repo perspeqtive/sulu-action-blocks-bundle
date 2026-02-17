@@ -15,9 +15,8 @@ readonly class ActionBlockExecutor
     public function __construct(
         private ActionBlockRepository $actionBlockRepository,
         private ActionRegistry $actionRegistry,
-        private EventDispatcherInterface $eventDispatcher
-    )
-    {
+        private EventDispatcherInterface $eventDispatcher,
+    ) {
     }
 
     public function execute(int $actionBlockIdentifier, array $options = []): string
@@ -34,8 +33,8 @@ readonly class ActionBlockExecutor
         if (empty($result->redirect) === false) {
             $this->eventDispatcher->dispatch(
                 new ActionBlockExecutedEvent($result->redirect),
-                ActionBlockExecutedEvent::NAME
             );
+
             return '';
         }
 

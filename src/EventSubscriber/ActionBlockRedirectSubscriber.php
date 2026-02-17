@@ -7,9 +7,9 @@ namespace PERSPEQTIVE\SuluActionBlockBundle\EventSubscriber;
 use PERSPEQTIVE\SuluActionBlockBundle\Event\ActionBlockExecutedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 class ActionBlockRedirectSubscriber implements EventSubscriberInterface
 {
@@ -44,7 +44,7 @@ class ActionBlockRedirectSubscriber implements EventSubscriberInterface
 
     public function onKernelResponse(ResponseEvent $event): void
     {
-        if($this->shouldRedirect($event) === false) {
+        if ($this->shouldRedirect($event) === false) {
             return;
         }
 
@@ -55,7 +55,7 @@ class ActionBlockRedirectSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $event->setResponse(new RedirectResponse((string)$redirectUrl));
+        $event->setResponse(new RedirectResponse((string) $redirectUrl));
         $request->attributes->remove(self::ATTR_REDIRECT_URL);
     }
 
@@ -67,6 +67,7 @@ class ActionBlockRedirectSubscriber implements EventSubscriberInterface
         if ($event->getResponse() instanceof RedirectResponse) {
             return false;
         }
+
         return true;
     }
 }

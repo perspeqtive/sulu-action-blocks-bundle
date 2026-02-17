@@ -51,7 +51,8 @@ class ActionBlock
         $this->configuration = $configuration;
     }
 
-    public function toArray(): array {
+    public function toArray(): array
+    {
         return [
             'id' => $this->id,
             'title' => $this->title,

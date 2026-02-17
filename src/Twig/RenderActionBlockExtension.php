@@ -20,7 +20,7 @@ class RenderActionBlockExtension extends AbstractExtension
             new TwigFunction(
                 'perspeqtive_render_action_block',
                 [$this, 'renderActionBlock'],
-                ['is_safe' => ['html']]
+                ['is_safe' => ['html']],
             ),
         ];
     }
