@@ -5,7 +5,9 @@
   "license": "MIT",
   "keywords": [
     "sulu",
-    "glossary"
+    "action-block",
+    "global block",
+    "custom action"
   ],
   "autoload": {
     "psr-4": {

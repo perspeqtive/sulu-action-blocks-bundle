@@ -47,6 +47,13 @@ bin/console doctrine:schema:update --force
 ```
 *Note: In production, it's recommended to use migrations.*
 
+### 5. Add routes to your `config/routes/perspeqtive_action_block_bundle.yaml`
+
+```yaml
+perspeqtive_sulu_action_block_api:
+  resource: '@SuluActionBlockBundle/config/routes.yaml'
+```
+
 ## 📖 Usage
 
 ### 1. Create Action Blocks
