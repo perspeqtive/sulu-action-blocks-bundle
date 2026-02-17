@@ -1,10 +1,13 @@
+# yaml-language-server: $schema=../vendor/symfony/dependency-injection/Loader/schema/services.schema.json
 services:
 
     PERSPEQTIVE\SuluActionBlockBundle\Repository\ActionBlockRepository:
+        class: PERSPEQTIVE\SuluActionBlockBundle\Repository\ActionBlockRepository
         arguments:
             $registry: '@doctrine'
 
     PERSPEQTIVE\SuluActionBlockBundle\Admin\ActionBlockAdmin:
+        class: PERSPEQTIVE\SuluActionBlockBundle\Admin\ActionBlockAdmin
         arguments:
             $viewBuilderFactory: '@sulu_admin.view_builder_factory'
             $securityChecker: '@sulu_security.security_checker'
@@ -40,4 +43,15 @@ services:
         public: true
         arguments:
             $actionBlockRepository: '@PERSPEQTIVE\SuluActionBlockBundle\Repository\ActionBlockRepository'
+
+    PERSPEQTIVE\SuluActionBlockBundle\Twig\RenderActionBlockExtension:
+        class: PERSPEQTIVE\SuluActionBlockBundle\Twig\RenderActionBlockExtension
+        arguments:
+            $executor: '@PERSPEQTIVE\SuluActionBlockBundle\Execution\ActionBlockExecutor'
+        tags: ['twig.extension']
+
+    PERSPEQTIVE\SuluActionBlockBundle\Execution\ActionBlockExecutor:
+        class: PERSPEQTIVE\SuluActionBlockBundle\Execution\ActionBlockExecutor
+        arguments:
+            $actionRegistry: '@PERSPEQTIVE\SuluActionBlockBundle\Registry\ActionRegistry'
 

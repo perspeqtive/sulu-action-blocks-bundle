@@ -42,7 +42,11 @@ class ActionBlockController extends AbstractRestController
             throw new NotFoundHttpException();
         }
 
-        return $this->handleView($this->view($entity));
+        return $this->handleView(
+            $this->view(
+                $this->normalize($entity)
+            )
+        );
     }
 
     public function putAction(int $id, Request $request): Response
@@ -98,9 +102,26 @@ class ActionBlockController extends AbstractRestController
         ));
     }
 
-    protected function mapDataToEntity(array $data, ActionBlock $entity): void
+    private function mapDataToEntity(array $data, ActionBlock $entity): void
     {
         $entity->setTitle($data['title'] ?? null);
-        $entity->setConfiguration($data['configuration'] ?? []);
+        $entity->setAction($data['action'] ?? null);
+
+        $configuration = $data;
+        unset($configuration['title'], $configuration['action'], $configuration['id']);
+        $entity->setConfiguration($configuration);
     }
+
+    private function normalize($data): array {
+
+        $result = [];
+        $result['id'] = $data->getId();
+        $result['title'] = $data->getTitle();
+        $result['action'] = $data->getAction();
+        $configuration = $data->getConfiguration();
+
+        return array_merge($result, $configuration);
+
+    }
+
 }

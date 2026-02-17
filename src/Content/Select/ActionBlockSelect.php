@@ -19,7 +19,6 @@ readonly class ActionBlockSelect
         $actionBlocks = $this->actionBlockRepository->findAll();
 
         $values = [];
-
         foreach ($actionBlocks as $actionBlock) {
             $values[] = [
                 'name' => $actionBlock->getId(),

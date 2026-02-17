@@ -30,4 +30,14 @@ readonly class ActionRegistry
             throw new \InvalidArgumentException('Action must implement ServiceActionItemInterface: ' . get_class($action));
         }
     }
+
+    public function getAction(string $actionBlockIdentifier): ?ServiceActionItemInterface
+    {
+        foreach ($this->actions as $action) {
+            if ($action->getIdentifier() === $actionBlockIdentifier) {
+                return $action;
+            }
+        }
+        return null;
+    }
 }
