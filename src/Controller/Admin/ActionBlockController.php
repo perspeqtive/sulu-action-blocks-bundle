@@ -109,19 +109,11 @@ class ActionBlockController extends AbstractRestController
         $entity->setTitle($data['title'] ?? null);
         $entity->setAction($data['action'] ?? null);
 
-        $configuration = $data;
-        unset($configuration['title'], $configuration['action'], $configuration['id']);
-        $entity->setConfiguration($configuration);
+        $entity->setConfiguration($data['configuration'] ?? []);
     }
 
-    private function normalize($data): array
+    private function normalize(ActionBlock $entity): array
     {
-        $result = [];
-        $result['id'] = $data->getId();
-        $result['title'] = $data->getTitle();
-        $result['action'] = $data->getAction();
-        $configuration = $data->getConfiguration();
-
-        return array_merge($result, $configuration);
+        return $entity->toArray();
     }
 }

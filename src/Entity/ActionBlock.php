@@ -26,11 +26,9 @@ class ActionBlock
         return $this->title;
     }
 
-    public function setTitle(?string $title): self
+    public function setTitle(?string $title): void
     {
         $this->title = $title;
-
-        return $this;
     }
 
     public function getAction(): ?string
@@ -48,10 +46,17 @@ class ActionBlock
         return $this->configuration;
     }
 
-    public function setConfiguration(array $configuration): self
+    public function setConfiguration(array $configuration): void
     {
         $this->configuration = $configuration;
+    }
 
-        return $this;
+    public function toArray(): array {
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'action' => $this->action,
+            'configuration' => $this->configuration,
+        ];
     }
 }
