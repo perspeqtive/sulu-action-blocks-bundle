@@ -25,7 +25,6 @@ class ActionBlockController extends AbstractRestController
 {
     public function __construct(
         ViewHandlerInterface $viewHandler,
-        private readonly ListRestHelperInterface $listRestHelper,
         private readonly DoctrineListBuilderFactoryInterface $listBuilderFactory,
         private readonly FieldDescriptorFactoryInterface $fieldDescriptorFactory,
         private readonly RestHelperInterface $restHelper,

@@ -18,7 +18,6 @@ services:
         class: PERSPEQTIVE\SuluActionBlockBundle\Controller\Admin\ActionBlockController
         arguments:
             $viewHandler: '@fos_rest.view_handler'
-            $listRestHelper: '@sulu_core.list_rest_helper'
             $listBuilderFactory: '@sulu_core.doctrine_list_builder_factory'
             $fieldDescriptorFactory: '@sulu_core.list_builder.field_descriptor_factory'
             $restHelper: '@sulu_core.rest_helper'

@@ -24,7 +24,8 @@
     "ext-libxml": "*",
     "sulu/sulu": "^2.6",
     "sulu/content-bundle": "0.8.*",
-    "nesbot/carbon": "3.10.*"
+    "nesbot/carbon": "3.10.*",
+    "friendsofsymfony/rest-bundle": "*"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.9",
