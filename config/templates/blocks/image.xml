@@ -1,0 +1,21 @@
+<template xmlns="http://schemas.sulu.io/template/template"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://schemas.sulu.io/template/template http://schemas.sulu.io/template/template-1.0.xsd"
+>
+    <key>image</key>
+    <meta>
+        <title>Image</title>
+    </meta>
+    <properties>
+        <property name="accessor" type="text_line" mandatory="true" colspan="6">
+            <meta>
+                <title>Accessor</title>
+            </meta>
+        </property>
+        <property name="image" type="single_media_selection" mandatory="true" colspan="6">
+            <params>
+                <param name="types" value="image" />
+            </params>
+        </property>
+    </properties>
+</template>

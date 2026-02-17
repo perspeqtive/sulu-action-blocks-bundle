@@ -23,5 +23,13 @@
                 <param name="values" type="expression" value="service('PERSPEQTIVE\\SuluActionBlockBundle\\Content\\Select\\ActionSelect').getValues()"/>
             </params>
         </property>
+
+        <block name="configuration">
+            <types>
+                <type ref="editor" />
+                <type ref="image" />
+                <type ref="link" />
+            </types>
+        </block>
     </properties>
 </form>
