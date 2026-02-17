@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace PERSPEQTIVE\SuluActionBlockBundle\Twig;
 
 use PERSPEQTIVE\SuluActionBlockBundle\Execution\ActionBlockExecutor;
-use Twig\Attribute\AsTwigFunction;
 use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
 class RenderActionBlockExtension extends AbstractExtension
 {
@@ -14,9 +14,15 @@ class RenderActionBlockExtension extends AbstractExtension
     {
     }
 
-    #[AsTwigFunction('render_action_block')]
-    public function renderActionBlock(string $actionBlockIdentifier, array $configuration = []): string
+    public function getFunctions(): array
     {
-        return $this->executor->execute($actionBlockIdentifier, $configuration);
+        return [
+            new TwigFunction('perspeqtive_render_action_block', [$this, 'renderActionBlock']),
+        ];
+    }
+
+    public function renderActionBlock(int $actionBlockIdentifier, array $options = []): string
+    {
+        return $this->executor->execute($actionBlockIdentifier, $options);
     }
 }

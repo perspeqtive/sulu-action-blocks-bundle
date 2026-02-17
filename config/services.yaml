@@ -53,5 +53,6 @@ services:
     PERSPEQTIVE\SuluActionBlockBundle\Execution\ActionBlockExecutor:
         class: PERSPEQTIVE\SuluActionBlockBundle\Execution\ActionBlockExecutor
         arguments:
+            $actionBlockRepository: '@PERSPEQTIVE\SuluActionBlockBundle\Repository\ActionBlockRepository'
             $actionRegistry: '@PERSPEQTIVE\SuluActionBlockBundle\Registry\ActionRegistry'
 

@@ -10,5 +10,5 @@ interface ServiceActionItemInterface
 
     public function getTitle(): string;
 
-    public function execute(array $configuration = []): string;
+    public function execute(array $configuration = [], array $options = []): string;
 }
