@@ -7,12 +7,12 @@
         <title>Link</title>
     </meta>
     <properties>
-        <property name="accessor" type="text_line" colspan="6">
+        <property name="accessor" type="text_line" colspan="4">
             <meta>
                 <title>Accessor</title>
             </meta>
         </property>
-        <property name="link" type="single_page_selection" colspan="6">
+        <property name="link" type="single_page_selection" colspan="8">
             <meta>
                 <title>Link</title>
             </meta>
