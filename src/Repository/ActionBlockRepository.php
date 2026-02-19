@@ -16,7 +16,7 @@ use PERSPEQTIVE\SuluActionBlockBundle\Entity\ActionBlock;
  * @method ActionBlock[] findAll()
  * @method ActionBlock[] findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ActionBlockRepository extends ServiceEntityRepository
+class ActionBlockRepository extends ServiceEntityRepository implements ActionBlockRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

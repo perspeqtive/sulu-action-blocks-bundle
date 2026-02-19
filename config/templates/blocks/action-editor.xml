@@ -2,19 +2,19 @@
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://schemas.sulu.io/template/template http://schemas.sulu.io/template/template-1.0.xsd"
 >
-    <key>action_link</key>
+    <key>action-editor</key>
     <meta>
-        <title>Link</title>
+        <title>Editor</title>
     </meta>
     <properties>
-        <property name="accessor" type="text_line" colspan="4">
+        <property name="name" type="text_line" mandatory="true">
             <meta>
-                <title>Accessor</title>
+                <title>Name</title>
             </meta>
         </property>
-        <property name="link" type="single_page_selection" colspan="8">
+        <property name="value" type="text_editor" mandatory="true">
             <meta>
-                <title>Link</title>
+                <title>Editor</title>
             </meta>
         </property>
     </properties>

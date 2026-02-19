@@ -8,10 +8,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\View\ViewHandlerInterface;
 use HandcraftedInTheAlps\RestRoutingBundle\Controller\Annotations\RouteResource;
 use PERSPEQTIVE\SuluActionBlockBundle\Entity\ActionBlock;
-use PERSPEQTIVE\SuluActionBlockBundle\Repository\ActionBlockRepository;
+use PERSPEQTIVE\SuluActionBlockBundle\Repository\ActionBlockRepositoryInterface;
 use Sulu\Component\Rest\AbstractRestController;
 use Sulu\Component\Rest\ListBuilder\Doctrine\DoctrineListBuilderFactoryInterface;
-use Sulu\Component\Rest\ListBuilder\ListRestHelperInterface;
 use Sulu\Component\Rest\ListBuilder\Metadata\FieldDescriptorFactoryInterface;
 use Sulu\Component\Rest\RestHelperInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,7 +27,7 @@ class ActionBlockController extends AbstractRestController
         private readonly DoctrineListBuilderFactoryInterface $listBuilderFactory,
         private readonly FieldDescriptorFactoryInterface $fieldDescriptorFactory,
         private readonly RestHelperInterface $restHelper,
-        private readonly ActionBlockRepository $actionBlockRepository,
+        private readonly ActionBlockRepositoryInterface $actionBlockRepository,
         private readonly EntityManagerInterface $entityManager,
     ) {
         parent::__construct($viewHandler);
@@ -36,7 +35,7 @@ class ActionBlockController extends AbstractRestController
 
     public function getAction(int $id): Response
     {
-        $entity = $this->actionBlockRepository->find($id);
+        $entity = $this->actionBlockRepository->findById($id);
         if (!$entity) {
             throw new NotFoundHttpException();
         }

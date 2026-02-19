@@ -26,9 +26,9 @@
 
         <block name="configuration">
             <types>
-                <type ref="action_editor" />
-                <type ref="action_image" />
-                <type ref="action_link" />
+                <type ref="action-editor" />
+                <type ref="action-image" />
+                <type ref="action-link" />
             </types>
         </block>
     </properties>

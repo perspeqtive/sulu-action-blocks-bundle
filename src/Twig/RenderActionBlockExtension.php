@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace PERSPEQTIVE\SuluActionBlockBundle\Twig;
 
-use PERSPEQTIVE\SuluActionBlockBundle\Execution\ActionBlockExecutor;
+use PERSPEQTIVE\SuluActionBlockBundle\Execution\ActionBlockExecutorInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 class RenderActionBlockExtension extends AbstractExtension
 {
-    public function __construct(private readonly ActionBlockExecutor $executor)
+    public function __construct(private readonly ActionBlockExecutorInterface $executor)
     {
     }
 

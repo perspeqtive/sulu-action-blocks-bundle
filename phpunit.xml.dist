@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+        colors="true"
+        displayDetailsOnTestsThatTriggerDeprecations="true"
+        displayDetailsOnTestsThatTriggerErrors="true"
+        displayDetailsOnTestsThatTriggerNotices="true"
+        displayDetailsOnTestsThatTriggerWarnings="true"
+        displayDetailsOnPhpunitDeprecations="true"
+        cacheDirectory="./.phpunit.cache"
+        bootstrap="tests/bootstrap.php"
+>
+    <testsuites>
+        <testsuite name="Project Tests">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+    <source>
+        <include>
+            <directory suffix=".php">.</directory>
+        </include>
+        <exclude>
+            <directory suffix=".php">tests</directory>
+            <directory>vendor</directory>
+            <directory>src/DependencyInjection</directory>
+            <directory>src/Repository</directory>
+            <directory>src/Entity</directory>
+        </exclude>
+    </source>
+
+    <coverage>
+        <report>
+            <html outputDirectory="public/report" />
+        </report>
+    </coverage>
+</phpunit>

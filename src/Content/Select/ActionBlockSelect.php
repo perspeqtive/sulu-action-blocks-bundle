@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace PERSPEQTIVE\SuluActionBlockBundle\Content\Select;
 
-use PERSPEQTIVE\SuluActionBlockBundle\Repository\ActionBlockRepository;
+use PERSPEQTIVE\SuluActionBlockBundle\Repository\ActionBlockRepositoryInterface;
 
 readonly class ActionBlockSelect
 {
-    public function __construct(private ActionBlockRepository $actionBlockRepository)
+    public function __construct(private ActionBlockRepositoryInterface $actionBlockRepository)
     {
     }
 

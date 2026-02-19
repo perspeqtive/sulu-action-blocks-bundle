@@ -2,20 +2,23 @@
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://schemas.sulu.io/template/template http://schemas.sulu.io/template/template-1.0.xsd"
 >
-    <key>action_editor</key>
+    <key>action-image</key>
     <meta>
-        <title>Editor</title>
+        <title>Image</title>
     </meta>
     <properties>
-        <property name="accessor" type="text_line" mandatory="true">
+        <property name="name" type="text_line" mandatory="true" colspan="4">
             <meta>
-                <title>Accessor</title>
+                <title>Name</title>
             </meta>
         </property>
-        <property name="editor" type="text_editor" mandatory="true">
+        <property name="value" type="single_media_selection" mandatory="true" colspan="8">
             <meta>
-                <title>Editor</title>
+                <title>sulu.image</title>
             </meta>
+            <params>
+                <param name="types" value="image" />
+            </params>
         </property>
     </properties>
 </template>

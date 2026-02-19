@@ -7,13 +7,13 @@ namespace PERSPEQTIVE\SuluActionBlockBundle\Execution;
 use PERSPEQTIVE\SuluActionBlockBundle\Event\ActionBlockExecutedEvent;
 use PERSPEQTIVE\SuluActionBlockBundle\Registry\ActionRegistry;
 use PERSPEQTIVE\SuluActionBlockBundle\Registry\ServiceActionItemInterface;
-use PERSPEQTIVE\SuluActionBlockBundle\Repository\ActionBlockRepository;
+use PERSPEQTIVE\SuluActionBlockBundle\Repository\ActionBlockRepositoryInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
-readonly class ActionBlockExecutor
+readonly class ActionBlockExecutor implements ActionBlockExecutorInterface
 {
     public function __construct(
-        private ActionBlockRepository $actionBlockRepository,
+        private ActionBlockRepositoryInterface $actionBlockRepository,
         private ActionRegistry $actionRegistry,
         private EventDispatcherInterface $eventDispatcher,
     ) {
