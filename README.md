@@ -106,11 +106,11 @@ You can also pass additional options to the render function if needed:
 {{ perspeqtive_render_action_block(block.action, { 'custom_option': 'value' }) }}
 ```
 
-## 💡 Example Implementation
+## 💡 <a id="example-implementation"></a>Example Implementation
 
 You can find reference implementations in the `docs/example/src/ActionBlock` directory:
-- [FeaturedProductsAction.php](docs/example/src/ActionBlock/FeaturedProductsAction.php) - Renders a list of featured products.
-- [RedirectAction.php](docs/example/src/ActionBlock/RedirectAction.php) - Executes logic and then performs a redirect.
+- [FeaturedProductsAction.php](docs/example/src/ActionBlocks/FeaturedProductsAction.php) - Renders a list of featured products.
+- [RedirectAction.php](docs/example/src/ActionBlocks/RedirecterServiceAction.php) - Executes logic and then performs a redirect.
 
 ## ⚙️ Service Registration
 
