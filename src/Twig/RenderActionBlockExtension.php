@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PERSPEQTIVE\SuluActionBlockBundle\Twig;
+namespace PERSPEQTIVE\SuluActionBlocksBundle\Twig;
 
-use PERSPEQTIVE\SuluActionBlockBundle\Execution\ActionBlockExecutorInterface;
+use PERSPEQTIVE\SuluActionBlocksBundle\Execution\ActionBlockExecutorInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 

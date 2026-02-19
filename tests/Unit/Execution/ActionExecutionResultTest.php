@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PERSPEQTIVE\SuluActionBlockBundle\Tests\Unit\Execution;
+namespace PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Execution;
 
-use PERSPEQTIVE\SuluActionBlockBundle\Execution\ActionExecutionResult;
+use PERSPEQTIVE\SuluActionBlocksBundle\Execution\ActionExecutionResult;
 use PHPUnit\Framework\TestCase;
 
 class ActionExecutionResultTest extends TestCase

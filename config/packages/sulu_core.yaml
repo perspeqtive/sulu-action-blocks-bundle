@@ -3,5 +3,5 @@ sulu_core:
     structure:
       paths:
         blocks_action_block:
-          path: "%perspeqtive_sulu_action_block_bundle_path%/config/templates/blocks"
+          path: "%perspeqtive_sulu_action_blocks_bundle_path%/config/templates/blocks"
           type: "block"

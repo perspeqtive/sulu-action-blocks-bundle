@@ -1,4 +1,4 @@
-# SuluActionBlockBundle
+# SuluActionBlocksBundle
 
 ![compatibility](https://img.shields.io/badge/sulu%20compatibility-%3E=2.6%20&%20%3C3.0-52b6ca.svg)
 
@@ -25,7 +25,7 @@ This keeps your content management flexible and transparent, ensuring a consiste
 Run the following command in your project root:
 
 ```bash
-composer require perspeqtive/sulu-action-block-bundle
+composer require perspeqtive/sulu-action-blocks-bundle
 ```
 
 ### 3. Register the Bundle (if not using Symfony Flex)
@@ -35,7 +35,7 @@ Add the bundle to your `config/bundles.php`:
 ```php
 return [
     // ...
-    PERSPEQTIVE\SuluActionBlockBundle\SuluActionBlockBundle::class => ['all' => true],
+    PERSPEQTIVE\SuluActionBlocksBundle\SuluActionBlocksBundle::class => ['all' => true],
 ];
 ```
 
@@ -53,8 +53,8 @@ bin/console doctrine:schema:update --force
 Register the bundle's API routes in `config/routes/perspeqtive_action_block_bundle.yaml`:
 
 ```yaml
-perspeqtive_sulu_action_block_api:
-    resource: '@SuluActionBlockBundle/config/routes.yaml'
+perspeqtive_sulu_action_blocks_api:
+    resource: '@SuluActionBlocksBundle/config/routes.yaml'
 ```
 
 ## 📖 Usage

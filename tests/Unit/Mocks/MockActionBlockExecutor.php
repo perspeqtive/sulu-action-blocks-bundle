@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PERSPEQTIVE\SuluActionBlockBundle\Tests\Unit\Mocks;
+namespace PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks;
 
-use PERSPEQTIVE\SuluActionBlockBundle\Execution\ActionBlockExecutorInterface;
+use PERSPEQTIVE\SuluActionBlocksBundle\Execution\ActionBlockExecutorInterface;
 
 class MockActionBlockExecutor implements ActionBlockExecutorInterface
 {

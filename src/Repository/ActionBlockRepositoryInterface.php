@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PERSPEQTIVE\SuluActionBlockBundle\Repository;
+namespace PERSPEQTIVE\SuluActionBlocksBundle\Repository;
 
-use PERSPEQTIVE\SuluActionBlockBundle\Entity\ActionBlock;
+use PERSPEQTIVE\SuluActionBlocksBundle\Entity\ActionBlock;
 
 interface ActionBlockRepositoryInterface
 {

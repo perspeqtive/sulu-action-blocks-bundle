@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PERSPEQTIVE\SuluActionBlockBundle;
+namespace PERSPEQTIVE\SuluActionBlocksBundle;
 
-use PERSPEQTIVE\SuluActionBlockBundle\Registry\ServiceActionItemInterface;
+use PERSPEQTIVE\SuluActionBlocksBundle\Registry\ServiceActionItemInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 use function dirname;
 use function glob;
 
-class SuluActionBlockBundle extends AbstractBundle
+class SuluActionBlocksBundle extends AbstractBundle
 {
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
@@ -22,7 +22,7 @@ class SuluActionBlockBundle extends AbstractBundle
 
     public function prependExtension(ContainerConfigurator $container, ContainerBuilder $builder): void
     {
-        $builder->setParameter('perspeqtive_sulu_action_block_bundle_path', dirname(__DIR__));
+        $builder->setParameter('perspeqtive_sulu_action_blocks_bundle_path', dirname(__DIR__));
 
         foreach (glob(__DIR__ . '/../config/packages/*.yaml') as $file) {
             $container->import($file);

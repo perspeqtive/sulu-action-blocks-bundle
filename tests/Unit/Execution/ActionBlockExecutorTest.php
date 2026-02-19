@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace PERSPEQTIVE\SuluActionBlockBundle\Tests\Unit\Execution;
+namespace PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Execution;
 
-use PERSPEQTIVE\SuluActionBlockBundle\Entity\ActionBlock;
-use PERSPEQTIVE\SuluActionBlockBundle\Execution\ActionBlockExecutor;
-use PERSPEQTIVE\SuluActionBlockBundle\Registry\ActionRegistry;
-use PERSPEQTIVE\SuluActionBlockBundle\Tests\Unit\Mocks\MockActionBlockRepository;
-use PERSPEQTIVE\SuluActionBlockBundle\Tests\Unit\Mocks\MockServiceActionItem;
-use PERSPEQTIVE\SuluActionBlockBundle\Tests\Unit\Mocks\MockServiceActionItemForRedirect;
-use PERSPEQTIVE\SuluActionBlockBundle\Tests\Unit\Mocks\Symfony\MockEventDispatcher;
+use PERSPEQTIVE\SuluActionBlocksBundle\Entity\ActionBlock;
+use PERSPEQTIVE\SuluActionBlocksBundle\Execution\ActionBlockExecutor;
+use PERSPEQTIVE\SuluActionBlocksBundle\Registry\ActionRegistry;
+use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockActionBlockRepository;
+use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockServiceActionItem;
+use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockServiceActionItemForRedirect;
+use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\Symfony\MockEventDispatcher;
 use PHPUnit\Framework\TestCase;
 
 class ActionBlockExecutorTest extends TestCase

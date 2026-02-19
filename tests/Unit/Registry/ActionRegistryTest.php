@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PERSPEQTIVE\SuluActionBlockBundle\Tests\Unit\Registry;
+namespace PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Registry;
 
 use InvalidArgumentException;
-use PERSPEQTIVE\SuluActionBlockBundle\Registry\ActionRegistry;
-use PERSPEQTIVE\SuluActionBlockBundle\Tests\Unit\Mocks\MockServiceActionItem;
-use PERSPEQTIVE\SuluActionBlockBundle\Tests\Unit\Mocks\MockServiceActionItemForRedirect;
+use PERSPEQTIVE\SuluActionBlocksBundle\Registry\ActionRegistry;
+use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockServiceActionItem;
+use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockServiceActionItemForRedirect;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 

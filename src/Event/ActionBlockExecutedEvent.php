@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PERSPEQTIVE\SuluActionBlockBundle\Event;
+namespace PERSPEQTIVE\SuluActionBlocksBundle\Event;
 
 use Symfony\Contracts\EventDispatcher\Event;
 

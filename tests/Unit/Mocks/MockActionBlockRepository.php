@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PERSPEQTIVE\SuluActionBlockBundle\Tests\Unit\Mocks;
+namespace PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks;
 
-use PERSPEQTIVE\SuluActionBlockBundle\Entity\ActionBlock;
-use PERSPEQTIVE\SuluActionBlockBundle\Repository\ActionBlockRepositoryInterface;
+use PERSPEQTIVE\SuluActionBlocksBundle\Entity\ActionBlock;
+use PERSPEQTIVE\SuluActionBlocksBundle\Repository\ActionBlockRepositoryInterface;
 
 class MockActionBlockRepository implements ActionBlockRepositoryInterface
 {

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PERSPEQTIVE\SuluActionBlockBundle\Execution;
+namespace PERSPEQTIVE\SuluActionBlocksBundle\Execution;
 
-use PERSPEQTIVE\SuluActionBlockBundle\Event\ActionBlockExecutedEvent;
-use PERSPEQTIVE\SuluActionBlockBundle\Registry\ActionRegistry;
-use PERSPEQTIVE\SuluActionBlockBundle\Registry\ServiceActionItemInterface;
-use PERSPEQTIVE\SuluActionBlockBundle\Repository\ActionBlockRepositoryInterface;
+use PERSPEQTIVE\SuluActionBlocksBundle\Event\ActionBlockExecutedEvent;
+use PERSPEQTIVE\SuluActionBlocksBundle\Registry\ActionRegistry;
+use PERSPEQTIVE\SuluActionBlocksBundle\Registry\ServiceActionItemInterface;
+use PERSPEQTIVE\SuluActionBlocksBundle\Repository\ActionBlockRepositoryInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 readonly class ActionBlockExecutor implements ActionBlockExecutorInterface

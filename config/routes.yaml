@@ -1,5 +1,5 @@
-perspeqtive_sulu_action_block_api:
+perspeqtive_sulu_action_blocks_api:
     prefix: /admin/api/action-blocks
     type: rest
-    resource: PERSPEQTIVE\SuluActionBlockBundle\Controller\Admin\ActionBlockController
+    resource: PERSPEQTIVE\SuluActionBlocksBundle\Controller\Admin\ActionBlockController
     name_prefix: perspeqtive_sulu_action_block.

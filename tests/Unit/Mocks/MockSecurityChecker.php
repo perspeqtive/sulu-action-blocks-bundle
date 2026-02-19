@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PERSPEQTIVE\SuluActionBlockBundle\Tests\Unit\Mocks;
+namespace PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks;
 
 use Sulu\Component\Security\Authorization\SecurityCheckerInterface;
 

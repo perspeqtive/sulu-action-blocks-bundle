@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PERSPEQTIVE\SuluActionBlockBundle\EventSubscriber;
+namespace PERSPEQTIVE\SuluActionBlocksBundle\EventSubscriber;
 
-use PERSPEQTIVE\SuluActionBlockBundle\Event\ActionBlockExecutedEvent;
+use PERSPEQTIVE\SuluActionBlocksBundle\Event\ActionBlockExecutedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;

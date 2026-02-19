@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace PERSPEQTIVE\SuluActionBlockBundle\Controller\Admin;
+namespace PERSPEQTIVE\SuluActionBlocksBundle\Controller\Admin;
 
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\View\ViewHandlerInterface;
 use HandcraftedInTheAlps\RestRoutingBundle\Controller\Annotations\RouteResource;
-use PERSPEQTIVE\SuluActionBlockBundle\Entity\ActionBlock;
-use PERSPEQTIVE\SuluActionBlockBundle\Repository\ActionBlockRepositoryInterface;
+use PERSPEQTIVE\SuluActionBlocksBundle\Entity\ActionBlock;
+use PERSPEQTIVE\SuluActionBlocksBundle\Repository\ActionBlockRepositoryInterface;
 use Sulu\Component\Rest\AbstractRestController;
 use Sulu\Component\Rest\ListBuilder\Doctrine\DoctrineListBuilderFactoryInterface;
 use Sulu\Component\Rest\ListBuilder\Metadata\FieldDescriptorFactoryInterface;

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\ActionBlocks;
 
-use PERSPEQTIVE\SuluActionBlockBundle\Execution\ActionExecutionResult;
-use PERSPEQTIVE\SuluActionBlockBundle\Registry\ServiceActionItemInterface;
+use PERSPEQTIVE\SuluActionBlocksBundle\Execution\ActionExecutionResult;
+use PERSPEQTIVE\SuluActionBlocksBundle\Registry\ServiceActionItemInterface;
 
 class FeaturedProductsAction implements ServiceActionItemInterface
 {

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PERSPEQTIVE\SuluActionBlockBundle\Tests\Unit\Mocks;
+namespace PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks;
 
-use PERSPEQTIVE\SuluActionBlockBundle\Execution\ActionExecutionResult;
-use PERSPEQTIVE\SuluActionBlockBundle\Registry\ServiceActionItemInterface;
+use PERSPEQTIVE\SuluActionBlocksBundle\Execution\ActionExecutionResult;
+use PERSPEQTIVE\SuluActionBlocksBundle\Registry\ServiceActionItemInterface;
 
 class MockServiceActionItem implements ServiceActionItemInterface
 {

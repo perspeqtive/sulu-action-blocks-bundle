@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PERSPEQTIVE\SuluActionBlockBundle\Repository;
+namespace PERSPEQTIVE\SuluActionBlocksBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use PERSPEQTIVE\SuluActionBlockBundle\Entity\ActionBlock;
+use PERSPEQTIVE\SuluActionBlocksBundle\Entity\ActionBlock;
 
 /**
  * @extends ServiceEntityRepository<ActionBlock>

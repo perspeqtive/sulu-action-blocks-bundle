@@ -1,5 +1,5 @@
 {
-  "name": "perspeqtive/sulu-action-block-bundle",
+  "name": "perspeqtive/sulu-action-blocks-bundle",
   "description": "",
   "type": "sulu-bundle",
   "license": "MIT",
@@ -11,12 +11,12 @@
   ],
   "autoload": {
     "psr-4": {
-      "PERSPEQTIVE\\SuluActionBlockBundle\\": "src/"
+      "PERSPEQTIVE\\SuluActionBlocksBundle\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "PERSPEQTIVE\\SuluActionBlockBundle\\Tests\\": "tests/"
+      "PERSPEQTIVE\\SuluActionBlocksBundle\\Tests\\": "tests/"
     }
   },
   "require": {

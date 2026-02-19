@@ -1,12 +1,12 @@
 sulu_admin:
     forms:
         directories:
-            - "%perspeqtive_sulu_action_block_bundle_path%/config/forms"
+            - "%perspeqtive_sulu_action_blocks_bundle_path%/config/forms"
     lists:
         directories:
-            - "%perspeqtive_sulu_action_block_bundle_path%/config/lists"
+            - "%perspeqtive_sulu_action_blocks_bundle_path%/config/lists"
     resources:
-        !php/const PERSPEQTIVE\SuluActionBlockBundle\Entity\ActionBlock::RESOURCE_KEY:
+        !php/const PERSPEQTIVE\SuluActionBlocksBundle\Entity\ActionBlock::RESOURCE_KEY:
             routes:
                 list: 'perspeqtive_sulu_action_block.get_action-blocks'
                 detail: 'perspeqtive_sulu_action_block.get_action-block'

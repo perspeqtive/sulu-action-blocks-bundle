@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PERSPEQTIVE\SuluActionBlockBundle\Registry;
+namespace PERSPEQTIVE\SuluActionBlocksBundle\Registry;
 
-use PERSPEQTIVE\SuluActionBlockBundle\Execution\ActionExecutionResult;
+use PERSPEQTIVE\SuluActionBlocksBundle\Execution\ActionExecutionResult;
 
 interface ServiceActionItemInterface
 {

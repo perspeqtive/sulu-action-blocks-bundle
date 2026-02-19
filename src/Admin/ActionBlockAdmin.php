@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PERSPEQTIVE\SuluActionBlockBundle\Admin;
+namespace PERSPEQTIVE\SuluActionBlocksBundle\Admin;
 
-use PERSPEQTIVE\SuluActionBlockBundle\Entity\ActionBlock;
+use PERSPEQTIVE\SuluActionBlocksBundle\Entity\ActionBlock;
 use Sulu\Bundle\AdminBundle\Admin\Admin;
 use Sulu\Bundle\AdminBundle\Admin\Navigation\NavigationItem;
 use Sulu\Bundle\AdminBundle\Admin\Navigation\NavigationItemCollection;

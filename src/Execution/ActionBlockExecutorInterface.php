@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PERSPEQTIVE\SuluActionBlockBundle\Execution;
+namespace PERSPEQTIVE\SuluActionBlocksBundle\Execution;
 
 interface ActionBlockExecutorInterface
 {

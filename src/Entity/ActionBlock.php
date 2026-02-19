@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PERSPEQTIVE\SuluActionBlockBundle\Entity;
+namespace PERSPEQTIVE\SuluActionBlocksBundle\Entity;
 
 class ActionBlock
 {

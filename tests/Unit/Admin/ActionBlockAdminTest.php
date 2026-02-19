@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PERSPEQTIVE\SuluActionBlockBundle\Tests\Unit\Admin;
+namespace PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Admin;
 
-use PERSPEQTIVE\SuluActionBlockBundle\Admin\ActionBlockAdmin;
-use PERSPEQTIVE\SuluActionBlockBundle\Tests\Unit\Mocks\MockSecurityChecker;
+use PERSPEQTIVE\SuluActionBlocksBundle\Admin\ActionBlockAdmin;
+use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockSecurityChecker;
 use PHPUnit\Framework\TestCase;
 use Sulu\Bundle\AdminBundle\Admin\Navigation\NavigationItemCollection;
 use Sulu\Bundle\AdminBundle\Admin\View\ViewBuilderFactory;
@@ -35,7 +35,7 @@ class ActionBlockAdminTest extends TestCase
         $this->admin->configureNavigationItems($navigationItemCollection);
 
         self::assertCount(1, $navigationItemCollection->all());
-        self::assertEquals('Action Blocks', $navigationItemCollection->all()[0]->getLabel());
+        self::assertEquals('Action Blocks', $navigationItemCollection->all()['sulu_action_block.action_blocks']->getLabel());
     }
 
     public function testConfigureViews(): void

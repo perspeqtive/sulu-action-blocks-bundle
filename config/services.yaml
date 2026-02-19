@@ -1,63 +1,63 @@
 # yaml-language-server: $schema=../vendor/symfony/dependency-injection/Loader/schema/services.schema.json
 services:
 
-    PERSPEQTIVE\SuluActionBlockBundle\Repository\ActionBlockRepository:
-        class: PERSPEQTIVE\SuluActionBlockBundle\Repository\ActionBlockRepository
+    PERSPEQTIVE\SuluActionBlocksBundle\Repository\ActionBlockRepository:
+        class: PERSPEQTIVE\SuluActionBlocksBundle\Repository\ActionBlockRepository
         arguments:
             $registry: '@doctrine'
 
-    PERSPEQTIVE\SuluActionBlockBundle\Admin\ActionBlockAdmin:
-        class: PERSPEQTIVE\SuluActionBlockBundle\Admin\ActionBlockAdmin
+    PERSPEQTIVE\SuluActionBlocksBundle\Admin\ActionBlockAdmin:
+        class: PERSPEQTIVE\SuluActionBlocksBundle\Admin\ActionBlockAdmin
         arguments:
             $viewBuilderFactory: '@sulu_admin.view_builder_factory'
             $securityChecker: '@sulu_security.security_checker'
         tags:
             - { name: sulu.admin }
 
-    PERSPEQTIVE\SuluActionBlockBundle\Controller\Admin\ActionBlockController:
-        class: PERSPEQTIVE\SuluActionBlockBundle\Controller\Admin\ActionBlockController
+    PERSPEQTIVE\SuluActionBlocksBundle\Controller\Admin\ActionBlockController:
+        class: PERSPEQTIVE\SuluActionBlocksBundle\Controller\Admin\ActionBlockController
         arguments:
             $viewHandler: '@fos_rest.view_handler'
             $listBuilderFactory: '@sulu_core.doctrine_list_builder_factory'
             $fieldDescriptorFactory: '@sulu_core.list_builder.field_descriptor_factory'
             $restHelper: '@sulu_core.rest_helper'
-            $actionBlockRepository: '@PERSPEQTIVE\SuluActionBlockBundle\Repository\ActionBlockRepository'
+            $actionBlockRepository: '@PERSPEQTIVE\SuluActionBlocksBundle\Repository\ActionBlockRepository'
             $entityManager: '@doctrine.orm.entity_manager'
         tags:
             - { name: controller.service_arguments }
 
-    PERSPEQTIVE\SuluActionBlockBundle\Registry\ActionRegistry:
-        class: PERSPEQTIVE\SuluActionBlockBundle\Registry\ActionRegistry
+    PERSPEQTIVE\SuluActionBlocksBundle\Registry\ActionRegistry:
+        class: PERSPEQTIVE\SuluActionBlocksBundle\Registry\ActionRegistry
         arguments:
             $actions: !tagged_iterator perspeqtive.sulu_action_block.action
 
-    PERSPEQTIVE\SuluActionBlockBundle\Content\Select\ActionSelect:
-        class: PERSPEQTIVE\SuluActionBlockBundle\Content\Select\ActionSelect
+    PERSPEQTIVE\SuluActionBlocksBundle\Content\Select\ActionSelect:
+        class: PERSPEQTIVE\SuluActionBlocksBundle\Content\Select\ActionSelect
         public: true
         arguments:
-            $actionRegistry: '@PERSPEQTIVE\SuluActionBlockBundle\Registry\ActionRegistry'
+            $actionRegistry: '@PERSPEQTIVE\SuluActionBlocksBundle\Registry\ActionRegistry'
 
-    PERSPEQTIVE\SuluActionBlockBundle\Content\Select\ActionBlockSelect:
-        class: PERSPEQTIVE\SuluActionBlockBundle\Content\Select\ActionBlockSelect
+    PERSPEQTIVE\SuluActionBlocksBundle\Content\Select\ActionBlockSelect:
+        class: PERSPEQTIVE\SuluActionBlocksBundle\Content\Select\ActionBlockSelect
         public: true
         arguments:
-            $actionBlockRepository: '@PERSPEQTIVE\SuluActionBlockBundle\Repository\ActionBlockRepository'
+            $actionBlockRepository: '@PERSPEQTIVE\SuluActionBlocksBundle\Repository\ActionBlockRepository'
 
-    PERSPEQTIVE\SuluActionBlockBundle\Twig\RenderActionBlockExtension:
-        class: PERSPEQTIVE\SuluActionBlockBundle\Twig\RenderActionBlockExtension
+    PERSPEQTIVE\SuluActionBlocksBundle\Twig\RenderActionBlockExtension:
+        class: PERSPEQTIVE\SuluActionBlocksBundle\Twig\RenderActionBlockExtension
         arguments:
-            $executor: '@PERSPEQTIVE\SuluActionBlockBundle\Execution\ActionBlockExecutor'
+            $executor: '@PERSPEQTIVE\SuluActionBlocksBundle\Execution\ActionBlockExecutor'
         tags: ['twig.extension']
 
-    PERSPEQTIVE\SuluActionBlockBundle\Execution\ActionBlockExecutor:
-        class: PERSPEQTIVE\SuluActionBlockBundle\Execution\ActionBlockExecutor
+    PERSPEQTIVE\SuluActionBlocksBundle\Execution\ActionBlockExecutor:
+        class: PERSPEQTIVE\SuluActionBlocksBundle\Execution\ActionBlockExecutor
         arguments:
-            $actionBlockRepository: '@PERSPEQTIVE\SuluActionBlockBundle\Repository\ActionBlockRepository'
-            $actionRegistry: '@PERSPEQTIVE\SuluActionBlockBundle\Registry\ActionRegistry'
+            $actionBlockRepository: '@PERSPEQTIVE\SuluActionBlocksBundle\Repository\ActionBlockRepository'
+            $actionRegistry: '@PERSPEQTIVE\SuluActionBlocksBundle\Registry\ActionRegistry'
             $eventDispatcher: '@event_dispatcher'
 
-    PERSPEQTIVE\SuluActionBlockBundle\EventSubscriber\ActionBlockRedirectSubscriber:
-        class: PERSPEQTIVE\SuluActionBlockBundle\EventSubscriber\ActionBlockRedirectSubscriber
+    PERSPEQTIVE\SuluActionBlocksBundle\EventSubscriber\ActionBlockRedirectSubscriber:
+        class: PERSPEQTIVE\SuluActionBlocksBundle\EventSubscriber\ActionBlockRedirectSubscriber
         arguments:
             $requestStack: '@request_stack'
         tags:

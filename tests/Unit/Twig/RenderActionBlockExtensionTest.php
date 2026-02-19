@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PERSPEQTIVE\SuluActionBlockBundle\Tests\Unit\Twig;
+namespace PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Twig;
 
-use PERSPEQTIVE\SuluActionBlockBundle\Tests\Unit\Mocks\MockActionBlockExecutor;
-use PERSPEQTIVE\SuluActionBlockBundle\Twig\RenderActionBlockExtension;
+use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockActionBlockExecutor;
+use PERSPEQTIVE\SuluActionBlocksBundle\Twig\RenderActionBlockExtension;
 use PHPUnit\Framework\TestCase;
 use Twig\TwigFunction;
 

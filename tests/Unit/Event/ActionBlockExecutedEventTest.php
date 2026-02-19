@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PERSPEQTIVE\SuluActionBlockBundle\Tests\Unit\Event;
+namespace PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Event;
 
-use PERSPEQTIVE\SuluActionBlockBundle\Event\ActionBlockExecutedEvent;
+use PERSPEQTIVE\SuluActionBlocksBundle\Event\ActionBlockExecutedEvent;
 use PHPUnit\Framework\TestCase;
 
 class ActionBlockExecutedEventTest extends TestCase

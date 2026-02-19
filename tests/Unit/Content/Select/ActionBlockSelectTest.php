@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PERSPEQTIVE\SuluActionBlockBundle\Tests\Unit\Content\Select;
+namespace PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Content\Select;
 
-use PERSPEQTIVE\SuluActionBlockBundle\Content\Select\ActionBlockSelect;
-use PERSPEQTIVE\SuluActionBlockBundle\Entity\ActionBlock;
-use PERSPEQTIVE\SuluActionBlockBundle\Tests\Unit\Mocks\MockActionBlockRepository;
+use PERSPEQTIVE\SuluActionBlocksBundle\Content\Select\ActionBlockSelect;
+use PERSPEQTIVE\SuluActionBlocksBundle\Entity\ActionBlock;
+use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockActionBlockRepository;
 use PHPUnit\Framework\TestCase;
 
 class ActionBlockSelectTest extends TestCase

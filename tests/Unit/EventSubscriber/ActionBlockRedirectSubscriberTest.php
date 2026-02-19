@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PERSPEQTIVE\SuluActionBlockBundle\Tests\Unit\EventSubscriber;
+namespace PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\EventSubscriber;
 
-use PERSPEQTIVE\SuluActionBlockBundle\Event\ActionBlockExecutedEvent;
-use PERSPEQTIVE\SuluActionBlockBundle\EventSubscriber\ActionBlockRedirectSubscriber;
+use PERSPEQTIVE\SuluActionBlocksBundle\Event\ActionBlockExecutedEvent;
+use PERSPEQTIVE\SuluActionBlocksBundle\EventSubscriber\ActionBlockRedirectSubscriber;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;

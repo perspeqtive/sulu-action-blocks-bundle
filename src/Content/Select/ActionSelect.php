@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PERSPEQTIVE\SuluActionBlockBundle\Content\Select;
+namespace PERSPEQTIVE\SuluActionBlocksBundle\Content\Select;
 
-use PERSPEQTIVE\SuluActionBlockBundle\Registry\ActionRegistry;
+use PERSPEQTIVE\SuluActionBlocksBundle\Registry\ActionRegistry;
 
 readonly class ActionSelect
 {

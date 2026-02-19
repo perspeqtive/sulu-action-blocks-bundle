@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PERSPEQTIVE\SuluActionBlockBundle\Tests\Unit\Mocks\Symfony;
+namespace PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\Symfony;
 
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;

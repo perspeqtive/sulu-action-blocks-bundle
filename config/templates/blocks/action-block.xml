@@ -12,7 +12,7 @@
                 <title lang="de">Action-Block</title>
             </meta>
             <params>
-                <param name="values" type="expression" value="service('PERSPEQTIVE\\SuluActionBlockBundle\\Content\\Select\\ActionBlockSelect').getValues()"/>
+                <param name="values" type="expression" value="service('PERSPEQTIVE\\SuluActionBlocksBundle\\Content\\Select\\ActionBlockSelect').getValues()"/>
             </params>
         </property>
     </properties>
