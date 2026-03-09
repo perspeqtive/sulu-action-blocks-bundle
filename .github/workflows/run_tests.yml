@@ -1,0 +1,95 @@
+name: Run Tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  tests:
+    name: 'Installilere Bundle und führe Tests aus'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: SSH Key hinterlegen
+        run: |
+          mkdir -p ~/.ssh/
+          sudo chmod 0700 ~/.ssh/
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          sudo chmod 0600 ~/.ssh/id_rsa
+
+      - name: Authentifizieren mit GitHub Packages
+        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.ACCESS_TOKEN }}" > ~/.npmrc
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          extensions: mbstring, intl, pdo_mysql, xdebug
+          coverage: xdebug
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-
+
+      - name: Installiere Backend Dependencies
+        env:
+          COMPOSER_AUTH: '{"github-oauth": {"github.com": "${{ secrets.ACCESS_TOKEN }}"},"http-basic": {"sulu.repo.packagist.com": {"username": "token", "password": "${{ vars.SULU_AI }}"}}}'
+          COMPOSER_ROOT_VERSION: dev-main
+        run: |
+          composer config --global github-oauth.github.com "${{ secrets.ACCESS_TOKEN }}"
+          composer install --no-progress --prefer-dist
+
+      - name: Führe Tests aus
+        run: vendor/bin/phpunit --coverage-php var/coverage.php
+
+      - name: Lade Coverage Report hoch
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report
+          path: public/report
+          retention-days: 30
+
+  publish_to_internal_server:
+    name: 'Veröffentliche Backend Coverage'
+    needs: [ tests ]
+    runs-on: ubuntu-latest
+    continue-on-error: true
+
+    steps:
+      - name: SSH Key hinterlegen
+        run: |
+          mkdir -p ~/.ssh/
+          sudo chmod 0700 ~/.ssh/
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          sudo chmod 0600 ~/.ssh/id_rsa        
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer, deployer:7.3.0
+
+      - name: Download HTML-Report
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-report
+          path: 'public/report'
+
+      - name: Recipe installieren
+        run: |
+          composer config --global github-oauth.github.com "${{ secrets.ACCESS_TOKEN }}"
+          composer config --global repositories.perspeqtive-deployments vcs git@github.com:perspeqtive/deployments.git
+          composer config --global repositories.perspeqtive-preview vcs git@github.com:perspeqtive/deployer-recipe-preview-deployment.git
+          composer config --global repositories.perspeqtive-static vcs git@github.com:perspeqtive/deployer-recipe-static-website.git
+          composer global require --dev "perspeqtive/deployments" "^1.0"
+
+      - name: Test reports deployen
+        run: |
+          GLOBAL_COMPOSER_VENDORDIR=`composer global config vendor-dir --absolute --quiet` 
+          deployer perspeqtive:deploy:test-reports -f $GLOBAL_COMPOSER_VENDORDIR/perspeqtive/deployments/deploy-test-reports.php 'customer=perspeqtive&stage=test&type=backend'
