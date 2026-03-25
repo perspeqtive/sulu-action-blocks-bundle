@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\ActionBlocks;
 
+use PERSPEQTIVE\SuluActionBlocksBundle\Configuration\Configuration;
 use PERSPEQTIVE\SuluActionBlocksBundle\Execution\ActionExecutionResult;
 use PERSPEQTIVE\SuluActionBlocksBundle\Registry\ServiceActionItemInterface;
 
@@ -22,9 +23,9 @@ class FeaturedProductsAction implements ServiceActionItemInterface
         return 'Featured Products'; //Will be a selectable option in the Action Block admin panel
     }
 
-    public function execute(array $configuration = [], array $options = []): ActionExecutionResult
+    public function execute(Configuration $configuration, array $options = []): ActionExecutionResult
     {
-        return new ActionExecutionResult($this->featuredProductService->getFeaturedProducts());
+        return new ActionExecutionResult($this->featuredProductService->getFeaturedProducts($configuration));
     }
 
 }

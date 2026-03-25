@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PERSPEQTIVE\SuluActionBlocksBundle\Execution;
 
+use PERSPEQTIVE\SuluActionBlocksBundle\Configuration\ConfigurationFactoryInterface;
 use PERSPEQTIVE\SuluActionBlocksBundle\Event\ActionBlockExecutedEvent;
 use PERSPEQTIVE\SuluActionBlocksBundle\Registry\ActionRegistry;
 use PERSPEQTIVE\SuluActionBlocksBundle\Registry\ServiceActionItemInterface;
@@ -16,6 +17,7 @@ readonly class ActionBlockExecutor implements ActionBlockExecutorInterface
         private ActionBlockRepositoryInterface $actionBlockRepository,
         private ActionRegistry $actionRegistry,
         private EventDispatcherInterface $eventDispatcher,
+        private ConfigurationFactoryInterface $configurationFactory
     ) {
     }
 
@@ -27,8 +29,8 @@ readonly class ActionBlockExecutor implements ActionBlockExecutorInterface
         if ($action instanceof ServiceActionItemInterface === false) {
             return '';
         }
-
-        $result = $action->execute($actionBlock->getConfiguration(), $options);
+        $configuration = $this->configurationFactory->create($actionBlock->getConfiguration());
+        $result = $action->execute($configuration, $options);
 
         if (empty($result->redirect) === false) {
             $this->eventDispatcher->dispatch(

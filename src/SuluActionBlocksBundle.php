@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PERSPEQTIVE\SuluActionBlocksBundle;
 
+use PERSPEQTIVE\SuluActionBlocksBundle\Configuration\Resolver\TypeResolverInterface;
 use PERSPEQTIVE\SuluActionBlocksBundle\Registry\ServiceActionItemInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -34,5 +35,9 @@ class SuluActionBlocksBundle extends AbstractBundle
         $builder
             ->registerForAutoconfiguration(ServiceActionItemInterface::class)
             ->addTag('perspeqtive.sulu_action_block.action');
+
+        $builder
+            ->registerForAutoconfiguration(TypeResolverInterface::class)
+            ->addTag('perspeqtive.sulu_action_block.configuration_type_resolver');
     }
 }

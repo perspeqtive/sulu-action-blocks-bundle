@@ -38,6 +38,16 @@ class ActionBlockAdminTest extends TestCase
         self::assertEquals('Action Blocks', $navigationItemCollection->all()['sulu_action_block.action_blocks']->getLabel());
     }
 
+    public function testConfigureNavigationItemsWithoutPermission(): void
+    {
+        $this->securityChecker->hasPermission = ['*' => false];
+        $navigationItemCollection = new NavigationItemCollection();
+
+        $this->admin->configureNavigationItems($navigationItemCollection);
+
+        self::assertCount(0, $navigationItemCollection->all());
+    }
+
     public function testConfigureViews(): void
     {
         $viewCollection = new ViewCollection();

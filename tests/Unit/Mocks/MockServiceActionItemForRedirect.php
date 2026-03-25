@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks;
 
+use PERSPEQTIVE\SuluActionBlocksBundle\Configuration\Configuration;
 use PERSPEQTIVE\SuluActionBlocksBundle\Execution\ActionExecutionResult;
 use PERSPEQTIVE\SuluActionBlocksBundle\Registry\ServiceActionItemInterface;
 
@@ -19,8 +20,8 @@ class MockServiceActionItemForRedirect implements ServiceActionItemInterface
         return 'Redirect Item';
     }
 
-    public function execute(array $configuration = [], array $options = []): ActionExecutionResult
+    public function execute(Configuration $configuration, array $options = []): ActionExecutionResult
     {
-        return new ActionExecutionResult('', $configuration['redirect'] ?? '');
+        return new ActionExecutionResult('', $configuration->getResolved('redirect') ?? '');
     }
 }

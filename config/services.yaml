@@ -55,6 +55,7 @@ services:
             $actionBlockRepository: '@PERSPEQTIVE\SuluActionBlocksBundle\Repository\ActionBlockRepository'
             $actionRegistry: '@PERSPEQTIVE\SuluActionBlocksBundle\Registry\ActionRegistry'
             $eventDispatcher: '@event_dispatcher'
+            $configurationFactory: '@PERSPEQTIVE\SuluActionBlocksBundle\Configuration\ConfigurationFactory'
 
     PERSPEQTIVE\SuluActionBlocksBundle\EventSubscriber\ActionBlockRedirectSubscriber:
         class: PERSPEQTIVE\SuluActionBlocksBundle\EventSubscriber\ActionBlockRedirectSubscriber
@@ -62,3 +63,25 @@ services:
             $requestStack: '@request_stack'
         tags:
             - { name: kernel.event_subscriber }
+
+    PERSPEQTIVE\SuluActionBlocksBundle\Configuration\ConfigurationFactory:
+        class: PERSPEQTIVE\SuluActionBlocksBundle\Configuration\ConfigurationFactory
+        arguments:
+            $resolver: '@PERSPEQTIVE\SuluActionBlocksBundle\Configuration\Resolver\Resolver'
+
+    PERSPEQTIVE\SuluActionBlocksBundle\Configuration\Resolver\Resolver:
+        class: PERSPEQTIVE\SuluActionBlocksBundle\Configuration\Resolver\Resolver
+        arguments:
+            $resolvers: !tagged_iterator perspeqtive.sulu_action_block.configuration_type_resolver
+
+    PERSPEQTIVE\SuluActionBlocksBundle\Configuration\Resolver\LinkResolver:
+        class: PERSPEQTIVE\SuluActionBlocksBundle\Configuration\Resolver\LinkResolver
+        arguments:
+            $documentManager: '@sulu_document_manager.document_manager'
+            $webspaceManager: '@sulu_core.webspace.webspace_manager'
+            $requestStack: '@request_stack'
+        tags:
+            - { name: perspeqtive.sulu_action_block.configuration_type_resolver }
+
+
+

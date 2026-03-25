@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\ActionBlocks;
 
+use PERSPEQTIVE\SuluActionBlocksBundle\Configuration\Configuration;
 use PERSPEQTIVE\SuluActionBlocksBundle\Execution\ActionExecutionResult;
 use PERSPEQTIVE\SuluActionBlocksBundle\Registry\ServiceActionItemInterface;
 
@@ -21,7 +22,7 @@ class RedirecterServiceAction implements ServiceActionItemInterface
         return 'Custom Form Handling with redirect';
     }
 
-    public function execute(array $configuration = [], array $options = []): ActionExecutionResult
+    public function execute(Configuration $configuration, array $options = []): ActionExecutionResult
     {
         return new ActionExecutionResult('',
             $this->formHandlerService->handleForm($configuration) //Return a redirect Url
