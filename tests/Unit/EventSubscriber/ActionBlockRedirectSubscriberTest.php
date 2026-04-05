@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 class ActionBlockRedirectSubscriberTest extends TestCase
 {
@@ -25,6 +26,15 @@ class ActionBlockRedirectSubscriberTest extends TestCase
         $this->subscriber = new ActionBlockRedirectSubscriber($this->requestStack);
     }
 
+    public function testGetSubscribedEvents(): void
+    {
+        $events = ActionBlockRedirectSubscriber::getSubscribedEvents();
+        self::assertArrayHasKey(ActionBlockExecutedEvent::class, $events);
+        self::assertArrayHasKey(KernelEvents::RESPONSE, $events);
+        self::assertEquals('onActionBlockExecuted', $events[ActionBlockExecutedEvent::class]);
+        self::assertEquals(['onKernelResponse', -64], $events[KernelEvents::RESPONSE]);
+    }
+
     public function testOnActionBlockExecutedSetsAttribute(): void
     {
         $request = new Request();
@@ -34,6 +44,25 @@ class ActionBlockRedirectSubscriberTest extends TestCase
         $this->subscriber->onActionBlockExecuted($event);
 
         self::assertEquals('/redirect-url', $request->attributes->get('_perspeqtive_action_block_redirect_url'));
+    }
+
+    public function testOnActionBlockExecutedDoesNothingIfRedirectEmpty(): void
+    {
+        $request = new Request();
+        $this->requestStack->push($request);
+
+        $event = new ActionBlockExecutedEvent('');
+        $this->subscriber->onActionBlockExecuted($event);
+
+        self::assertFalse($request->attributes->has('_perspeqtive_action_block_redirect_url'));
+    }
+
+    public function testOnActionBlockExecutedDoesNothingIfNoRequest(): void
+    {
+        $event = new ActionBlockExecutedEvent('/redirect-url');
+        $this->subscriber->onActionBlockExecuted($event);
+
+        self::assertNull($this->requestStack->getCurrentRequest());
     }
 
     public function testOnKernelResponseRedirects(): void
@@ -50,6 +79,21 @@ class ActionBlockRedirectSubscriberTest extends TestCase
         self::assertInstanceOf(RedirectResponse::class, $event->getResponse());
         self::assertEquals('/redirect-url', $event->getResponse()->getTargetUrl());
         self::assertFalse($request->attributes->has('_perspeqtive_action_block_redirect_url'));
+    }
+
+    public function testOnKernelResponseDoesNotRedirectIfAlreadyRedirect(): void
+    {
+        $request = new Request();
+        $request->attributes->set('_perspeqtive_action_block_redirect_url', '/redirect-url');
+
+        $kernel = $this->createMock(HttpKernelInterface::class);
+        $response = new RedirectResponse('/other-url');
+        $event = new ResponseEvent($kernel, $request, HttpKernelInterface::MAIN_REQUEST, $response);
+
+        $this->subscriber->onKernelResponse($event);
+
+        self::assertSame($response, $event->getResponse());
+        self::assertEquals('/other-url', $event->getResponse()->getTargetUrl());
     }
 
     public function testOnKernelResponseDoesNotRedirectIfNoAttribute(): void
