@@ -1,0 +1,9 @@
+monolog:
+  channels:
+    - action_block
+  handlers:
+    action_block:
+      type: stream
+      path: "%kernel.logs_dir%/%kernel.environment%.action_block.log"
+      level: debug
+      channels: ["action_block"]

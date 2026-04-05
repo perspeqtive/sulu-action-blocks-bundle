@@ -56,6 +56,8 @@ services:
             $actionRegistry: '@PERSPEQTIVE\SuluActionBlocksBundle\Registry\ActionRegistry'
             $eventDispatcher: '@event_dispatcher'
             $configurationFactory: '@PERSPEQTIVE\SuluActionBlocksBundle\Configuration\ConfigurationFactory'
+            $logger: '@monolog.logger.action_block'
+            $environment: '%kernel.environment%'
 
     PERSPEQTIVE\SuluActionBlocksBundle\EventSubscriber\ActionBlockRedirectSubscriber:
         class: PERSPEQTIVE\SuluActionBlocksBundle\EventSubscriber\ActionBlockRedirectSubscriber
