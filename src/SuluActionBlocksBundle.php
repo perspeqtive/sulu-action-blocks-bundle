@@ -13,6 +13,9 @@ use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 use function dirname;
 use function glob;
 
+/**
+ * @codeCoverageIgnore
+ */
 class SuluActionBlocksBundle extends AbstractBundle
 {
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
