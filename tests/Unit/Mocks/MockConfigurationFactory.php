@@ -9,8 +9,9 @@ use PERSPEQTIVE\SuluActionBlocksBundle\Configuration\ConfigurationFactoryInterfa
 
 class MockConfigurationFactory implements ConfigurationFactoryInterface
 {
-
-    public function __construct(public Configuration $configuration = new Configuration([])) {}
+    public function __construct(public Configuration $configuration = new Configuration([]))
+    {
+    }
 
     public function create(array $data): Configuration
     {

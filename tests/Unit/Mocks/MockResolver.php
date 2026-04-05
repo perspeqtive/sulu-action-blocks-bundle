@@ -17,6 +17,7 @@ final class MockResolver implements ResolverInterface
     public function resolve(array $data): array
     {
         $this->resolvedData[] = $data;
+
         return $this->dataToReturn;
     }
 }

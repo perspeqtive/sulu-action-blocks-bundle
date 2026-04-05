@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Configuration;
 
-use PERSPEQTIVE\SuluActionBlocksBundle\Configuration\Configuration;
+use InvalidArgumentException;
 use PERSPEQTIVE\SuluActionBlocksBundle\Configuration\ConfigurationFactory;
 use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockResolver;
 use PHPUnit\Framework\TestCase;
@@ -22,7 +22,7 @@ final class ConfigurationFactoryTest extends TestCase
 
     public function testCreateThrowsExceptionIfNameIsMissing(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Configuration value must have a name');
 
         $data = [
@@ -53,7 +53,7 @@ final class ConfigurationFactoryTest extends TestCase
         self::assertSame('mocked_value', $configuration->getResolved('baz'));
         self::assertSame('value', $configuration->get('baz'));
 
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $configuration->get('0');
     }
 }

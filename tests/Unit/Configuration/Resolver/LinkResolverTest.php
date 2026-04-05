@@ -27,7 +27,7 @@ final class LinkResolverTest extends TestCase
         $this->linkResolver = new LinkResolver(
             $this->documentManager,
             $this->webspaceManager,
-            $this->requestStack
+            $this->requestStack,
         );
     }
 
@@ -45,13 +45,16 @@ final class LinkResolverTest extends TestCase
     {
         $data = ['value' => 'some-uuid'];
         $locale = 'en';
-        
+
         $request = new Request();
         $request->attributes->set('_sulu', new RequestAttributes(['locale' => $locale]));
         $this->requestStack->push($request);
 
         $mockPage = new class {
-            public function getResourceSegment(): string { return '/some-path'; }
+            public function getResourceSegment(): string
+            {
+                return '/some-path';
+            }
         };
         $this->documentManager->documentToReturn = $mockPage;
         $this->webspaceManager->urlToReturn = 'https://example.com/some-path';
@@ -79,9 +82,12 @@ final class LinkResolverTest extends TestCase
     public function testResolveUsesDefaultLocaleWhenNoRequest(): void
     {
         $data = ['value' => 'some-uuid'];
-        
+
         $mockPage = new class {
-            public function getResourceSegment(): string { return '/some-path'; }
+            public function getResourceSegment(): string
+            {
+                return '/some-path';
+            }
         };
         $this->documentManager->documentToReturn = $mockPage;
         $this->webspaceManager->urlToReturn = '/de/some-path';
@@ -96,13 +102,16 @@ final class LinkResolverTest extends TestCase
     public function testResolveUsesDefaultLocaleWhenSuluAttributesPresentButNoLocale(): void
     {
         $data = ['value' => 'some-uuid'];
-        
+
         $request = new Request();
         $request->attributes->set('_sulu', new RequestAttributes([]));
         $this->requestStack->push($request);
 
         $mockPage = new class {
-            public function getResourceSegment(): string { return '/some-path'; }
+            public function getResourceSegment(): string
+            {
+                return '/some-path';
+            }
         };
         $this->documentManager->documentToReturn = $mockPage;
         $this->webspaceManager->urlToReturn = '/de/some-path';
@@ -117,12 +126,15 @@ final class LinkResolverTest extends TestCase
     public function testResolveUsesDefaultLocaleWhenRequestExistsButNoSuluAttributes(): void
     {
         $data = ['value' => 'some-uuid'];
-        
+
         $request = new Request();
         $this->requestStack->push($request);
 
         $mockPage = new class {
-            public function getResourceSegment(): string { return '/some-path'; }
+            public function getResourceSegment(): string
+            {
+                return '/some-path';
+            }
         };
         $this->documentManager->documentToReturn = $mockPage;
         $this->webspaceManager->urlToReturn = '/de/some-path';
@@ -137,13 +149,16 @@ final class LinkResolverTest extends TestCase
     public function testResolveUsesDefaultLocaleWhenSuluAttributesAreNotRequestAttributes(): void
     {
         $data = ['value' => 'some-uuid'];
-        
+
         $request = new Request();
         $request->attributes->set('_sulu', 'not-an-instance-of-request-attributes');
         $this->requestStack->push($request);
 
         $mockPage = new class {
-            public function getResourceSegment(): string { return '/some-path'; }
+            public function getResourceSegment(): string
+            {
+                return '/some-path';
+            }
         };
         $this->documentManager->documentToReturn = $mockPage;
         $this->webspaceManager->urlToReturn = '/de/some-path';

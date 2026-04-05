@@ -8,7 +8,6 @@ use PERSPEQTIVE\SuluActionBlocksBundle\Configuration\Resolver\TypeResolverInterf
 
 final class MockTypeResolver implements TypeResolverInterface
 {
-
     public bool $supportsToReturn = false;
 
     public array $dataToReturn = [];
@@ -20,13 +19,14 @@ final class MockTypeResolver implements TypeResolverInterface
     public function supports(string $type): bool
     {
         $this->receivedType = $type;
+
         return $this->supportsToReturn;
     }
 
     public function resolve(array $data): array
     {
         $this->receivedData = $data;
+
         return $this->dataToReturn;
     }
-
 }

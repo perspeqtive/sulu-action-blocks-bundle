@@ -10,7 +10,6 @@ use PHPUnit\Framework\TestCase;
 
 final class ResolverTest extends TestCase
 {
-
     private MockTypeResolver $mockTypeResolver;
 
     private Resolver $resolver;
@@ -76,5 +75,4 @@ final class ResolverTest extends TestCase
         $this->assertSame($resolvedData, $result);
         $this->assertNull($secondMockResolver->receivedType);
     }
-
 }
