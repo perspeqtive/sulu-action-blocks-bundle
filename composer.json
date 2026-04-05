@@ -26,6 +26,8 @@
     "ext-libxml": "*",
     "sulu/sulu": "^2.6",
     "sulu/content-bundle": "0.8.*",
+    "symfony/monolog-bridge": "^7.3",
+    "symfony/monolog-bundle": "^3.4",
     "nesbot/carbon": "3.10.*",
     "friendsofsymfony/rest-bundle": "*"
   },
