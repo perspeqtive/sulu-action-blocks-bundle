@@ -12,6 +12,7 @@ use PERSPEQTIVE\SuluActionBlocksBundle\Repository\ActionBlockRepositoryInterface
 use Sulu\Component\Rest\AbstractRestController;
 use Sulu\Component\Rest\ListBuilder\Doctrine\DoctrineListBuilderFactoryInterface;
 use Sulu\Component\Rest\ListBuilder\Metadata\FieldDescriptorFactoryInterface;
+use Sulu\Component\Rest\ListBuilder\PaginatedRepresentation;
 use Sulu\Component\Rest\RestHelperInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -89,16 +90,15 @@ class ActionBlockController extends AbstractRestController
         $listBuilder = $this->listBuilderFactory->create(ActionBlock::class);
         $this->restHelper->initializeListBuilder($listBuilder, $fieldDescriptors);
 
-        $list = $listBuilder->execute();
+        $listRepresentation = new PaginatedRepresentation(
+            $listBuilder->execute(),
+            ActionBlock::RESOURCE_KEY,
+            (int) $listBuilder->getCurrentPage(),
+            (int) $listBuilder->getLimit(),
+            $listBuilder->count(),
+        );
 
-        return $this->handleView($this->view(
-            [
-                '_embedded' => [
-                    ActionBlock::RESOURCE_KEY => $list,
-                ],
-                'total' => $listBuilder->count(),
-            ],
-        ));
+        return $this->handleView($this->view($listRepresentation));
     }
 
     private function mapDataToEntity(array $data, ActionBlock $entity): void
