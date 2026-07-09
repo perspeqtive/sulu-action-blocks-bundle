@@ -85,5 +85,12 @@ services:
         tags:
             - { name: perspeqtive.sulu_action_block.configuration_type_resolver }
 
+    PERSPEQTIVE\SuluActionBlocksBundle\MetaData\TypedFormMetadataVisitor:
+        class: PERSPEQTIVE\SuluActionBlocksBundle\MetaData\TypedFormMetadataVisitor
+        arguments:
+            $services: !tagged_iterator perspeqtive.sulu_action_block.action
+        tags:
+            - { name: sulu_admin.typed_form_metadata_visitor, priority: 0 }
+
 
 

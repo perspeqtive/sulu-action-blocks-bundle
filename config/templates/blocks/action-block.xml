@@ -7,13 +7,17 @@
         <title>Action block</title>
     </meta>
     <properties>
-        <property name="action" type="single_select">
-            <meta>
-                <title lang="de">Action-Block</title>
-            </meta>
+        <block name="action" default-type="action-block-empty">
             <params>
-                <param name="values" type="expression" value="service('PERSPEQTIVE\\SuluActionBlocksBundle\\Content\\Select\\ActionBlockSelect').getValues()"/>
+                <param name="add_button_text">
+                    <meta>
+                        <title>Modul hinzufügen</title>
+                    </meta>
+                </param>
             </params>
-        </property>
+            <types>
+                <type ref="action-block-empty" />
+            </types>
+        </block>
     </properties>
 </template>

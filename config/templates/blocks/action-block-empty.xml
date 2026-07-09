@@ -1,0 +1,13 @@
+<template xmlns="http://schemas.sulu.io/template/template"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://schemas.sulu.io/template/template http://schemas.sulu.io/template/template-1.0.xsd"
+>
+    <key>action-block-empty</key>
+    <meta>
+        <title>Action Block Empty</title>
+    </meta>
+    <controller>App\Warenkorb\WarenkorbAbschlussService::execute</controller>
+    <properties>
+        <property name="editor" type="text_editor" mandatory="true" />
+    </properties>
+</template>
