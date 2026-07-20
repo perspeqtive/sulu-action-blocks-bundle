@@ -8,7 +8,7 @@ use PERSPEQTIVE\SuluActionBlocksBundle\Configuration\Configuration;
 use PERSPEQTIVE\SuluActionBlocksBundle\Execution\ActionExecutionResult;
 use PERSPEQTIVE\SuluActionBlocksBundle\Registry\ServiceActionItemInterface;
 
-class MockServiceActionItem implements ServiceActionItemInterface
+class MockServiceActionItemWithEmptyConfigurationBlock implements ServiceActionItemInterface
 {
     public function getIdentifier(): string
     {
@@ -17,16 +17,16 @@ class MockServiceActionItem implements ServiceActionItemInterface
 
     public function getTitle(): string
     {
-        return 'Hello World Title';
+        return 'Empty Configuration Block Title';
     }
 
     public function getConfigurationBlock(): string
     {
-        return 'mock-configuration-block';
+        return '';
     }
 
     public function execute(Configuration $configuration, array $options = []): ActionExecutionResult
     {
-        return new ActionExecutionResult('<h1>Hello</h1>');
+        return new ActionExecutionResult();
     }
 }

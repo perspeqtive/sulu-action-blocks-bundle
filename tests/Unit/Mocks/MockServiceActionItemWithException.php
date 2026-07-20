@@ -21,6 +21,11 @@ final class MockServiceActionItemWithException implements ServiceActionItemInter
         return 'Exception Title';
     }
 
+    public function getConfigurationBlock(): string
+    {
+        return 'exception-configuration-block';
+    }
+
     public function execute(Configuration $configuration, array $options = []): ActionExecutionResult
     {
         throw new Exception('Action Exception');

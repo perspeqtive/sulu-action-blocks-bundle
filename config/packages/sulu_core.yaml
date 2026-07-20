@@ -5,3 +5,6 @@ sulu_core:
         blocks_action_block:
           path: "%perspeqtive_sulu_action_blocks_bundle_path%/config/templates/blocks"
           type: "block"
+        blocks_action_block_generated:
+          path: "%kernel.cache_dir%/perspeqtive_sulu_action_blocks/blocks"
+          type: "block"

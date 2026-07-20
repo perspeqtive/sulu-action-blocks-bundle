@@ -85,12 +85,17 @@ services:
         tags:
             - { name: perspeqtive.sulu_action_block.configuration_type_resolver }
 
-    PERSPEQTIVE\SuluActionBlocksBundle\MetaData\TypedFormMetadataVisitor:
-        class: PERSPEQTIVE\SuluActionBlocksBundle\MetaData\TypedFormMetadataVisitor
+    PERSPEQTIVE\SuluActionBlocksBundle\Structure\ActionBlockTemplateGenerator:
+        class: PERSPEQTIVE\SuluActionBlocksBundle\Structure\ActionBlockTemplateGenerator
         arguments:
-            $services: !tagged_iterator perspeqtive.sulu_action_block.action
+            $actionRegistry: '@PERSPEQTIVE\SuluActionBlocksBundle\Registry\ActionRegistry'
+
+    PERSPEQTIVE\SuluActionBlocksBundle\Structure\ActionBlockStructureCacheWarmer:
+        class: PERSPEQTIVE\SuluActionBlocksBundle\Structure\ActionBlockStructureCacheWarmer
+        arguments:
+            $templateGenerator: '@PERSPEQTIVE\SuluActionBlocksBundle\Structure\ActionBlockTemplateGenerator'
         tags:
-            - { name: sulu_admin.typed_form_metadata_visitor, priority: 0 }
+            - { name: kernel.cache_warmer }
 
 
 

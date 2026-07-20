@@ -23,6 +23,11 @@ class FeaturedProductsAction implements ServiceActionItemInterface
         return 'Featured Products'; //Will be a selectable option in the Action Block admin panel
     }
 
+    public function getConfigurationBlock(): string
+    {
+        return 'featured-products'; //Key of a global block whose fields configure this action, empty string for none
+    }
+
     public function execute(Configuration $configuration, array $options = []): ActionExecutionResult
     {
         return new ActionExecutionResult($this->featuredProductService->getFeaturedProducts($configuration));
