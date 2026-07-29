@@ -22,6 +22,11 @@ class RedirecterServiceAction implements ServiceActionItemInterface
         return 'Custom Form Handling with redirect';
     }
 
+    public function getConfigurationBlock(): string
+    {
+        return 'redirecter'; //Key of a global block whose fields configure this action, empty string for none
+    }
+
     public function execute(Configuration $configuration, array $options = []): ActionExecutionResult
     {
         return new ActionExecutionResult('',

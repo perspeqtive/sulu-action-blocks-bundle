@@ -20,6 +20,11 @@ class MockServiceActionItemForRedirect implements ServiceActionItemInterface
         return 'Redirect Item';
     }
 
+    public function getConfigurationBlock(): string
+    {
+        return 'redirect-configuration-block';
+    }
+
     public function execute(Configuration $configuration, array $options = []): ActionExecutionResult
     {
         return new ActionExecutionResult('', $configuration->getResolved('redirect') ?? '');

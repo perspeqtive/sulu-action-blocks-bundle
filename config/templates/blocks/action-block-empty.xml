@@ -6,7 +6,6 @@
     <meta>
         <title>Action Block Empty</title>
     </meta>
-    <controller>App\Warenkorb\WarenkorbAbschlussService::execute</controller>
     <properties>
         <property name="editor" type="text_editor" mandatory="true" />
     </properties>

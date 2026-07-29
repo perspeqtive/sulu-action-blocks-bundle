@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace PERSPEQTIVE\SuluActionBlocksBundle;
 
 use PERSPEQTIVE\SuluActionBlocksBundle\Configuration\Resolver\TypeResolverInterface;
+use PERSPEQTIVE\SuluActionBlocksBundle\DependencyInjection\Compiler\TrackActionClassFilesPass;
 use PERSPEQTIVE\SuluActionBlocksBundle\Registry\ServiceActionItemInterface;
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
@@ -18,6 +20,13 @@ use function glob;
  */
 class SuluActionBlocksBundle extends AbstractBundle
 {
+    public function build(ContainerBuilder $container): void
+    {
+        parent::build($container);
+
+        $container->addCompilerPass(new TrackActionClassFilesPass(), PassConfig::TYPE_BEFORE_REMOVING);
+    }
+
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
         $container->import(__DIR__ . '/../config/services.yaml');
@@ -37,7 +46,7 @@ class SuluActionBlocksBundle extends AbstractBundle
     {
         $builder
             ->registerForAutoconfiguration(ServiceActionItemInterface::class)
-            ->addTag('perspeqtive.sulu_action_block.action');
+            ->addTag(TrackActionClassFilesPass::ACTION_TAG);
 
         $builder
             ->registerForAutoconfiguration(TypeResolverInterface::class)
