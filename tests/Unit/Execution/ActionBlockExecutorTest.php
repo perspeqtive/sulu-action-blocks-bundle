@@ -94,6 +94,15 @@ final class ActionBlockExecutorTest extends TestCase
         $this->executorDev->execute('some-unknown-action-block');
     }
 
+    public function testExecuteReturnsEmptyStringIfActionInformationNotFoundInProd(): void
+    {
+        $this->provider->result = new ActionBlockInformationCollection();
+
+        $result = $this->executorProd->execute('some-unknown-action-block');
+
+        self::assertSame('', $result);
+    }
+
     public function testExecuteThrowsExceptionIfActionNotFoundInDev(): void
     {
         $this->actionRegistry->result = null;
