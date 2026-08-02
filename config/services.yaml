@@ -1,47 +1,10 @@
 # yaml-language-server: $schema=../vendor/symfony/dependency-injection/Loader/schema/services.schema.json
 services:
 
-    PERSPEQTIVE\SuluActionBlocksBundle\Repository\ActionBlockRepository:
-        class: PERSPEQTIVE\SuluActionBlocksBundle\Repository\ActionBlockRepository
-        arguments:
-            $registry: '@doctrine'
-
-    PERSPEQTIVE\SuluActionBlocksBundle\Admin\ActionBlockAdmin:
-        class: PERSPEQTIVE\SuluActionBlocksBundle\Admin\ActionBlockAdmin
-        arguments:
-            $viewBuilderFactory: '@sulu_admin.view_builder_factory'
-            $securityChecker: '@sulu_security.security_checker'
-        tags:
-            - { name: sulu.admin }
-
-    PERSPEQTIVE\SuluActionBlocksBundle\Controller\Admin\ActionBlockController:
-        class: PERSPEQTIVE\SuluActionBlocksBundle\Controller\Admin\ActionBlockController
-        arguments:
-            $viewHandler: '@fos_rest.view_handler'
-            $listBuilderFactory: '@sulu_core.doctrine_list_builder_factory'
-            $fieldDescriptorFactory: '@sulu_core.list_builder.field_descriptor_factory'
-            $restHelper: '@sulu_core.rest_helper'
-            $actionBlockRepository: '@PERSPEQTIVE\SuluActionBlocksBundle\Repository\ActionBlockRepository'
-            $entityManager: '@doctrine.orm.entity_manager'
-        tags:
-            - { name: controller.service_arguments }
-
     PERSPEQTIVE\SuluActionBlocksBundle\Registry\ActionRegistry:
         class: PERSPEQTIVE\SuluActionBlocksBundle\Registry\ActionRegistry
         arguments:
             $actions: !tagged_iterator perspeqtive.sulu_action_block.action
-
-    PERSPEQTIVE\SuluActionBlocksBundle\Content\Select\ActionSelect:
-        class: PERSPEQTIVE\SuluActionBlocksBundle\Content\Select\ActionSelect
-        public: true
-        arguments:
-            $actionRegistry: '@PERSPEQTIVE\SuluActionBlocksBundle\Registry\ActionRegistry'
-
-    PERSPEQTIVE\SuluActionBlocksBundle\Content\Select\ActionBlockSelect:
-        class: PERSPEQTIVE\SuluActionBlocksBundle\Content\Select\ActionBlockSelect
-        public: true
-        arguments:
-            $actionBlockRepository: '@PERSPEQTIVE\SuluActionBlocksBundle\Repository\ActionBlockRepository'
 
     PERSPEQTIVE\SuluActionBlocksBundle\Twig\RenderActionBlockExtension:
         class: PERSPEQTIVE\SuluActionBlocksBundle\Twig\RenderActionBlockExtension
@@ -52,10 +15,9 @@ services:
     PERSPEQTIVE\SuluActionBlocksBundle\Execution\ActionBlockExecutor:
         class: PERSPEQTIVE\SuluActionBlocksBundle\Execution\ActionBlockExecutor
         arguments:
-            $actionBlockRepository: '@PERSPEQTIVE\SuluActionBlocksBundle\Repository\ActionBlockRepository'
+            $actionBlockInformationProvider: '@PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationProvider'
             $actionRegistry: '@PERSPEQTIVE\SuluActionBlocksBundle\Registry\ActionRegistry'
             $eventDispatcher: '@event_dispatcher'
-            $configurationFactory: '@PERSPEQTIVE\SuluActionBlocksBundle\Configuration\ConfigurationFactory'
             $logger: '@monolog.logger.action_block'
             $environment: '%kernel.environment%'
 
@@ -66,34 +28,46 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
-    PERSPEQTIVE\SuluActionBlocksBundle\Configuration\ConfigurationFactory:
-        class: PERSPEQTIVE\SuluActionBlocksBundle\Configuration\ConfigurationFactory
-        arguments:
-            $resolver: '@PERSPEQTIVE\SuluActionBlocksBundle\Configuration\Resolver\Resolver'
-
-    PERSPEQTIVE\SuluActionBlocksBundle\Configuration\Resolver\Resolver:
-        class: PERSPEQTIVE\SuluActionBlocksBundle\Configuration\Resolver\Resolver
-        arguments:
-            $resolvers: !tagged_iterator perspeqtive.sulu_action_block.configuration_type_resolver
-
-    PERSPEQTIVE\SuluActionBlocksBundle\Configuration\Resolver\LinkResolver:
-        class: PERSPEQTIVE\SuluActionBlocksBundle\Configuration\Resolver\LinkResolver
-        arguments:
-            $documentManager: '@sulu_document_manager.document_manager'
-            $webspaceManager: '@sulu_core.webspace.webspace_manager'
-            $requestStack: '@request_stack'
-        tags:
-            - { name: perspeqtive.sulu_action_block.configuration_type_resolver }
-
-    PERSPEQTIVE\SuluActionBlocksBundle\Structure\ActionBlockTemplateGenerator:
-        class: PERSPEQTIVE\SuluActionBlocksBundle\Structure\ActionBlockTemplateGenerator
+    PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationProvider:
+        class: PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationProvider
         arguments:
             $actionRegistry: '@PERSPEQTIVE\SuluActionBlocksBundle\Registry\ActionRegistry'
+            $slugger: '@slugger'
+
+    PERSPEQTIVE\SuluActionBlocksBundle\Structure\ActionBlocks\ActionBlockTemplateGenerator:
+        class: PERSPEQTIVE\SuluActionBlocksBundle\Structure\ActionBlocks\ActionBlockTemplateGenerator
+        arguments:
+            $templatesPath: '%perspeqtive_sulu_action_blocks_templates_path%'
+            $actionBlockInformationProvider: '@PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationProvider'
+
+    PERSPEQTIVE\SuluActionBlocksBundle\Structure\ActionBlocks\ActionBlocksBuilder:
+        class: PERSPEQTIVE\SuluActionBlocksBundle\Structure\ActionBlocks\ActionBlocksBuilder
+        arguments:
+            $templateGenerator: '@PERSPEQTIVE\SuluActionBlocksBundle\Structure\ActionBlocks\ActionBlockTemplateGenerator'
+            $fileWriter: '@PERSPEQTIVE\SuluActionBlocksBundle\Cache\FileWriter'
+
+    PERSPEQTIVE\SuluActionBlocksBundle\Structure\EmptyActionBlocks\EmptyActionBlocksBuilder:
+        class: PERSPEQTIVE\SuluActionBlocksBundle\Structure\EmptyActionBlocks\EmptyActionBlocksBuilder
+        arguments:
+            $actionBlockInformationProvider: '@PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationProvider'
+            $emptyActionBlockTemplateGenerator: '@PERSPEQTIVE\SuluActionBlocksBundle\Structure\EmptyActionBlocks\EmptyActionBlockTemplateGenerator'
+            $fileWriter: '@PERSPEQTIVE\SuluActionBlocksBundle\Cache\FileWriter'
+
+    PERSPEQTIVE\SuluActionBlocksBundle\Structure\EmptyActionBlocks\EmptyActionBlockTemplateGenerator:
+        class: PERSPEQTIVE\SuluActionBlocksBundle\Structure\EmptyActionBlocks\EmptyActionBlockTemplateGenerator
+        arguments:
+            $templatesPath: '%perspeqtive_sulu_action_blocks_templates_path%'
+
+    PERSPEQTIVE\SuluActionBlocksBundle\Cache\FileWriter:
+        class: PERSPEQTIVE\SuluActionBlocksBundle\Cache\FileWriter
+        arguments:
+            $cacheSubDir: '%perspeqtive_sulu_action_blocks_cache_path%'
 
     PERSPEQTIVE\SuluActionBlocksBundle\Structure\ActionBlockStructureCacheWarmer:
         class: PERSPEQTIVE\SuluActionBlocksBundle\Structure\ActionBlockStructureCacheWarmer
         arguments:
-            $templateGenerator: '@PERSPEQTIVE\SuluActionBlocksBundle\Structure\ActionBlockTemplateGenerator'
+            $actionBlocksBuilder: '@PERSPEQTIVE\SuluActionBlocksBundle\Structure\ActionBlocks\ActionBlocksBuilder'
+            $emptyActionBlockTemplatesGenerator: '@PERSPEQTIVE\SuluActionBlocksBundle\Structure\EmptyActionBlocks\EmptyActionBlocksBuilder'
         tags:
             - { name: kernel.cache_warmer }
 

@@ -6,5 +6,5 @@ namespace PERSPEQTIVE\SuluActionBlocksBundle\Execution;
 
 interface ActionBlockExecutorInterface
 {
-    public function execute(int $actionBlockIdentifier, array $options = []): string;
+    public function execute(string $actionBlockName, array $options = []): string;
 }

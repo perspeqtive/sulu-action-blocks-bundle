@@ -20,12 +20,12 @@ class MockServiceActionItemWithEmptyConfigurationBlock implements ServiceActionI
         return 'Empty Configuration Block Title';
     }
 
-    public function getConfigurationBlock(): string
+    public function getConfigurationBlock(): ?string
     {
         return '';
     }
 
-    public function execute(Configuration $configuration, array $options = []): ActionExecutionResult
+    public function execute(array $options = []): ActionExecutionResult
     {
         return new ActionExecutionResult();
     }

@@ -6,7 +6,5 @@
     <meta>
         <title>Action Block Empty</title>
     </meta>
-    <properties>
-        <property name="editor" type="text_editor" mandatory="true" />
-    </properties>
+    <properties />
 </template>

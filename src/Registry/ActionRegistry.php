@@ -6,7 +6,7 @@ namespace PERSPEQTIVE\SuluActionBlocksBundle\Registry;
 
 use InvalidArgumentException;
 
-readonly class ActionRegistry
+readonly class ActionRegistry implements ActionRegistryInterface
 {
     /**
      * @param iterable<ServiceActionItemInterface> $actions

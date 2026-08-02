@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace PERSPEQTIVE\SuluActionBlocksBundle\Registry;
 
-use PERSPEQTIVE\SuluActionBlocksBundle\Configuration\Configuration;
 use PERSPEQTIVE\SuluActionBlocksBundle\Execution\ActionExecutionResult;
 
 interface ServiceActionItemInterface
@@ -13,7 +12,7 @@ interface ServiceActionItemInterface
 
     public function getTitle(): string;
 
-    public function getConfigurationBlock(): string;
+    public function getConfigurationBlock(): ?string;
 
-    public function execute(Configuration $configuration, array $options = []): ActionExecutionResult;
+    public function execute(array $options = []): ActionExecutionResult;
 }

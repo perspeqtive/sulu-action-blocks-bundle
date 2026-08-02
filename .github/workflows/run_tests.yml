@@ -6,7 +6,7 @@ on:
 
 jobs:
   tests:
-    name: 'Installilere Bundle und führe Tests aus'
+    name: 'Installiere Bundle und führe Tests aus'
     runs-on: ubuntu-latest
 
     steps:

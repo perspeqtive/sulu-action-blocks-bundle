@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace PERSPEQTIVE\SuluActionBlocksBundle;
 
-use PERSPEQTIVE\SuluActionBlocksBundle\Configuration\Resolver\TypeResolverInterface;
 use PERSPEQTIVE\SuluActionBlocksBundle\DependencyInjection\Compiler\TrackActionClassFilesPass;
 use PERSPEQTIVE\SuluActionBlocksBundle\Registry\ServiceActionItemInterface;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
@@ -27,18 +26,21 @@ class SuluActionBlocksBundle extends AbstractBundle
         $container->addCompilerPass(new TrackActionClassFilesPass(), PassConfig::TYPE_BEFORE_REMOVING);
     }
 
-    public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
+    public function loadExtension(array $config, ContainerConfigurator $configurator, ContainerBuilder $container): void
     {
-        $container->import(__DIR__ . '/../config/services.yaml');
-        $this->configureAutoconfigurationInterface($builder);
+        $configurator->import(__DIR__ . '/../config/services.yaml');
+        $this->configureAutoconfigurationInterface($container);
     }
 
-    public function prependExtension(ContainerConfigurator $container, ContainerBuilder $builder): void
+    public function prependExtension(ContainerConfigurator $configurator, ContainerBuilder $container): void
     {
-        $builder->setParameter('perspeqtive_sulu_action_blocks_bundle_path', dirname(__DIR__));
+        $container->setParameter('perspeqtive_sulu_action_blocks_bundle_path', dirname(__DIR__));
+        $container->setParameter('perspeqtive_sulu_action_blocks_cache_path', '/perspeqtive_sulu_action_blocks/blocks');
+        $container->setParameter('perspeqtive_sulu_action_blocks_templates_path', '%perspeqtive_sulu_action_blocks_bundle_path%/config/templates/action-blocks');
+
 
         foreach (glob(__DIR__ . '/../config/packages/*.yaml') as $file) {
-            $container->import($file);
+            $configurator->import($file);
         }
     }
 
@@ -47,9 +49,5 @@ class SuluActionBlocksBundle extends AbstractBundle
         $builder
             ->registerForAutoconfiguration(ServiceActionItemInterface::class)
             ->addTag(TrackActionClassFilesPass::ACTION_TAG);
-
-        $builder
-            ->registerForAutoconfiguration(TypeResolverInterface::class)
-            ->addTag('perspeqtive.sulu_action_block.configuration_type_resolver');
     }
 }

@@ -25,8 +25,14 @@ class RenderActionBlockExtension extends AbstractExtension
         ];
     }
 
-    public function renderActionBlock(int $actionBlockIdentifier, array $options = []): string
+    public function renderActionBlock(array $options = []): string
     {
-        return $this->executor->execute($actionBlockIdentifier, $options);
+        $type = $options['type'] ?? null;
+        if($type === null) {
+            return '';
+        }
+        unset($options['type']);
+
+        return $this->executor->execute($type, $options);
     }
 }

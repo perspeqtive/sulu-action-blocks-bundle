@@ -20,12 +20,12 @@ class MockServiceActionItem implements ServiceActionItemInterface
         return 'Hello World Title';
     }
 
-    public function getConfigurationBlock(): string
+    public function getConfigurationBlock(): ?string
     {
         return 'mock-configuration-block';
     }
 
-    public function execute(Configuration $configuration, array $options = []): ActionExecutionResult
+    public function execute(array $options = []): ActionExecutionResult
     {
         return new ActionExecutionResult('<h1>Hello</h1>');
     }

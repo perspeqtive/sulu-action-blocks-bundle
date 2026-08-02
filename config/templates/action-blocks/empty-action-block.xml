@@ -1,0 +1,7 @@
+<template xmlns="http://schemas.sulu.io/template/template">
+    <key></key>
+    <meta>
+        <title></title>
+    </meta>
+    <properties />
+</template>

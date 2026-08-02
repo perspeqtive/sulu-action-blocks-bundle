@@ -1,0 +1,23 @@
+<template xmlns="http://schemas.sulu.io/template/template"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://schemas.sulu.io/template/template http://schemas.sulu.io/template/template-1.0.xsd"
+>
+    <key>action-blocks</key>
+    <meta>
+        <title>Action blocks</title>
+    </meta>
+    <properties>
+        <block name="action-blocks" default-type="action-block-empty">
+            <params>
+                <param name="add_button_text">
+                    <meta>
+                        <title>Modul hinzufügen</title>
+                    </meta>
+                </param>
+            </params>
+            <types>
+                <type ref="action-block-empty" />
+            </types>
+        </block>
+    </properties>
+</template>
