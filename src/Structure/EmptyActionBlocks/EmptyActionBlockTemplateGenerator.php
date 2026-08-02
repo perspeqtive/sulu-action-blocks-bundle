@@ -9,7 +9,7 @@ use DOMElement;
 use DOMXPath;
 use PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformation;
 
-readonly class EmptyActionBlockTemplateGenerator
+readonly class EmptyActionBlockTemplateGenerator implements EmptyActionBlockTemplateGeneratorInterface
 {
     private const string TEMPLATE_NAMESPACE = 'http://schemas.sulu.io/template/template';
 
@@ -30,7 +30,7 @@ readonly class EmptyActionBlockTemplateGenerator
         return $document->saveXML();
     }
 
-    public function setNodeValue(DOMDocument $document, string $fieldName, string $nodeValue): void
+    private function setNodeValue(DOMDocument $document, string $fieldName, string $nodeValue): void
     {
         $xpath = new DOMXPath($document);
         $xpath->registerNamespace('template', self::TEMPLATE_NAMESPACE);

@@ -11,7 +11,7 @@ use function is_dir;
 use function mkdir;
 use function sprintf;
 
-readonly class FileWriter
+readonly class FileWriter implements CacheFileWriterInterface
 {
     public function __construct(private string $cacheSubDir)
     {

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace PERSPEQTIVE\SuluActionBlocksBundle\Structure\ActionBlocks;
 
-use PERSPEQTIVE\SuluActionBlocksBundle\Cache\FileWriter;
+use PERSPEQTIVE\SuluActionBlocksBundle\Cache\CacheFileWriterInterface;
 
 final readonly class ActionBlocksBuilder implements ActionBlocksBuilderInterface
 {
     public function __construct(
-        private ActionBlockTemplateGenerator $templateGenerator,
-        private FileWriter $fileWriter,
+        private ActionBlockTemplateGeneratorInterface $templateGenerator,
+        private CacheFileWriterInterface $fileWriter,
     ) {
     }
 

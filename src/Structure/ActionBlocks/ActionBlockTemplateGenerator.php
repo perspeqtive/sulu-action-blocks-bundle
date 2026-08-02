@@ -11,9 +11,9 @@ use PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationProv
 
 use function file_get_contents;
 
-readonly class ActionBlockTemplateGenerator
+readonly class ActionBlockTemplateGenerator implements ActionBlockTemplateGeneratorInterface
 {
-    private const TEMPLATE_NAMESPACE = 'http://schemas.sulu.io/template/template';
+    private const string TEMPLATE_NAMESPACE = 'http://schemas.sulu.io/template/template';
 
     public function __construct(
         private string $templatesPath,

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Structure;
+namespace PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Structure\ActionBlocks;
 
 use DOMDocument;
 use DOMXPath;
@@ -20,7 +20,7 @@ class ActionBlockTemplateGeneratorTest extends TestCase
     {
         $this->informationProvider = new MockActionBlockInformationProvider();
         $this->generator = new ActionBlockTemplateGenerator(
-            __DIR__ . '/../../../config/templates/action-blocks',
+            __DIR__ . '/../../../../config/templates/action-blocks',
             $this->informationProvider,
         );
     }
