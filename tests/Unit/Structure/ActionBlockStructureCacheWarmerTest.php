@@ -23,4 +23,14 @@ class ActionBlockStructureCacheWarmerTest extends TestCase
         self::assertTrue($emptyActionBlocksTemplateBuilder->wasBuilt);
         self::assertTrue($actionBlocksTemplateBuilder->wasBuilt);
     }
+
+    public function testIsOptional(): void {
+        $emptyActionBlocksTemplateBuilder = new MockEmptyActionBlocksBuilder();
+        $actionBlocksTemplateBuilder = new MockActionBlocksBuilder();
+        $warmer = new ActionBlockStructureCacheWarmer(
+            $actionBlocksTemplateBuilder,
+            $emptyActionBlocksTemplateBuilder,
+        );
+        self::assertTrue($warmer->isOptional());
+    }
 }
