@@ -7,12 +7,8 @@ namespace PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Structure;
 use DOMDocument;
 use DOMXPath;
 use PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformation;
-use PERSPEQTIVE\SuluActionBlocksBundle\Registry\ActionRegistry;
 use PERSPEQTIVE\SuluActionBlocksBundle\Structure\ActionBlocks\ActionBlockTemplateGenerator;
 use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockActionBlockInformationProvider;
-use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockServiceActionItem;
-use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockServiceActionItemForRedirect;
-use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockServiceActionItemWithEmptyConfigurationBlock;
 use PHPUnit\Framework\TestCase;
 
 class ActionBlockTemplateGeneratorTest extends TestCase
@@ -25,10 +21,9 @@ class ActionBlockTemplateGeneratorTest extends TestCase
         $this->informationProvider = new MockActionBlockInformationProvider();
         $this->generator = new ActionBlockTemplateGenerator(
             __DIR__ . '/../../../config/templates/action-blocks',
-            $this->informationProvider
+            $this->informationProvider,
         );
     }
-
 
     public function testGeneratesTemplateWithEmptyBlockTypeOnlyWhenNoActionsAreRegistered(): void
     {

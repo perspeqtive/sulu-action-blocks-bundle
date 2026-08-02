@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks;
 
 use PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationCollection;
@@ -7,8 +9,9 @@ use PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationProv
 
 class MockActionBlockInformationProvider implements ActionBlockInformationProviderInterface
 {
-
-    public function __construct(public ActionBlockInformationCollection $result = new ActionBlockInformationCollection()) {}
+    public function __construct(public ActionBlockInformationCollection $result = new ActionBlockInformationCollection())
+    {
+    }
 
     public function provide(): ActionBlockInformationCollection
     {

@@ -29,14 +29,14 @@ class RenderActionBlockExtensionTest extends TestCase
 
     public function testRenderActionBlockCallsExecutor(): void
     {
-        $result = $this->extension->renderActionBlock(['type' => 'action-block-123','foo' => 'bar']);
+        $result = $this->extension->renderActionBlock(['type' => 'action-block-123', 'foo' => 'bar']);
 
         self::assertEquals('execution result action-block-123', $result);
     }
 
     public function testRenderActionBlockCallsExecutorWithoutType(): void
     {
-        $result = $this->extension->renderActionBlock(['typo' => 'action-block-123','foo' => 'bar']);
+        $result = $this->extension->renderActionBlock(['typo' => 'action-block-123', 'foo' => 'bar']);
 
         self::assertEquals('', $result);
     }

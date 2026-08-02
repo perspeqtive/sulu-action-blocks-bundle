@@ -11,10 +11,9 @@ readonly class EmptyActionBlocksBuilder implements EmptyActionBlocksBuilderInter
 {
     public function __construct(
         private ActionBlockInformationProviderInterface $actionBlockInformationProvider,
-        private EmptyActionBlockTemplateGenerator       $emptyActionBlockTemplateGenerator,
-        private FileWriter                              $fileWriter,
-    )
-    {
+        private EmptyActionBlockTemplateGenerator $emptyActionBlockTemplateGenerator,
+        private FileWriter $fileWriter,
+    ) {
     }
 
     public function build(string $cacheDir): void

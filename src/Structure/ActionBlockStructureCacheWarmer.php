@@ -8,14 +8,12 @@ use PERSPEQTIVE\SuluActionBlocksBundle\Structure\ActionBlocks\ActionBlocksBuilde
 use PERSPEQTIVE\SuluActionBlocksBundle\Structure\EmptyActionBlocks\EmptyActionBlocksBuilderInterface;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 
-
 readonly class ActionBlockStructureCacheWarmer implements CacheWarmerInterface
 {
     public function __construct(
-        private ActionBlocksBuilderInterface               $actionBlocksBuilder,
+        private ActionBlocksBuilderInterface $actionBlocksBuilder,
         private EmptyActionBlocksBuilderInterface $emptyActionBlockTemplatesGenerator,
-    )
-    {
+    ) {
     }
 
     public function warmUp(string $cacheDir, ?string $buildDir = null): array

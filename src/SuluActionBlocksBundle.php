@@ -38,7 +38,6 @@ class SuluActionBlocksBundle extends AbstractBundle
         $container->setParameter('perspeqtive_sulu_action_blocks_cache_path', '/perspeqtive_sulu_action_blocks/blocks');
         $container->setParameter('perspeqtive_sulu_action_blocks_templates_path', '%perspeqtive_sulu_action_blocks_bundle_path%/config/templates/action-blocks');
 
-
         foreach (glob(__DIR__ . '/../config/packages/*.yaml') as $file) {
             $configurator->import($file);
         }

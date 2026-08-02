@@ -1,14 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PERSPEQTIVE\SuluActionBlocksBundle\Cache;
 
 use RuntimeException;
 
+use function file_put_contents;
+use function is_dir;
+use function mkdir;
+use function sprintf;
+
 readonly class FileWriter
 {
-
-    public function __construct(private string $cacheSubDir) {
-
+    public function __construct(private string $cacheSubDir)
+    {
     }
 
     public function writeContent(string $content, string $cacheDir, string $fileName): void
@@ -29,5 +35,4 @@ readonly class FileWriter
             throw new RuntimeException(sprintf('Could not create directory "%s".', $fileDir));
         }
     }
-
 }

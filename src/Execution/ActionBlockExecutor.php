@@ -8,7 +8,6 @@ use Exception;
 use PERSPEQTIVE\SuluActionBlocksBundle\Event\ActionBlockExecutedEvent;
 use PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformation;
 use PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationProviderInterface;
-use PERSPEQTIVE\SuluActionBlocksBundle\Registry\ActionRegistry;
 use PERSPEQTIVE\SuluActionBlocksBundle\Registry\ActionRegistryInterface;
 use PERSPEQTIVE\SuluActionBlocksBundle\Registry\ServiceActionItemInterface;
 use Psr\Log\LoggerInterface;
@@ -19,10 +18,10 @@ readonly class ActionBlockExecutor implements ActionBlockExecutorInterface
 {
     public function __construct(
         private ActionBlockInformationProviderInterface $actionBlockInformationProvider,
-        private ActionRegistryInterface                 $actionRegistry,
-        private EventDispatcherInterface                $eventDispatcher,
-        private LoggerInterface                         $logger,
-        private string                                  $environment,
+        private ActionRegistryInterface $actionRegistry,
+        private EventDispatcherInterface $eventDispatcher,
+        private LoggerInterface $logger,
+        private string $environment,
     ) {
     }
 

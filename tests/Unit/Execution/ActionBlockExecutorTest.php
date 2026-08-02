@@ -10,7 +10,6 @@ use Monolog\Logger;
 use PERSPEQTIVE\SuluActionBlocksBundle\Execution\ActionBlockExecutor;
 use PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformation;
 use PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationCollection;
-use PERSPEQTIVE\SuluActionBlocksBundle\Registry\ActionRegistry;
 use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockActionBlockInformationProvider;
 use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockActionRegistry;
 use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockServiceActionItemForRedirect;
@@ -57,7 +56,6 @@ final class ActionBlockExecutorTest extends TestCase
 
     public function testExecuteReturnsHtml(): void
     {
-
         $result = $this->executorProd->execute('some-block-name', ['key' => 'value']);
 
         self::assertSame('<h1>Hello</h1>', $result);
@@ -65,7 +63,7 @@ final class ActionBlockExecutorTest extends TestCase
 
     public function testExecuteDispatchesEventOnRedirect(): void
     {
-        $this->actionRegistry->result =  new MockServiceActionItemForRedirect();
+        $this->actionRegistry->result = new MockServiceActionItemForRedirect();
 
         $options = ['redirect' => '/target-url'];
 
@@ -122,12 +120,10 @@ final class ActionBlockExecutorTest extends TestCase
         self::assertTrue($this->logs->hasErrorRecords());
     }
 
-    /**
-     * @return Logger
-     */
     private function buildLogger(): Logger
     {
         $this->logs = new TestHandler();
+
         return new Logger('tests', [$this->logs]);
     }
 }
