@@ -69,7 +69,7 @@ services:
             $actionBlocksBuilder: '@PERSPEQTIVE\SuluActionBlocksBundle\Structure\ActionBlocks\ActionBlocksBuilder'
             $emptyActionBlockTemplatesGenerator: '@PERSPEQTIVE\SuluActionBlocksBundle\Structure\EmptyActionBlocks\EmptyActionBlocksBuilder'
         tags:
-            - { name: kernel.cache_warmer }
+            - { name: kernel.cache_warmer, priority: 10 }
 
 
 
