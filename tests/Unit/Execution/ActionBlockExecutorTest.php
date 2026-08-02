@@ -28,10 +28,12 @@ final class ActionBlockExecutorTest extends TestCase
     private MockActionRegistry $actionRegistry;
     private ActionBlockExecutor $executorDev;
 
+    private string $existingActionInformation = 'some-block-name';
+
     protected function setUp(): void
     {
         $this->provider = new MockActionBlockInformationProvider();
-        $this->provider->result->add(new ActionBlockInformation('some-block-name', 'Title', 'Identifier'));
+        $this->provider->result->add(new ActionBlockInformation($this->existingActionInformation, 'Title', 'Identifier'));
 
         $this->actionRegistry = new MockActionRegistry();
         $this->eventDispatcher = new MockEventDispatcher();
@@ -56,7 +58,7 @@ final class ActionBlockExecutorTest extends TestCase
 
     public function testExecuteReturnsHtml(): void
     {
-        $result = $this->executorProd->execute('some-block-name', ['key' => 'value']);
+        $result = $this->executorProd->execute($this->existingActionInformation, ['key' => 'value']);
 
         self::assertSame('<h1>Hello</h1>', $result);
     }
@@ -67,7 +69,7 @@ final class ActionBlockExecutorTest extends TestCase
 
         $options = ['redirect' => '/target-url'];
 
-        $result = $this->executorProd->execute('some-block-name', $options);
+        $result = $this->executorProd->execute($this->existingActionInformation, $options);
 
         self::assertSame('', $result);
         self::assertSame('/target-url', $this->eventDispatcher->dispatchedEvent[0]->redirect);
@@ -75,7 +77,9 @@ final class ActionBlockExecutorTest extends TestCase
 
     public function testExecuteReturnsEmptyStringIfActionNotFound(): void
     {
-        $result = $this->executorProd->execute('some-unknown-action-block');
+        $this->actionRegistry->result = null;
+
+        $result = $this->executorProd->execute($this->existingActionInformation);
 
         self::assertSame('', $result);
     }
@@ -97,7 +101,7 @@ final class ActionBlockExecutorTest extends TestCase
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Action not found: Identifier');
 
-        $this->executorDev->execute('some-block-name');
+        $this->executorDev->execute($this->existingActionInformation);
     }
 
     public function testExecuteThrowsExceptionIfActionThrowsExceptionInDev(): void
@@ -107,14 +111,14 @@ final class ActionBlockExecutorTest extends TestCase
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Action Exception');
 
-        $this->executorDev->execute('some-block-name');
+        $this->executorDev->execute($this->existingActionInformation);
     }
 
     public function testExecuteReturnsEmptyHtmlIfActionThrowsExceptionInProd(): void
     {
         $this->actionRegistry->result = new MockServiceActionItemWithException();
 
-        $result = $this->executorProd->execute('some-block-name');
+        $result = $this->executorProd->execute($this->existingActionInformation);
 
         self::assertSame('', $result);
         self::assertTrue($this->logs->hasErrorRecords());

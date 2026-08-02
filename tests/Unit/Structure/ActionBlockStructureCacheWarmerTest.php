@@ -32,6 +32,6 @@ class ActionBlockStructureCacheWarmerTest extends TestCase
             $actionBlocksTemplateBuilder,
             $emptyActionBlocksTemplateBuilder,
         );
-        self::assertTrue($warmer->isOptional());
+        self::assertFalse($warmer->isOptional());
     }
 }
