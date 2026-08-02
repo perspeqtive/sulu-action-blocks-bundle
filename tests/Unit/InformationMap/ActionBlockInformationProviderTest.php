@@ -24,10 +24,10 @@ class ActionBlockInformationProviderTest extends TestCase
         );
 
         $result = $provider->provide();
-        $resultArray = iterator_to_array($result);
-        self::assertSame(MockServiceActionItem::class, $resultArray[0]->identifier);
-        self::assertSame('Hello World Title', $resultArray[0]->title);
-        self::assertSame('mock-configuration-block', $resultArray[0]->blockName);
+
+        self::assertSame(MockServiceActionItem::class, $result->first()->identifier);
+        self::assertSame('Hello World Title', $result->first()->title);
+        self::assertSame('mock-configuration-block', $result->first()->blockName);
     }
 
     public function testProvideBuildCustomBlockName(): void
@@ -39,9 +39,9 @@ class ActionBlockInformationProviderTest extends TestCase
         );
 
         $result = $provider->provide();
-        $resultArray = iterator_to_array($result);
-        self::assertSame(MockServiceActionItemWithEmptyConfigurationBlock::class, $resultArray[0]->identifier);
-        self::assertSame('Empty Configuration Block Title', $resultArray[0]->title);
-        self::assertSame('action-blocks-empty-configuration-block-title', $resultArray[0]->blockName);
+
+        self::assertSame(MockServiceActionItemWithEmptyConfigurationBlock::class, $result->first()->identifier);
+        self::assertSame('Empty Configuration Block Title', $result->first()->title);
+        self::assertSame('action-blocks-empty-configuration-block-title', $result->first()->blockName);
     }
 }

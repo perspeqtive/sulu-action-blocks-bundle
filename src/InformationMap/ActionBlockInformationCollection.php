@@ -48,6 +48,6 @@ class ActionBlockInformationCollection implements IteratorAggregate
 
     public function first(): ?ActionBlockInformation
     {
-        return $this->information[0];
+        return $this->information[0] ?? null;
     }
 }
