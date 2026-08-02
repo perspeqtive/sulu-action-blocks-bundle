@@ -1,14 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Cache;
 
 use PERSPEQTIVE\SuluActionBlocksBundle\Cache\FileWriter;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
+use function chmod;
+use function mkdir;
+use function rmdir;
+use function sys_get_temp_dir;
+
 class FileWriterTest extends TestCase
 {
-
     public function testWriteContent(): void
     {
         $fileWriter = new FileWriter('/some/path');
@@ -39,13 +45,11 @@ class FileWriterTest extends TestCase
         $fileWriter->writeContent('test', sys_get_temp_dir() . '/', 'file.xml');
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         chmod(sys_get_temp_dir() . '/some/path', 0777);
         rmdir(sys_get_temp_dir() . '/some/path');
         rmdir(sys_get_temp_dir() . '/some');
         rmdir(sys_get_temp_dir());
     }
-
-
 }
