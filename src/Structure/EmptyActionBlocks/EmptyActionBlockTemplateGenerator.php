@@ -11,12 +11,11 @@ use PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformation;
 
 readonly class EmptyActionBlockTemplateGenerator
 {
-
     private const string TEMPLATE_NAMESPACE = 'http://schemas.sulu.io/template/template';
+
     public function __construct(
         private string $templatesPath,
-    )
-    {
+    ) {
     }
 
     public function generate(ActionBlockInformation $information): string
@@ -41,5 +40,4 @@ readonly class EmptyActionBlockTemplateGenerator
         $field = $fields[0];
         $field->nodeValue = $nodeValue;
     }
-
 }

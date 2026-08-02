@@ -28,7 +28,7 @@ class RenderActionBlockExtension extends AbstractExtension
     public function renderActionBlock(array $options = []): string
     {
         $type = $options['type'] ?? null;
-        if($type === null) {
+        if ($type === null) {
             return '';
         }
         unset($options['type']);

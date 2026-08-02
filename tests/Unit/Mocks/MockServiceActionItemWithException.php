@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks;
 
 use Exception;
-use PERSPEQTIVE\SuluActionBlocksBundle\Configuration\Configuration;
 use PERSPEQTIVE\SuluActionBlocksBundle\Execution\ActionExecutionResult;
 use PERSPEQTIVE\SuluActionBlocksBundle\Registry\ServiceActionItemInterface;
 

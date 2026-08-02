@@ -1,13 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PERSPEQTIVE\SuluActionBlocksBundle\InformationMap;
 
 use ArrayIterator;
+use IteratorAggregate;
 use Traversable;
 
-class ActionBlockInformationCollection implements \IteratorAggregate
-{
+use function count;
 
+class ActionBlockInformationCollection implements IteratorAggregate
+{
     /**
      * @var ActionBlockInformation[]
      */
