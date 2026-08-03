@@ -101,16 +101,22 @@ To allow editors to use action blocks, add the `action-block` type to your page'
 In your page template (e.g., `templates/pages/default.html.twig`), use the `perspeqtive_render_action_block` function:
 
 ```twig
-{% for block in content.blocks %}
-    {% if block.type == 'action_block' %}
-        {{ perspeqtive_render_action_block(block.action) }}
-    {% endif %}
+{% for modules in content.blocks %}
+    {{ perspeqtive_render_action_blocks(modules['action-blocks]) }}
 {% endfor %}
 ```
 
-You can also pass additional options to the render function if needed:
+You can also iterate over the blocks yourself and pass additional options to the render function if needed:
 
 ```twig
+```twig
+{% for modules in content.blocks %}
+    {% for block in modules['action-blocks] %}
+        {% set block = block|merge({'highlighted': true}) %}
+        {{ perspeqtive_render_action_block(block) }}
+    {% endfor %}
+{% endfor %}
+```
 {{ perspeqtive_render_action_block(block.action, { 'custom_option': 'value' }) }}
 ```
 
