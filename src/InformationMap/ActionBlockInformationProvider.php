@@ -7,7 +7,7 @@ namespace PERSPEQTIVE\SuluActionBlocksBundle\InformationMap;
 readonly class ActionBlockInformationProvider implements ActionBlockInformationProviderInterface
 {
     public function __construct(
-        private array $data,
+        private array $data = [],
     ) {
     }
 

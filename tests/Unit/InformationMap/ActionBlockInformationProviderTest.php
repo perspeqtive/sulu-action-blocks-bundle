@@ -4,44 +4,28 @@ declare(strict_types=1);
 
 namespace PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\InformationMap;
 
-use PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationBuilder;
-use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockActionRegistry;
-use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockServiceActionItem;
-use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockServiceActionItemWithEmptyConfigurationBlock;
+use PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationProvider;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\String\Slugger\AsciiSlugger;
 
-class ActionBlockInformationProviderTest extends TestCase
+final class ActionBlockInformationProviderTest extends TestCase
 {
-    public function testProvideUsesProvidedBlockName(): void
+    public function testProvideReturnsInformationFromProvidedData(): void
     {
-        $registry = new MockActionRegistry();
-        $builder = new ActionBlockInformationBuilder(
-            $registry,
-            new AsciiSlugger(),
-        );
+        $provider = new ActionBlockInformationProvider([
+            [
+                'blockName' => 'contact-form',
+                'title' => 'Contact form',
+                'identifier' => 'App\\Action\\ContactFormAction',
+                'needsGeneration' => true,
+            ],
+        ]);
+        $collection = $provider->provide();
+        $information = $collection->first();
 
-        $result = $builder->provide();
-
-        self::assertSame(MockServiceActionItem::class, $result->first()->identifier);
-        self::assertSame('Hello World Title', $result->first()->title);
-        self::assertSame('mock-configuration-block', $result->first()->blockName);
-        self::assertFalse($result->first()->needsGeneration);
-    }
-
-    public function testProvideBuildCustomBlockName(): void
-    {
-        $registry = new MockActionRegistry(new MockServiceActionItemWithEmptyConfigurationBlock());
-        $builder = new ActionBlockInformationBuilder(
-            $registry,
-            new AsciiSlugger(),
-        );
-
-        $result = $builder->provide();
-
-        self::assertSame(MockServiceActionItemWithEmptyConfigurationBlock::class, $result->first()->identifier);
-        self::assertSame('Empty Configuration Block Title', $result->first()->title);
-        self::assertSame('action-blocks-empty-configuration-block-title', $result->first()->blockName);
-        self::assertTrue($result->first()->needsGeneration);
+        self::assertNotNull($information);
+        self::assertSame('contact-form', $information->blockName);
+        self::assertSame('Contact form', $information->title);
+        self::assertSame('App\\Action\\ContactFormAction', $information->identifier);
+        self::assertTrue($information->needsGeneration);
     }
 }
