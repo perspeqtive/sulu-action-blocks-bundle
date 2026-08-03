@@ -10,6 +10,7 @@ readonly class ActionBlockInformation
         public string $blockName,
         public string $title,
         public string $identifier,
+        public bool $isDefault = false
     ) {
     }
 }

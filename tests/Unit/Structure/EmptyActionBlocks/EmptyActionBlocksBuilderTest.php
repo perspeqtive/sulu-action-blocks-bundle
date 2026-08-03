@@ -40,10 +40,12 @@ class EmptyActionBlocksBuilderTest extends TestCase
 
     public function testBuildWithActionBlocks(): void
     {
-        $block1 = new ActionBlockInformation('action-block-1', 'Action Block 1', 'identifier-1');
-        $block2 = new ActionBlockInformation('action-block-2', 'Action Block 2', 'identifier-2');
+        $block1 = new ActionBlockInformation('action-block-1', 'Action Block 1', 'identifier-1', true);
+        $block2 = new ActionBlockInformation('action-block-2', 'Action Block 2', 'identifier-2', true);
+        $block3 = new ActionBlockInformation('action-block-3', 'Action Block 3', 'identifier-3', false);
         $this->actionBlockInformationProvider->result->add($block1);
         $this->actionBlockInformationProvider->result->add($block2);
+        $this->actionBlockInformationProvider->result->add($block3);
 
         $this->emptyActionBlocksBuilder->build('chache-dir');
 

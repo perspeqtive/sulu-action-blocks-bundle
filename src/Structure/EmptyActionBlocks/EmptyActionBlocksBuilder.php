@@ -24,6 +24,9 @@ readonly class EmptyActionBlocksBuilder implements EmptyActionBlocksBuilderInter
         }
 
         foreach ($actionBlocksInformation as $information) {
+            if($information->isDefault === false) {
+                continue;
+            }
             $content = $this->emptyActionBlockTemplateGenerator->generate($information);
             $this->fileWriter->writeContent($content, $cacheDir, $information->blockName . '.xml');
         }

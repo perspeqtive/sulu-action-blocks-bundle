@@ -26,6 +26,7 @@ readonly class ActionBlockInformationProvider implements ActionBlockInformationP
                 $this->getBlockName($action),
                 $action->getTitle(),
                 $action->getIdentifier(),
+                empty($action->getConfigurationBlock()) === true
             ));
         }
 
