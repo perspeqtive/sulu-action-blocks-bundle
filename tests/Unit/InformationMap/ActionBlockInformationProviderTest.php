@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\InformationMap;
 
-use PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationProvider;
+use PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationBuilder;
 use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockActionRegistry;
 use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockServiceActionItem;
 use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockServiceActionItemWithEmptyConfigurationBlock;
@@ -16,12 +16,12 @@ class ActionBlockInformationProviderTest extends TestCase
     public function testProvideUsesProvidedBlockName(): void
     {
         $registry = new MockActionRegistry();
-        $provider = new ActionBlockInformationProvider(
+        $builder = new ActionBlockInformationBuilder(
             $registry,
             new AsciiSlugger(),
         );
 
-        $result = $provider->provide();
+        $result = $builder->provide();
 
         self::assertSame(MockServiceActionItem::class, $result->first()->identifier);
         self::assertSame('Hello World Title', $result->first()->title);
@@ -32,12 +32,12 @@ class ActionBlockInformationProviderTest extends TestCase
     public function testProvideBuildCustomBlockName(): void
     {
         $registry = new MockActionRegistry(new MockServiceActionItemWithEmptyConfigurationBlock());
-        $provider = new ActionBlockInformationProvider(
+        $builder = new ActionBlockInformationBuilder(
             $registry,
             new AsciiSlugger(),
         );
 
-        $result = $provider->provide();
+        $result = $builder->provide();
 
         self::assertSame(MockServiceActionItemWithEmptyConfigurationBlock::class, $result->first()->identifier);
         self::assertSame('Empty Configuration Block Title', $result->first()->title);

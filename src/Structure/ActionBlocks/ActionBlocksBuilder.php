@@ -17,6 +17,6 @@ final readonly class ActionBlocksBuilder implements ActionBlocksBuilderInterface
     public function build(string $cacheDir): void
     {
         $content = $this->templateGenerator->generate();
-        $this->fileWriter->writeContent($content, $cacheDir, 'action-blocks.xml');
+        $this->fileWriter->writeBlockContent($content, $cacheDir, 'action-blocks.xml');
     }
 }

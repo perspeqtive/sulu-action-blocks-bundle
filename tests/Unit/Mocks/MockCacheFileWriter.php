@@ -16,4 +16,10 @@ class MockCacheFileWriter implements CacheFileWriterInterface
         $this->content = $content;
         $this->fileNames[] = $fileName;
     }
+
+    public function writeBlockContent(string $content, string $cacheDir, string $fileName): void
+    {
+        $this->content = $content;
+        $this->fileNames[] = $fileName;
+    }
 }

@@ -17,9 +17,20 @@ readonly class FileWriter implements CacheFileWriterInterface
     {
     }
 
+    public function writeBlockContent(string $content, string $cacheDir, string $fileName): void
+    {
+        $fileDir = $cacheDir . $this->cacheSubDir . '/blocks';
+        $this->write($fileDir, $fileName, $content);
+    }
+
     public function writeContent(string $content, string $cacheDir, string $fileName): void
     {
         $fileDir = $cacheDir . $this->cacheSubDir;
+        $this->write($fileDir, $fileName, $content);
+    }
+
+    private function write(string $fileDir, string $fileName, string $content): void
+    {
         $filePath = $fileDir . '/' . $fileName;
 
         $this->ensureDirectory($fileDir);

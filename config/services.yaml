@@ -21,7 +21,7 @@ services:
     PERSPEQTIVE\SuluActionBlocksBundle\Execution\ActionBlockExecutor:
         class: PERSPEQTIVE\SuluActionBlocksBundle\Execution\ActionBlockExecutor
         arguments:
-            $actionBlockInformationProvider: '@PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationProvider'
+            $actionBlockInformationProvider: '@PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationBuilder'
             $actionRegistry: '@PERSPEQTIVE\SuluActionBlocksBundle\Registry\ActionRegistry'
             $eventDispatcher: '@event_dispatcher'
             $logger: '@monolog.logger.action_block'
@@ -34,17 +34,33 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
-    PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationProvider:
-        class: PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationProvider
+
+    PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationCacheBuilder:
+        class: PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationCacheBuilder
+        arguments:
+            $actionBlockInformationBuilder: '@PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationBuilder'
+            $cacheFileWriter: '@PERSPEQTIVE\SuluActionBlocksBundle\Cache\FileWriter'
+
+    PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationBuilder:
+        class: PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationBuilder
         arguments:
             $actionRegistry: '@PERSPEQTIVE\SuluActionBlocksBundle\Registry\ActionRegistry'
             $slugger: '@slugger'
+
+    PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationProvider:
+        class: PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationProvider
+        factory: ['@PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationProviderFactory', 'create']
+
+    PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationProviderFactory:
+        class: PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationProviderFactory
+        arguments:
+            $cacheFilePath: '%kernel.cache_dir%%perspeqtive_sulu_action_blocks_cache_path%'
 
     PERSPEQTIVE\SuluActionBlocksBundle\Structure\ActionBlocks\ActionBlockTemplateGenerator:
         class: PERSPEQTIVE\SuluActionBlocksBundle\Structure\ActionBlocks\ActionBlockTemplateGenerator
         arguments:
             $templatesPath: '%perspeqtive_sulu_action_blocks_templates_path%'
-            $actionBlockInformationProvider: '@PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationProvider'
+            $actionBlockInformationProvider: '@PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationBuilder'
 
     PERSPEQTIVE\SuluActionBlocksBundle\Structure\ActionBlocks\ActionBlocksBuilder:
         class: PERSPEQTIVE\SuluActionBlocksBundle\Structure\ActionBlocks\ActionBlocksBuilder
@@ -55,7 +71,7 @@ services:
     PERSPEQTIVE\SuluActionBlocksBundle\Structure\EmptyActionBlocks\EmptyActionBlocksBuilder:
         class: PERSPEQTIVE\SuluActionBlocksBundle\Structure\EmptyActionBlocks\EmptyActionBlocksBuilder
         arguments:
-            $actionBlockInformationProvider: '@PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationProvider'
+            $actionBlockInformationProvider: '@PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationBuilder'
             $emptyActionBlockTemplateGenerator: '@PERSPEQTIVE\SuluActionBlocksBundle\Structure\EmptyActionBlocks\EmptyActionBlockTemplateGenerator'
             $fileWriter: '@PERSPEQTIVE\SuluActionBlocksBundle\Cache\FileWriter'
 
@@ -69,11 +85,12 @@ services:
         arguments:
             $cacheSubDir: '%perspeqtive_sulu_action_blocks_cache_path%'
 
-    PERSPEQTIVE\SuluActionBlocksBundle\Structure\ActionBlockStructureCacheWarmer:
-        class: PERSPEQTIVE\SuluActionBlocksBundle\Structure\ActionBlockStructureCacheWarmer
+    PERSPEQTIVE\SuluActionBlocksBundle\Cache\ActionBlockCacheWarmer:
+        class: PERSPEQTIVE\SuluActionBlocksBundle\Cache\ActionBlockCacheWarmer
         arguments:
             $actionBlocksBuilder: '@PERSPEQTIVE\SuluActionBlocksBundle\Structure\ActionBlocks\ActionBlocksBuilder'
             $emptyActionBlockTemplatesGenerator: '@PERSPEQTIVE\SuluActionBlocksBundle\Structure\EmptyActionBlocks\EmptyActionBlocksBuilder'
+            $actionBlockInformationCacheBuilder: '@PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationCacheBuilder'
         tags:
             - { name: kernel.cache_warmer, priority: 10 }
 

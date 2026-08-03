@@ -10,7 +10,17 @@ readonly class ActionBlockInformation
         public string $blockName,
         public string $title,
         public string $identifier,
-        public bool $isDefault = false
+        public bool $isDefault = false,
     ) {
+    }
+
+    public static function fromArray(mixed $information): self
+    {
+        return new self(
+            $information['blockName'],
+            $information['title'],
+            $information['identifier'],
+            $information['isDefault'] ?? false,
+        );
     }
 }

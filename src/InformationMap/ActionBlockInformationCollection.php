@@ -6,11 +6,12 @@ namespace PERSPEQTIVE\SuluActionBlocksBundle\InformationMap;
 
 use ArrayIterator;
 use IteratorAggregate;
+use JsonSerializable;
 use Traversable;
 
 use function count;
 
-class ActionBlockInformationCollection implements IteratorAggregate
+class ActionBlockInformationCollection implements IteratorAggregate, JsonSerializable
 {
     /**
      * @var ActionBlockInformation[]
@@ -49,5 +50,20 @@ class ActionBlockInformationCollection implements IteratorAggregate
     public function first(): ?ActionBlockInformation
     {
         return $this->information[0] ?? null;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return $this->information;
+    }
+
+    public static function fromArray(array $data): self
+    {
+        $collection = new self();
+        foreach ($data as $information) {
+            $collection->add(ActionBlockInformation::fromArray($information));
+        }
+
+        return $collection;
     }
 }
