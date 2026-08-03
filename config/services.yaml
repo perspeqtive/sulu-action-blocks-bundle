@@ -12,6 +12,12 @@ services:
             $executor: '@PERSPEQTIVE\SuluActionBlocksBundle\Execution\ActionBlockExecutor'
         tags: ['twig.extension']
 
+    PERSPEQTIVE\SuluActionBlocksBundle\Twig\RenderActionBlocksExtension:
+        class: PERSPEQTIVE\SuluActionBlocksBundle\Twig\RenderActionBlocksExtension
+        arguments:
+            $executor: '@PERSPEQTIVE\SuluActionBlocksBundle\Execution\ActionBlockExecutor'
+        tags: ['twig.extension']
+
     PERSPEQTIVE\SuluActionBlocksBundle\Execution\ActionBlockExecutor:
         class: PERSPEQTIVE\SuluActionBlocksBundle\Execution\ActionBlockExecutor
         arguments:
