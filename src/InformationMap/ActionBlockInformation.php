@@ -10,7 +10,7 @@ readonly class ActionBlockInformation
         public string $blockName,
         public string $title,
         public string $identifier,
-        public bool $isDefault = false,
+        public bool $needsGeneration = false,
     ) {
     }
 
@@ -20,7 +20,7 @@ readonly class ActionBlockInformation
             $information['blockName'],
             $information['title'],
             $information['identifier'],
-            $information['isDefault'] ?? false,
+            $information['needsGeneration'] ?? false,
         );
     }
 }

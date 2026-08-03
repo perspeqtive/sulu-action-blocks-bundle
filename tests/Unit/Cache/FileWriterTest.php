@@ -23,6 +23,14 @@ class FileWriterTest extends TestCase
         self::assertFileExists(sys_get_temp_dir() . '/some/path/filename.xml');
     }
 
+    public function testWriteBlockContent(): void
+    {
+        $fileWriter = new FileWriter('/some/path');
+        $fileWriter->writeBlockContent('test', sys_get_temp_dir() . '/', 'filename.xml');
+
+        self::assertFileExists(sys_get_temp_dir() . '/some/path/blocks/filename.xml');
+    }
+
     public function testWriteContentWithFailToCreateDir(): void
     {
         $this->expectException(RuntimeException::class);

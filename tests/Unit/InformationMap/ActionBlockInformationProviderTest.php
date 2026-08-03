@@ -26,7 +26,7 @@ class ActionBlockInformationProviderTest extends TestCase
         self::assertSame(MockServiceActionItem::class, $result->first()->identifier);
         self::assertSame('Hello World Title', $result->first()->title);
         self::assertSame('mock-configuration-block', $result->first()->blockName);
-        self::assertFalse($result->first()->isDefault);
+        self::assertFalse($result->first()->needsGeneration);
     }
 
     public function testProvideBuildCustomBlockName(): void
@@ -42,6 +42,6 @@ class ActionBlockInformationProviderTest extends TestCase
         self::assertSame(MockServiceActionItemWithEmptyConfigurationBlock::class, $result->first()->identifier);
         self::assertSame('Empty Configuration Block Title', $result->first()->title);
         self::assertSame('action-blocks-empty-configuration-block-title', $result->first()->blockName);
-        self::assertTrue($result->first()->isDefault);
+        self::assertTrue($result->first()->needsGeneration);
     }
 }

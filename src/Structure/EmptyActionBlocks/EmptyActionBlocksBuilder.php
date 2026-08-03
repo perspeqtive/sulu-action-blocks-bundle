@@ -24,7 +24,7 @@ readonly class EmptyActionBlocksBuilder implements EmptyActionBlocksBuilderInter
         }
 
         foreach ($actionBlocksInformation as $information) {
-            if ($information->isDefault === false) {
+            if ($information->needsGeneration === false) {
                 continue;
             }
             $content = $this->emptyActionBlockTemplateGenerator->generate($information);
