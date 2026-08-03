@@ -11,8 +11,6 @@ use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockServiceActionItemWit
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
-use function iterator_to_array;
-
 class ActionBlockInformationProviderTest extends TestCase
 {
     public function testProvideUsesProvidedBlockName(): void
