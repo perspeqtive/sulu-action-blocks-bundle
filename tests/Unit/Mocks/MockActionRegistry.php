@@ -9,6 +9,8 @@ use PERSPEQTIVE\SuluActionBlocksBundle\Registry\ServiceActionItemInterface;
 
 class MockActionRegistry implements ActionRegistryInterface
 {
+    public array $arrayResult = [];
+
     public function __construct(public ?ServiceActionItemInterface $result = new MockServiceActionItem())
     {
     }
@@ -16,7 +18,7 @@ class MockActionRegistry implements ActionRegistryInterface
     public function getActions(): iterable
     {
         if ($this->result === null) {
-            return [];
+            return $this->arrayResult;
         }
 
         return [$this->result];

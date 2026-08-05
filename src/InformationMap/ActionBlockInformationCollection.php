@@ -10,6 +10,8 @@ use JsonSerializable;
 use Traversable;
 
 use function count;
+use function strnatcasecmp;
+use function usort;
 
 class ActionBlockInformationCollection implements IteratorAggregate, JsonSerializable
 {
@@ -65,5 +67,12 @@ class ActionBlockInformationCollection implements IteratorAggregate, JsonSeriali
         }
 
         return $collection;
+    }
+
+    public function sort(): void
+    {
+        usort($this->information, function (ActionBlockInformation $a, ActionBlockInformation $b) {
+            return strnatcasecmp($a->title, $b->title);
+        });
     }
 }

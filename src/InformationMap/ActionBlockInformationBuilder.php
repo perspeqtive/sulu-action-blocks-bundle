@@ -29,6 +29,7 @@ readonly class ActionBlockInformationBuilder implements ActionBlockInformationPr
                 empty($action->getConfigurationBlock()) === true,
             ));
         }
+        $informationCollection->sort();
 
         return $informationCollection;
     }

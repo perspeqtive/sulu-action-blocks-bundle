@@ -7,9 +7,13 @@ namespace PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\InformationMap;
 use PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationBuilder;
 use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockActionRegistry;
 use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockServiceActionItem;
+use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockServiceActionItemForRedirect;
 use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockServiceActionItemWithEmptyConfigurationBlock;
+use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockServiceActionItemWithException;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\String\Slugger\AsciiSlugger;
+
+use function iterator_to_array;
 
 class ActionBlockInformationBuilderTest extends TestCase
 {
@@ -43,5 +47,25 @@ class ActionBlockInformationBuilderTest extends TestCase
         self::assertSame('Empty Configuration Block Title', $result->first()->title);
         self::assertSame('action-blocks-empty-configuration-block-title', $result->first()->blockName);
         self::assertTrue($result->first()->needsGeneration);
+    }
+
+    public function testProvideOrdersResult(): void
+    {
+        $registry = new MockActionRegistry(null);
+        $registry->arrayResult = [
+            new MockServiceActionItemForRedirect(),
+            new MockServiceActionItemWithException(),
+            new MockServiceActionItemWithEmptyConfigurationBlock(),
+        ];
+        $builder = new ActionBlockInformationBuilder(
+            $registry,
+            new AsciiSlugger(),
+        );
+
+        $result = iterator_to_array($builder->provide());
+
+        self::assertSame('Empty Configuration Block Title', $result[0]->title);
+        self::assertSame('Exception Title', $result[1]->title);
+        self::assertSame('Redirect Item', $result[2]->title);
     }
 }

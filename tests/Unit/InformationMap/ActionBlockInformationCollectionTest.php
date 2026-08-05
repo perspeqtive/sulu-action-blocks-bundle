@@ -41,6 +41,25 @@ final class ActionBlockInformationCollectionTest extends TestCase
         self::assertSame([$information, $secondInformation], iterator_to_array($this->collection));
     }
 
+    public function testSortSortsByTitle(): void
+    {
+        $information = new ActionBlockInformation('a', 'Z', 'first');
+        $secondInformation = new ActionBlockInformation('b', 'U', 'second');
+        $thirdInformation = new ActionBlockInformation('ä', 'u', 'second');
+
+        $this->collection->add($information);
+        $this->collection->add($secondInformation);
+        $this->collection->add($thirdInformation);
+
+        $this->collection->sort();
+
+        $sortedCollection = iterator_to_array($this->collection);
+
+        self::assertSame($secondInformation, $sortedCollection[0]);
+        self::assertSame($thirdInformation, $sortedCollection[1]);
+        self::assertSame($information, $sortedCollection[2]);
+    }
+
     public function testFindByBlockNameReturnsMatchingInformation(): void
     {
         $information = new ActionBlockInformation('target-block', 'Target', 'target');
