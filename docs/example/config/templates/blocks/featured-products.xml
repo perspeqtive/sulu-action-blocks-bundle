@@ -4,7 +4,7 @@
 >
     <key>featured-products</key>
     <meta>
-        <title>Action Block Empty</title>
+        <title>Featured products</title>
     </meta>
     <properties>
         <property name="product-ids" type="product_selection">
