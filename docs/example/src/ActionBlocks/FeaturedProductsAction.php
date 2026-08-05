@@ -30,7 +30,7 @@ class FeaturedProductsAction implements ServiceActionItemInterface
 
     public function execute(array $options = []): ActionExecutionResult
     {
-        return new ActionExecutionResult($this->featuredProductService->getFeaturedProducts($options['product-id']));
+        return new ActionExecutionResult($this->featuredProductService->getFeaturedProducts($options['product-ids']));
     }
 
 }

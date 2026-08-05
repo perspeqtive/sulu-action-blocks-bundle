@@ -24,7 +24,7 @@ class RedirecterServiceAction implements ServiceActionItemInterface
 
     public function getConfigurationBlock(): ?string
     {
-        return 'redirecter'; //Key of a global block whose fields configure this action, empty string for none
+        return null; //Null value means you do not configure a global block yourself. The title of self::getTitle() is presented to the user.
     }
 
     public function execute(array $options = []): ActionExecutionResult
