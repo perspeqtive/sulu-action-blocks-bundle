@@ -24,7 +24,7 @@ readonly class ActionBlockInformationProviderFactory
         }
         $contents = file_get_contents($filepath);
         $data = json_decode($contents, true);
-        if ($data === null) {
+        if (is_array($data) === false) {
             throw new RuntimeException('Cache file is not valid JSON');
         }
 
