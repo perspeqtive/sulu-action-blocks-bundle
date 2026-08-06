@@ -6,6 +6,12 @@ The **Sulu Action Blocks Bundle** lets you make application actions available as
 
 An action can either return HTML that is rendered at the position of the block or a redirect URL that is handled after the action has been executed.
 
+<p style="display: flex; gap: 32px; justify-content: center;">
+    <a href="docs/pics/action-block-examples.png" target="_blank">
+        <img src="docs/pics/action-block-examples.png" style="border-radius: 3px;" alt="Example of action blocks embedded in page">
+    </a>
+</p>
+
 ## 🚀 Features
 
 - **Custom actions**: Connect your own application, forms or business logic to Sulu blocks.
