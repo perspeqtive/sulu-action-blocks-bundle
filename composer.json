@@ -1,13 +1,15 @@
 {
   "name": "perspeqtive/sulu-action-blocks-bundle",
-  "description": "",
+  "description": "Integrate business logic services conveniently and editor friendly into your sulu page templates",
   "type": "sulu-bundle",
   "license": "MIT",
   "keywords": [
     "sulu",
     "action-block",
     "global block",
-    "custom action"
+    "custom action",
+    "service",
+    "business logic"
   ],
   "autoload": {
     "psr-4": {
