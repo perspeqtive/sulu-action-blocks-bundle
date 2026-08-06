@@ -1,0 +1,16 @@
+<template xmlns="http://schemas.sulu.io/template/template"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://schemas.sulu.io/template/template http://schemas.sulu.io/template/template-1.0.xsd"
+>
+    <key>featured-products</key>
+    <meta>
+        <title>Featured products</title>
+    </meta>
+    <properties>
+        <property name="product-ids" type="product_selection">
+            <meta>
+                <title lang="en">Featured products</title>
+            </meta>
+        </property>
+    </properties>
+</template>

@@ -2,25 +2,25 @@
 
 ![compatibility](https://img.shields.io/badge/sulu%20compatibility-%3E=2.6%20&%20%3C3.0-52b6ca.svg)
 
-The **Sulu Action Blocks Bundle** allows you to create and manage reusable action blocks for your Sulu CMS project. It provides a straightforward way to define "controller actions", manage them via a dedicated admin interface, and give editors the flexibility to place them throughout the content tree.
+The **Sulu Action Blocks Bundle** lets you make application actions available as reusable blocks in Sulu. Editors can select an action in the Sulu admin, configure it when necessary, and place it anywhere in the content tree.
 
-This keeps your content management flexible and transparent, ensuring a consistent user experience even as your business logic evolves.
+An action can either return HTML that is rendered at the position of the block or a redirect URL that is handled after the action has been executed.
 
 ## 🚀 Features
 
-- **Centralized Action Management**: Manage all action blocks from a dedicated area in the Sulu Admin.
-- **Flexible Configuration**: Define business logic actions with custom parameters like target pages, text, or media.
-- **Easy Integration**: Use a simple Twig function to render action blocks anywhere in your templates.
-- **Editor Friendly**: Editors can easily select and configure actions using the familiar Sulu interface.
+- **Custom actions**: Connect your own application, forms or business logic to Sulu blocks.
+- **Optional configuration**: Give an action its own global block and receive the editor's values in your service.
+- **Editor friendly**: Editors select and configure actions through the familiar Sulu interface.
+- **Twig integration**: Render one action block or a complete collection of action blocks with Twig functions.
 
 ## 🛠️ Installation
 
 ### 1. Requirements
 
 - **PHP**: 8.2 or higher
-- **Sulu**: 2.6 or higher
+- **Sulu**: 2.6 or higher and below 3.0
 
-### 2. Install the Bundle
+### 2. Install the bundle
 
 Run the following command in your project root:
 
@@ -28,9 +28,7 @@ Run the following command in your project root:
 composer require perspeqtive/sulu-action-blocks-bundle
 ```
 
-### 3. Register the Bundle (if not using Symfony Flex)
-
-Add the bundle to your `config/bundles.php`:
+If Symfony Flex does not register the bundle automatically, add it to `config/bundles.php`:
 
 ```php
 return [
@@ -39,102 +37,171 @@ return [
 ];
 ```
 
-### 4. Update Database
-
-Update your database schema to include the new action block entities:
-
-```bash
-bin/console doctrine:schema:update --force
-```
-*Note: In production, it's recommended to use migrations.*
-
-### 5. Add Routes
-
-Register the bundle's API routes in `config/routes/perspeqtive_action_block_bundle.yaml`:
-
-```yaml
-perspeqtive_sulu_action_blocks_api:
-    resource: '@SuluActionBlocksBundle/config/routes.yaml'
-```
-
 ## 📖 Usage
 
-### 1. Define your Business Logic
+### 1. Create an action service
 
-Create a service that implements the `ServiceActionItemInterface`. This interface acts as a bridge between your custom logic and the bundle.
+Create a service that implements `ServiceActionItemInterface`. The service is the only application-specific part you need to provide.
 
-The bundle automatically registers your service as an action. It will appear in the Sulu Admin select field, using the ID from `getIdentifier()` and the label from `getTitle()`.
+```php
+<?php
 
-See the [Example Implementation](#example-implementation) below for details.
+declare(strict_types=1);
 
-### 2. Create Action Blocks in Admin
+namespace App\ActionBlocks;
 
-1. Log in to the **Sulu Admin**.
-2. Navigate to **Action Blocks** in the sidebar.
-3. Click **Add** to create a new action block.
-4. Select your **Action**, provide a **Title**, and configure any additional parameters.
+use PERSPEQTIVE\SuluActionBlocksBundle\Execution\ActionExecutionResult;
+use PERSPEQTIVE\SuluActionBlocksBundle\Registry\ServiceActionItemInterface;
 
-### 3. Add to Page Templates
+final class FeaturedProductsAction implements ServiceActionItemInterface
+{
+    public function __construct(
+        private readonly FeaturedProductServiceInterface $featuredProductService,
+    ) {
+    }
 
-To allow editors to use action blocks, add the `action-block` type to your page's XML configuration (e.g., `config/templates/pages/default.xml`):
+    public function getIdentifier(): string
+    {
+        return self::class;
+    }
+
+    public function getTitle(): string
+    {
+        return 'Featured products';
+    }
+
+    public function getConfigurationBlock(): ?string
+    {
+        return 'featured-products';
+    }
+
+    public function execute(array $options = []): ActionExecutionResult
+    {
+        return new ActionExecutionResult(
+            html: $this->featuredProductService->getFeaturedProducts($options['product-ids'] ?? []),
+        );
+    }
+}
+```
+
+The interface requires these four methods:
+
+| Method | Purpose |
+| --- | --- |
+| `getIdentifier()` | Returns a stable and unique identifier for the action. `self::class` is a suitable choice. |
+| `getTitle()` | Returns the name shown to editors. It is also used to generate the block name when no configuration block is defined. |
+| `getConfigurationBlock()` | Returns the key of the global block containing the action's configuration fields, or `null` when the action needs no editor input. |
+| `execute()` | Runs your application logic and returns an `ActionExecutionResult`. The values configured in Sulu are available in `$options`. |
+
+Register any dependencies of the action as usual. With Symfony autoconfiguration, services implementing `ServiceActionItemInterface` are registered automatically. If autoconfiguration is disabled, add the bundle tag manually:
+
+```yaml
+# config/services.yaml
+services:
+    App\ActionBlocks\FeaturedProductsAction:
+        tags: ['perspeqtive.sulu_action_block.action']
+```
+
+### 2. Add an optional configuration block
+
+If an action needs values from an editor, create a regular Sulu global block in `config/templates/blocks/`. Its `<key>` must be the value returned by `getConfigurationBlock()`.
+
+For example, the `FeaturedProductsAction` above uses the following block:
+
+```xml
+<template xmlns="http://schemas.sulu.io/template/template"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://schemas.sulu.io/template/template http://schemas.sulu.io/template/template-1.0.xsd">
+    <key>featured-products</key>
+    <meta>
+        <title>Featured products</title>
+    </meta>
+    <properties>
+        <property name="product-ids" type="product_selection">
+            <meta>
+                <title lang="en">Featured products</title>
+            </meta>
+        </property>
+    </properties>
+</template>
+```
+
+The values of the block's properties are passed to `execute()` as the `$options` array. An action without configuration can return `null` from `getConfigurationBlock()`; editors then select it by the title returned from `getTitle()`.
+
+After adding or changing an action or its configuration block, clear or warm up the Symfony cache so that Sulu can update the available action block types:
+
+```bash
+bin/console cache:clear
+```
+
+### 3. Add action blocks to a page template
+
+Add the `action-blocks` type to the block property of every page template where editors should be able to use actions:
 
 ```xml
 <block name="blocks" default-type="text">
     <types>
         <type ref="text" />
         <!-- ... other block types ... -->
-        <type ref="action-block" />
+        <type ref="action-blocks" />
     </types>
 </block>
 ```
 
-### 4. Render in Twig
+The bundle adds each registered action to the `action-blocks` selection automatically. You do not need to add individual action types to the page template.
 
-In your page template (e.g., `templates/pages/default.html.twig`), use the `perspeqtive_render_action_block` function:
+### 4. Render action blocks with Twig
+
+Use `perspeqtive_render_action_blocks()` when rendering the complete value of an `action-blocks` property:
 
 ```twig
-{% for block in content.blocks %}
-    {% if block.type == 'action_block' %}
-        {{ perspeqtive_render_action_block(block.action) }}
-    {% endif %}
+{% for module in content.blocks %}
+    {{ perspeqtive_render_action_blocks(module['action-blocks']) }}
 {% endfor %}
 ```
 
-You can also pass additional options to the render function if needed:
+To render individual entries, use `perspeqtive_render_action_block()`. Pass the complete block value; it must contain the `type` field generated by Sulu:
 
 ```twig
-{{ perspeqtive_render_action_block(block.action, { 'custom_option': 'value' }) }}
+{% for module in content.blocks %}
+    {% for actionBlock in module['action-blocks'] %}
+        {{ perspeqtive_render_action_block(actionBlock) }}
+    {% endfor %}
+{% endfor %}
 ```
 
-## 💡 <a id="example-implementation"></a>Example Implementation
+You can add values to the options passed to the action before rendering:
 
-You can find reference implementations in the `docs/example/src/ActionBlock` directory:
-- [FeaturedProductsAction.php](docs/example/src/ActionBlocks/FeaturedProductsAction.php) - Renders a list of featured products.
-- [RedirectAction.php](docs/example/src/ActionBlocks/RedirecterServiceAction.php) - Executes logic and then performs a redirect.
-
-## ⚙️ Service Registration
-
-If your application uses standard Symfony autoconfiguration, no additional setup is required. The bundle automatically tags any service implementing `ServiceActionItemInterface` with `perspeqtive.sulu_action_block.action`.
-
-```yaml
-# config/services.yaml
-services:
-    App\ActionBlock\:
-        resource: '%kernel.project_dir%/src/ActionBlock/*'
-        autowire: true
-        autoconfigure: true
+```twig
+{% set actionBlock = actionBlock|merge({highlighted: true}) %}
+{{ perspeqtive_render_action_block(actionBlock) }}
 ```
 
-If you prefer manual configuration, apply the tag yourself:
+### 5. Return HTML or a redirect
 
-```yaml
-services:
-    App\ActionBlock\FeaturedProductsAction:
-        class: App\ActionBlock\FeaturedProductsAction
-        tags: ['perspeqtive.sulu_action_block.action']
+Return HTML when the action should render content at its position:
+
+```php
+return new ActionExecutionResult(html: '<h1>Hello World</h1>');
 ```
+
+Return a redirect URL when the action should redirect the visitor after execution:
+
+```php
+return new ActionExecutionResult(redirect: 'https://example.com/success');
+```
+
+Only the HTML value is rendered by the Twig function. Redirects are handled by the bundle's request integration.
+
+## 💡 Example implementation
+
+The [`docs/example`](docs/example) directory contains a complete, minimal setup:
+
+- [`FeaturedProductsAction.php`](docs/example/src/ActionBlocks/FeaturedProductsAction.php) shows an action with a configurable global block.
+- [`RedirecterServiceAction.php`](docs/example/src/ActionBlocks/RedirecterServiceAction.php) shows an action without a configuration block that returns a redirect.
+- [`featured-products.xml`](docs/example/config/templates/blocks/featured-products.xml) defines the configuration block used by the first action.
+- [`default.xml`](docs/example/config/templates/pages/default.xml) enables action blocks in a page template.
 
 ## 👩‍🍳 Contribution
 
 We welcome contributions! Please feel free to fork the repository, add features, and submit a pull request. To maintain high code quality, please include unit tests for all changes and update the documentation accordingly.
-

@@ -12,8 +12,8 @@ class MockActionBlockExecutor implements ActionBlockExecutorInterface
     {
     }
 
-    public function execute(int $actionBlockIdentifier, array $options = []): string
+    public function execute(string $actionBlockName, array $options = []): string
     {
-        return $this->executionResult . ' ' . $actionBlockIdentifier;
+        return $this->executionResult . ' ' . $actionBlockName;
     }
 }

@@ -1,0 +1,34 @@
+<?php
+
+declare(strict_types=1);
+
+namespace PERSPEQTIVE\SuluActionBlocksBundle\Structure\EmptyActionBlocks;
+
+use PERSPEQTIVE\SuluActionBlocksBundle\Cache\CacheFileWriterInterface;
+use PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationProviderInterface;
+
+readonly class EmptyActionBlocksBuilder implements EmptyActionBlocksBuilderInterface
+{
+    public function __construct(
+        private ActionBlockInformationProviderInterface $actionBlockInformationProvider,
+        private EmptyActionBlockTemplateGeneratorInterface $emptyActionBlockTemplateGenerator,
+        private CacheFileWriterInterface $fileWriter,
+    ) {
+    }
+
+    public function build(string $cacheDir): void
+    {
+        $actionBlocksInformation = $this->actionBlockInformationProvider->provide();
+        if ($actionBlocksInformation->isEmpty() === true) {
+            return;
+        }
+
+        foreach ($actionBlocksInformation as $information) {
+            if ($information->needsGeneration === false) {
+                continue;
+            }
+            $content = $this->emptyActionBlockTemplateGenerator->generate($information);
+            $this->fileWriter->writeBlockContent($content, $cacheDir, $information->blockName . '.xml');
+        }
+    }
+}

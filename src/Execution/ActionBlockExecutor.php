@@ -5,13 +5,11 @@ declare(strict_types=1);
 namespace PERSPEQTIVE\SuluActionBlocksBundle\Execution;
 
 use Exception;
-use PERSPEQTIVE\SuluActionBlocksBundle\Configuration\Configuration;
-use PERSPEQTIVE\SuluActionBlocksBundle\Configuration\ConfigurationFactoryInterface;
-use PERSPEQTIVE\SuluActionBlocksBundle\Entity\ActionBlock;
 use PERSPEQTIVE\SuluActionBlocksBundle\Event\ActionBlockExecutedEvent;
-use PERSPEQTIVE\SuluActionBlocksBundle\Registry\ActionRegistry;
+use PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformation;
+use PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationProviderInterface;
+use PERSPEQTIVE\SuluActionBlocksBundle\Registry\ActionRegistryInterface;
 use PERSPEQTIVE\SuluActionBlocksBundle\Registry\ServiceActionItemInterface;
-use PERSPEQTIVE\SuluActionBlocksBundle\Repository\ActionBlockRepositoryInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -19,10 +17,9 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 readonly class ActionBlockExecutor implements ActionBlockExecutorInterface
 {
     public function __construct(
-        private ActionBlockRepositoryInterface $actionBlockRepository,
-        private ActionRegistry $actionRegistry,
+        private ActionBlockInformationProviderInterface $actionBlockInformationProvider,
+        private ActionRegistryInterface $actionRegistry,
         private EventDispatcherInterface $eventDispatcher,
-        private ConfigurationFactoryInterface $configurationFactory,
         private LoggerInterface $logger,
         private string $environment,
     ) {
@@ -31,47 +28,45 @@ readonly class ActionBlockExecutor implements ActionBlockExecutorInterface
     /**
      * @throws Exception
      */
-    public function execute(int $actionBlockIdentifier, array $options = []): string
+    public function execute(string $actionBlockName, array $options = []): string
     {
-        $actionBlock = $this->getActionBlock($actionBlockIdentifier);
-        if ($actionBlock === null) {
+        $actionBlockInformation = $this->getActionBlock($actionBlockName);
+        if ($actionBlockInformation === null) {
             return '';
         }
 
-        $action = $this->getServiceActionItem($actionBlock);
+        $action = $this->getServiceActionItem($actionBlockInformation);
         if ($action === null) {
             return '';
         }
 
-        $configuration = $this->configurationFactory->create($actionBlock->getConfiguration());
-
-        $result = $this->executeActionBlock($action, $configuration, $options, $actionBlock);
+        $result = $this->executeActionBlock($action, $options);
 
         $this->handleRedirect($result);
 
         return $result->html;
     }
 
-    private function getActionBlock(int $actionBlockIdentifier): ?ActionBlock
+    private function getActionBlock(string $actionBlockName): ?ActionBlockInformation
     {
-        $actionBlock = $this->actionBlockRepository->findById($actionBlockIdentifier);
-        if ($actionBlock instanceof ActionBlock === false) {
-            $this->logger->error('Action block not found: ' . $actionBlockIdentifier);
+        $actionBlockInformation = $this->actionBlockInformationProvider->provide()->findByBlockName($actionBlockName);
+        if ($actionBlockInformation instanceof ActionBlockInformation === false) {
+            $this->logger->error('Action block not found: ' . $actionBlockName);
             if ($this->environment !== 'prod') {
-                throw new RuntimeException('Action block not found: ' . $actionBlockIdentifier);
+                throw new RuntimeException('Action block not found: ' . $actionBlockName);
             }
         }
 
-        return $actionBlock;
+        return $actionBlockInformation;
     }
 
-    private function getServiceActionItem(ActionBlock $actionBlock): ?ServiceActionItemInterface
+    private function getServiceActionItem(ActionBlockInformation $actionBlockInformation): ?ServiceActionItemInterface
     {
-        $action = $this->actionRegistry->getAction($actionBlock->getAction());
+        $action = $this->actionRegistry->getAction($actionBlockInformation->identifier);
         if ($action instanceof ServiceActionItemInterface === false) {
-            $this->logger->error('Action not found: ' . $actionBlock->getAction());
+            $this->logger->error('Action not found: ' . $actionBlockInformation->identifier);
             if ($this->environment !== 'prod') {
-                throw new RuntimeException('Action not found: ' . $actionBlock->getAction());
+                throw new RuntimeException('Action not found: ' . $actionBlockInformation->identifier);
             }
         }
 
@@ -81,12 +76,12 @@ readonly class ActionBlockExecutor implements ActionBlockExecutorInterface
     /**
      * @throws Exception
      */
-    private function executeActionBlock(ServiceActionItemInterface $action, Configuration $configuration, array $options, ActionBlock $actionBlock): ActionExecutionResult
+    private function executeActionBlock(ServiceActionItemInterface $action, array $options): ActionExecutionResult
     {
         try {
-            $result = $action->execute($configuration, $options);
+            $result = $action->execute($options);
         } catch (Exception $exception) {
-            $this->logger->error('Action ' . $actionBlock->getAction() . ' threw unexpected exception: ' . $exception->getMessage());
+            $this->logger->error('Action ' . $action->getTitle() . ' threw unexpected exception: ' . $exception->getMessage());
             $this->logger->error($exception->getTraceAsString());
             if ($this->environment !== 'prod') {
                 throw $exception;

@@ -6,7 +6,7 @@ on:
 
 jobs:
   tests:
-    name: 'Installilere Bundle und führe Tests aus'
+    name: 'Installiere Bundle und führe Tests aus'
     runs-on: ubuntu-latest
 
     steps:
@@ -18,9 +18,6 @@ jobs:
           sudo chmod 0700 ~/.ssh/
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           sudo chmod 0600 ~/.ssh/id_rsa
-
-      - name: Authentifizieren mit GitHub Packages
-        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > ~/.npmrc
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -38,11 +35,11 @@ jobs:
 
       - name: Installiere Backend Dependencies
         env:
-          COMPOSER_AUTH: '{"github-oauth": {"github.com": "${{ secrets.GITHUB_TOKEN }}"}}'
+          COMPOSER_AUTH: '{"github-oauth": {"github.com": "${{ secrets.COMPOSER_TOKEN }}"}}'
           COMPOSER_ROOT_VERSION: dev-main
-        run: |
-          composer config --global github-oauth.github.com "${{ secrets.GITHUB_TOKEN }}"
-          composer install --no-progress --prefer-dist
+        uses: ramsey/composer-install@v3
+        with:
+          composer-options: "--optimize-autoloader --no-scripts"
 
       - name: Führe Tests aus
         run: vendor/bin/phpunit --coverage-php var/coverage.php
@@ -83,7 +80,7 @@ jobs:
 
       - name: Recipe installieren
         run: |
-          composer config --global github-oauth.github.com "${{ secrets.GITHUB_TOKEN }}"
+          composer config --global github-oauth.github.com "${{ secrets.COMPOSER_TOKEN }}"
           composer config --global repositories.perspeqtive-deployments vcs git@github.com:perspeqtive/deployments.git
           composer config --global repositories.perspeqtive-preview vcs git@github.com:perspeqtive/deployer-recipe-preview-deployment.git
           composer config --global repositories.perspeqtive-static vcs git@github.com:perspeqtive/deployer-recipe-static-website.git

@@ -7,14 +7,11 @@ namespace PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Execution;
 use Exception;
 use Monolog\Handler\TestHandler;
 use Monolog\Logger;
-use PERSPEQTIVE\SuluActionBlocksBundle\Configuration\Configuration;
-use PERSPEQTIVE\SuluActionBlocksBundle\Configuration\ConfigurationFactoryInterface;
-use PERSPEQTIVE\SuluActionBlocksBundle\Entity\ActionBlock;
 use PERSPEQTIVE\SuluActionBlocksBundle\Execution\ActionBlockExecutor;
-use PERSPEQTIVE\SuluActionBlocksBundle\Registry\ActionRegistry;
-use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockActionBlockRepository;
-use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockConfigurationFactory;
-use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockServiceActionItem;
+use PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformation;
+use PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationCollection;
+use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockActionBlockInformationProvider;
+use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockActionRegistry;
 use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockServiceActionItemForRedirect;
 use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\MockServiceActionItemWithException;
 use PERSPEQTIVE\SuluActionBlocksBundle\Tests\Unit\Mocks\Symfony\MockEventDispatcher;
@@ -23,66 +20,56 @@ use RuntimeException;
 
 final class ActionBlockExecutorTest extends TestCase
 {
-    private MockActionBlockRepository $repository;
-    private ActionBlockExecutor $executor;
+    private ActionBlockExecutor $executorProd;
     private MockEventDispatcher $eventDispatcher;
-    private ConfigurationFactoryInterface $configurationFactory;
 
     private TestHandler $logs;
+    private MockActionBlockInformationProvider $provider;
+    private MockActionRegistry $actionRegistry;
+    private ActionBlockExecutor $executorDev;
+
+    private string $existingActionInformation = 'some-block-name';
 
     protected function setUp(): void
     {
-        $this->repository = new MockActionBlockRepository();
-        $actionRegistry = new ActionRegistry([
-            new MockServiceActionItem(),
-            new MockServiceActionItemForRedirect(),
-            new MockServiceActionItemWithException(),
-        ]);
+        $this->provider = new MockActionBlockInformationProvider();
+        $this->provider->result->add(new ActionBlockInformation($this->existingActionInformation, 'Title', 'Identifier'));
+
+        $this->actionRegistry = new MockActionRegistry();
         $this->eventDispatcher = new MockEventDispatcher();
-        $this->configurationFactory = new MockConfigurationFactory();
-        $this->logs = new TestHandler();
-        $logger = new Logger('tests', [$this->logs]);
-        $this->executor = new ActionBlockExecutor(
-            $this->repository,
-            $actionRegistry,
+
+        $logger = $this->buildLogger();
+
+        $this->executorProd = new ActionBlockExecutor(
+            $this->provider,
+            $this->actionRegistry,
             $this->eventDispatcher,
-            $this->configurationFactory,
             $logger,
             'prod',
+        );
+        $this->executorDev = new ActionBlockExecutor(
+            $this->provider,
+            $this->actionRegistry,
+            $this->eventDispatcher,
+            $logger,
+            'dev',
         );
     }
 
     public function testExecuteReturnsHtml(): void
     {
-        $actionBlock = new ActionBlock();
-        $actionBlock->setAction(MockServiceActionItem::class);
-        $actionBlock->setConfiguration(['key' => 'value']);
-
-        $this->repository->findResult = $actionBlock;
-
-        $this->configurationFactory->configuration =
-            new Configuration(
-                ['key' => ['value' => 'value']],
-            );
-        $result = $this->executor->execute(1);
+        $result = $this->executorProd->execute($this->existingActionInformation, ['key' => 'value']);
 
         self::assertSame('<h1>Hello</h1>', $result);
     }
 
     public function testExecuteDispatchesEventOnRedirect(): void
     {
-        $actionBlock = new ActionBlock();
-        $actionBlock->setAction(MockServiceActionItemForRedirect::class);
-        $actionBlock->setConfiguration(['redirect' => '/target-url']);
+        $this->actionRegistry->result = new MockServiceActionItemForRedirect();
 
-        $this->repository->findResult = $actionBlock;
+        $options = ['redirect' => '/target-url'];
 
-        $this->configurationFactory->configuration =
-            new Configuration(
-                ['redirect' => ['value' => '/target-url', 'resolved' => '/target-url']],
-            );
-
-        $result = $this->executor->execute(1);
+        $result = $this->executorProd->execute($this->existingActionInformation, $options);
 
         self::assertSame('', $result);
         self::assertSame('/target-url', $this->eventDispatcher->dispatchedEvent[0]->redirect);
@@ -90,86 +77,66 @@ final class ActionBlockExecutorTest extends TestCase
 
     public function testExecuteReturnsEmptyStringIfActionNotFound(): void
     {
-        $actionBlock = new ActionBlock();
-        $actionBlock->setAction('non_existent');
+        $this->actionRegistry->result = null;
 
-        $this->repository->findResult = $actionBlock;
-
-        $result = $this->executor->execute(1);
+        $result = $this->executorProd->execute($this->existingActionInformation);
 
         self::assertSame('', $result);
     }
 
-    public function testExecuteThrowsExceptionIfActionBlockNotFoundInDev(): void
+    public function testExecuteThrowsExceptionIfActionInformationNotFoundInDev(): void
     {
-        $this->executor = new ActionBlockExecutor(
-            $this->repository,
-            new ActionRegistry([]),
-            $this->eventDispatcher,
-            $this->configurationFactory,
-            new Logger('tests', [$this->logs]),
-            'dev',
-        );
-
-        $this->repository->findResult = null;
+        $this->provider->result = new ActionBlockInformationCollection();
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Action block not found: 1');
+        $this->expectExceptionMessage('Action block not found: some-unknown-action-block');
 
-        $this->executor->execute(1);
+        $this->executorDev->execute('some-unknown-action-block');
+    }
+
+    public function testExecuteReturnsEmptyStringIfActionInformationNotFoundInProd(): void
+    {
+        $this->provider->result = new ActionBlockInformationCollection();
+
+        $result = $this->executorProd->execute('some-unknown-action-block');
+
+        self::assertSame('', $result);
     }
 
     public function testExecuteThrowsExceptionIfActionNotFoundInDev(): void
     {
-        $this->executor = new ActionBlockExecutor(
-            $this->repository,
-            new ActionRegistry([]),
-            $this->eventDispatcher,
-            $this->configurationFactory,
-            new Logger('tests', [$this->logs]),
-            'dev',
-        );
-
-        $actionBlock = new ActionBlock();
-        $actionBlock->setAction('non_existent');
-        $this->repository->findResult = $actionBlock;
+        $this->actionRegistry->result = null;
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Action not found: non_existent');
+        $this->expectExceptionMessage('Action not found: Identifier');
 
-        $this->executor->execute(1);
+        $this->executorDev->execute($this->existingActionInformation);
     }
 
     public function testExecuteThrowsExceptionIfActionThrowsExceptionInDev(): void
     {
-        $this->executor = new ActionBlockExecutor(
-            $this->repository,
-            new ActionRegistry([new MockServiceActionItemWithException()]),
-            $this->eventDispatcher,
-            $this->configurationFactory,
-            new Logger('tests', [$this->logs]),
-            'dev',
-        );
-
-        $actionBlock = new ActionBlock();
-        $actionBlock->setAction(MockServiceActionItemWithException::class);
-        $this->repository->findResult = $actionBlock;
+        $this->actionRegistry->result = new MockServiceActionItemWithException();
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Action Exception');
 
-        $this->executor->execute(1);
+        $this->executorDev->execute($this->existingActionInformation);
     }
 
     public function testExecuteReturnsEmptyHtmlIfActionThrowsExceptionInProd(): void
     {
-        $actionBlock = new ActionBlock();
-        $actionBlock->setAction(MockServiceActionItemWithException::class);
-        $this->repository->findResult = $actionBlock;
+        $this->actionRegistry->result = new MockServiceActionItemWithException();
 
-        $result = $this->executor->execute(1);
+        $result = $this->executorProd->execute($this->existingActionInformation);
 
         self::assertSame('', $result);
         self::assertTrue($this->logs->hasErrorRecords());
+    }
+
+    private function buildLogger(): Logger
+    {
+        $this->logs = new TestHandler();
+
+        return new Logger('tests', [$this->logs]);
     }
 }

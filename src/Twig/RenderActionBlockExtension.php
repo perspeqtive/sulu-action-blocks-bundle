@@ -4,16 +4,10 @@ declare(strict_types=1);
 
 namespace PERSPEQTIVE\SuluActionBlocksBundle\Twig;
 
-use PERSPEQTIVE\SuluActionBlocksBundle\Execution\ActionBlockExecutorInterface;
-use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class RenderActionBlockExtension extends AbstractExtension
+class RenderActionBlockExtension extends AbstractActionBlockRenderingExtension
 {
-    public function __construct(private readonly ActionBlockExecutorInterface $executor)
-    {
-    }
-
     public function getFunctions(): array
     {
         return [
@@ -25,8 +19,8 @@ class RenderActionBlockExtension extends AbstractExtension
         ];
     }
 
-    public function renderActionBlock(int $actionBlockIdentifier, array $options = []): string
+    public function renderActionBlock(array $options = []): string
     {
-        return $this->executor->execute($actionBlockIdentifier, $options);
+        return $this->execute($options);
     }
 }
