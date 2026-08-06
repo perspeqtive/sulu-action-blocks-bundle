@@ -1,10 +1,16 @@
 # SuluActionBlocksBundle
 
-![compatibility](https://img.shields.io/badge/sulu%20compatibility-%3E=2.6%20&%20%3C3.0-52b6ca.svg)
+![compatibility](https://img.shields.io/badge/sulu%20compatibility-%3E=2.6-52b6ca.svg)
 
 The **Sulu Action Blocks Bundle** lets you make application actions available as reusable blocks in Sulu. Editors can select an action in the Sulu admin, configure it when necessary, and place it anywhere in the content tree.
 
 An action can either return HTML that is rendered at the position of the block or a redirect URL that is handled after the action has been executed.
+
+<p style="display: flex; gap: 32px; justify-content: center;">
+    <a href="docs/pics/action-block-examples.png" target="_blank">
+        <img src="docs/pics/action-block-examples.png" style="border-radius: 3px;" alt="Example of action blocks embedded in page">
+    </a>
+</p>
 
 ## 🚀 Features
 

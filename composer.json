@@ -24,17 +24,15 @@
     "ext-intl": "*",
     "ext-dom": "*",
     "ext-libxml": "*",
-    "sulu/sulu": "^2.6",
-    "sulu/content-bundle": "0.8.*",
+    "sulu/sulu": "^3.0",
     "symfony/monolog-bridge": "^7.3",
-    "symfony/monolog-bundle": "^3.4",
+    "symfony/monolog-bundle": "^4.0",
     "nesbot/carbon": "3.10.*",
     "friendsofsymfony/rest-bundle": "*"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.9",
     "jackalope/jackalope-doctrine-dbal": "2.0.*",
-    "perspeqtive/dev-dependencies": "*",
     "phpstan/extension-installer": "1.4.*",
     "phpstan/phpstan": "2.1.*",
     "phpunit/phpunit": "11.5.*",
@@ -43,14 +41,7 @@
   "config": {
     "allow-plugins": {
       "php-http/discovery": true,
-      "phpstan/extension-installer": true,
-      "perspeqtive/dev-dependencies": true
-    }
-  },
-  "repositories": {
-    "perspeqtive/dev-dependencies": {
-      "type": "vcs",
-      "url": "https://github.com/perspeqtive/dev-dependencies.git"
+      "phpstan/extension-installer": true
     }
   }
 }
