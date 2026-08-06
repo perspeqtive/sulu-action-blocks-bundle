@@ -1,0 +1,6 @@
+sulu_admin:
+  templates:
+    block:
+      directories:
+        default_blocks: "%perspeqtive_sulu_action_blocks_bundle_path%/config/templates/blocks"
+        cached_blocks: "%kernel.cache_dir%/perspeqtive_sulu_action_blocks/blocks"
