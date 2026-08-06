@@ -75,4 +75,14 @@ class ActionBlockInformationCollection implements IteratorAggregate, JsonSeriali
             return strnatcasecmp($a->title, $b->title);
         });
     }
+
+    public function getNames(): array
+    {
+        $names = [];
+        foreach ($this->information as $information) {
+            $names[] = $information->blockName;
+        }
+
+        return $names;
+    }
 }

@@ -6,7 +6,11 @@ namespace PERSPEQTIVE\SuluActionBlocksBundle\InformationMap;
 
 use PERSPEQTIVE\SuluActionBlocksBundle\Registry\ActionRegistryInterface;
 use PERSPEQTIVE\SuluActionBlocksBundle\Registry\ServiceActionItemInterface;
+use RuntimeException;
 use Symfony\Component\String\Slugger\SluggerInterface;
+
+use function in_array;
+use function sprintf;
 
 readonly class ActionBlockInformationBuilder implements ActionBlockInformationProviderInterface
 {
@@ -22,8 +26,12 @@ readonly class ActionBlockInformationBuilder implements ActionBlockInformationPr
 
         /** @var ServiceActionItemInterface $action */
         foreach ($this->actionRegistry->getActions() as $action) {
+            $blockname = $this->getBlockName($action);
+            if (in_array($blockname, $informationCollection->getNames(), true) === true) {
+                throw new RuntimeException(sprintf('Action block with name "%s" already exists', $blockname));
+            }
             $informationCollection->add(new ActionBlockInformation(
-                $this->getBlockName($action),
+                $blockname,
                 $action->getTitle(),
                 $action->getIdentifier(),
                 empty($action->getConfigurationBlock()) === true,

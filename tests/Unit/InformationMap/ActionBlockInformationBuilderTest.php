@@ -49,6 +49,22 @@ class ActionBlockInformationBuilderTest extends TestCase
         self::assertTrue($result->first()->needsGeneration);
     }
 
+    public function testProvideThrowsExceptionOnDuplicateBlockNames(): void
+    {
+        $registry = new MockActionRegistry(null);
+        $registry->arrayResult = [
+            new MockServiceActionItemWithEmptyConfigurationBlock(),
+            new MockServiceActionItemWithEmptyConfigurationBlock(),
+        ];
+        $builder = new ActionBlockInformationBuilder(
+            $registry,
+            new AsciiSlugger(),
+        );
+
+        $this->expectException(\RuntimeException::class);
+        $builder->provide();
+    }
+
     public function testProvideOrdersResult(): void
     {
         $registry = new MockActionRegistry(null);
