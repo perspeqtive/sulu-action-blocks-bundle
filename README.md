@@ -1,6 +1,6 @@
 # SuluActionBlocksBundle
 
-![compatibility](https://img.shields.io/badge/sulu%20compatibility-%3E=2.6%20&%20%3C3.0-52b6ca.svg)
+![compatibility](https://img.shields.io/badge/sulu%20compatibility-%3E=2.6-52b6ca.svg)
 
 The **Sulu Action Blocks Bundle** lets you make application actions available as reusable blocks in Sulu. Editors can select an action in the Sulu admin, configure it when necessary, and place it anywhere in the content tree.
 
