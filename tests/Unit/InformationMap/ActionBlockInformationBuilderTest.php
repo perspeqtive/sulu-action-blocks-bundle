@@ -45,7 +45,8 @@ class ActionBlockInformationBuilderTest extends TestCase
 
         self::assertSame(MockServiceActionItemWithEmptyConfigurationBlock::class, $result->first()->identifier);
         self::assertSame('Empty Configuration Block Title', $result->first()->title);
-        self::assertSame('action-blocks-empty-configuration-block-title', $result->first()->blockName);
+        self::assertLessThanOrEqual(31, strlen($result->first()->blockName));
+        self::assertSame('ab-empty-configuration-b-813bd1', $result->first()->blockName);
         self::assertTrue($result->first()->needsGeneration);
     }
 

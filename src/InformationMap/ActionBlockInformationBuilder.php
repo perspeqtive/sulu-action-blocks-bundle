@@ -14,6 +14,11 @@ use function sprintf;
 
 readonly class ActionBlockInformationBuilder implements ActionBlockInformationProviderInterface
 {
+
+    private const HASH_LENGTH = 6;
+
+    private const MAX_KEY_LENGTH = 31;
+
     public function __construct(
         private ActionRegistryInterface $actionRegistry,
         private SluggerInterface $slugger,
@@ -48,7 +53,9 @@ readonly class ActionBlockInformationBuilder implements ActionBlockInformationPr
         if (empty($blockName) === false) {
             return $blockName;
         }
+        $hash = substr(hash('xxh3', $blockName . ':' . $action->getIdentifier()), 0, self::HASH_LENGTH);
 
-        return 'action-blocks-' . $this->slugger->slug($action->getTitle())->lower()->toString();
+        $titleLength = self::MAX_KEY_LENGTH - self::HASH_LENGTH - 4;
+        return 'ab-' . $this->slugger->slug($action->getTitle())->lower()->slice(0, $titleLength)->toString() . '-' . $hash;
     }
 }
