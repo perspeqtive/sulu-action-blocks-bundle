@@ -13,7 +13,7 @@ use function file_get_contents;
 
 readonly class ActionBlockTemplateGenerator implements ActionBlockTemplateGeneratorInterface
 {
-    private const string TEMPLATE_NAMESPACE = 'http://schemas.sulu.io/template/template';
+    private const TEMPLATE_NAMESPACE = 'http://schemas.sulu.io/template/template';
 
     public function __construct(
         private string $templatesPath,

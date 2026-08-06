@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class ActionBlockRedirectSubscriber implements EventSubscriberInterface
 {
-    private const string ATTR_REDIRECT_URL = '_perspeqtive_action_block_redirect_url';
+    private const ATTR_REDIRECT_URL = '_perspeqtive_action_block_redirect_url';
 
     public function __construct(private readonly RequestStack $requestStack)
     {

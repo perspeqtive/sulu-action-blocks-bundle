@@ -11,7 +11,7 @@ use PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformation;
 
 readonly class EmptyActionBlockTemplateGenerator implements EmptyActionBlockTemplateGeneratorInterface
 {
-    private const string TEMPLATE_NAMESPACE = 'http://schemas.sulu.io/template/template';
+    private const TEMPLATE_NAMESPACE = 'http://schemas.sulu.io/template/template';
 
     public function __construct(
         private string $templatesPath,
