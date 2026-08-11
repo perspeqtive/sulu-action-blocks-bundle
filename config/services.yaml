@@ -92,7 +92,7 @@ services:
             $emptyActionBlockTemplatesGenerator: '@PERSPEQTIVE\SuluActionBlocksBundle\Structure\EmptyActionBlocks\EmptyActionBlocksBuilder'
             $actionBlockInformationCacheBuilder: '@PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationCacheBuilder'
         tags:
-            - { name: kernel.cache_warmer, priority: 1024 }
+            - { name: kernel.cache_warmer, priority: 999 }
 
 
 
