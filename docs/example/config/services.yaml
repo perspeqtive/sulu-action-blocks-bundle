@@ -1,0 +1,15 @@
+services:
+    App\ActionBlocks\FeaturedProductsAction:
+        arguments:
+            $featuredProductService: '@App\Product\FeaturedProductService'
+        tags: ['perspeqtive.sulu_action_block.action']
+
+    App\ActionBlocks\RedirecterServiceAction:
+        arguments:
+            $formHandlerService: '@App\Form\FormHandlerService'
+        tags: ['perspeqtive.sulu_action_block.action']
+
+    App\ActionBlocks\NewsTeaserAction:
+        arguments:
+            $newsTeaserRenderer: '@App\News\NewsTeaserRenderer'
+        tags: ['perspeqtive.sulu_action_block.action']

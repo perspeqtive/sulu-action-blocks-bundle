@@ -1,0 +1,4 @@
+perspeqtive_sulu_action_blocks_fragment:
+    path: /_action-block-fragment
+    controller: PERSPEQTIVE\SuluActionBlocksBundle\Controller\ActionBlockFragmentController::index
+    methods: ['GET']

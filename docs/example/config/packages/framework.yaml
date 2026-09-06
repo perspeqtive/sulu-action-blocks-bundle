@@ -1,0 +1,5 @@
+framework:
+    esi: true
+    http_cache:
+        enabled: true
+        esi: true

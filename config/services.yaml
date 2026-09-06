@@ -23,6 +23,7 @@ services:
         arguments:
             $actionBlockInformationProvider: '@PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationBuilder'
             $actionRegistry: '@PERSPEQTIVE\SuluActionBlocksBundle\Registry\ActionRegistry'
+            $fragmentRenderer: '@PERSPEQTIVE\SuluActionBlocksBundle\Fragment\EsiActionBlockFragmentRenderer'
             $eventDispatcher: '@event_dispatcher'
             $logger: '@monolog.logger.action_block'
             $environment: '%kernel.environment%'
@@ -94,5 +95,20 @@ services:
         tags:
             - { name: kernel.cache_warmer, priority: 999 }
 
+    PERSPEQTIVE\SuluActionBlocksBundle\Fragment\EsiActionBlockFragmentRenderer:
+        class: PERSPEQTIVE\SuluActionBlocksBundle\Fragment\EsiActionBlockFragmentRenderer
+        arguments:
+            $fragmentHandler: '@fragment.handler'
+            $urlGenerator: '@router'
+            $uriSigner: '@uri_signer'
+            $requestStack: '@request_stack'
+            $logger: '@monolog.logger.action_block'
 
-
+    PERSPEQTIVE\SuluActionBlocksBundle\Controller\ActionBlockFragmentController:
+        class: PERSPEQTIVE\SuluActionBlocksBundle\Controller\ActionBlockFragmentController
+        public: true
+        arguments:
+            $actionBlockExecutor: '@PERSPEQTIVE\SuluActionBlocksBundle\Execution\ActionBlockExecutor'
+            $uriSigner: '@uri_signer'
+        tags:
+            - { name: controller.service_arguments }
