@@ -6,9 +6,11 @@ namespace PERSPEQTIVE\SuluActionBlocksBundle\Execution;
 
 use Exception;
 use PERSPEQTIVE\SuluActionBlocksBundle\Event\ActionBlockExecutedEvent;
+use PERSPEQTIVE\SuluActionBlocksBundle\Fragment\ActionBlockFragmentRendererInterface;
 use PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformation;
 use PERSPEQTIVE\SuluActionBlocksBundle\InformationMap\ActionBlockInformationProviderInterface;
 use PERSPEQTIVE\SuluActionBlocksBundle\Registry\ActionRegistryInterface;
+use PERSPEQTIVE\SuluActionBlocksBundle\Registry\CacheableActionItemInterface;
 use PERSPEQTIVE\SuluActionBlocksBundle\Registry\ServiceActionItemInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -19,6 +21,7 @@ readonly class ActionBlockExecutor implements ActionBlockExecutorInterface
     public function __construct(
         private ActionBlockInformationProviderInterface $actionBlockInformationProvider,
         private ActionRegistryInterface $actionRegistry,
+        private ActionBlockFragmentRendererInterface $fragmentRenderer,
         private EventDispatcherInterface $eventDispatcher,
         private LoggerInterface $logger,
         private string $environment,
@@ -30,21 +33,59 @@ readonly class ActionBlockExecutor implements ActionBlockExecutorInterface
      */
     public function execute(string $actionBlockName, array $options = []): string
     {
-        $actionBlockInformation = $this->getActionBlock($actionBlockName);
-        if ($actionBlockInformation === null) {
-            return '';
-        }
-
-        $action = $this->getServiceActionItem($actionBlockInformation);
+        $action = $this->findActionItem($actionBlockName);
         if ($action === null) {
             return '';
         }
 
-        $result = $this->executeActionBlock($action, $options);
+        $fragment = $this->renderAsFragment($action, $actionBlockName, $options);
+        if ($fragment !== null) {
+            return $fragment;
+        }
+
+        $result = $this->executeActionItem($action, $options);
 
         $this->handleRedirect($result);
 
         return $result->html;
+    }
+
+    public function findActionItem(string $actionBlockName): ?ServiceActionItemInterface
+    {
+        $actionBlockInformation = $this->getActionBlock($actionBlockName);
+        if ($actionBlockInformation === null) {
+            return null;
+        }
+
+        return $this->getServiceActionItem($actionBlockInformation);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function executeActionItem(ServiceActionItemInterface $action, array $options = []): ActionExecutionResult
+    {
+        try {
+            $result = $action->execute($options);
+        } catch (Exception $exception) {
+            $this->logger->error('Action ' . $action->getTitle() . ' threw unexpected exception: ' . $exception->getMessage());
+            $this->logger->error($exception->getTraceAsString());
+            if ($this->environment !== 'prod') {
+                throw $exception;
+            }
+
+            return new ActionExecutionResult();
+        }
+
+        return $result;
+    }
+
+    private function renderAsFragment(ServiceActionItemInterface $action, string $actionBlockName, array $options): ?string {
+        if ($action instanceof CacheableActionItemInterface === false) {
+            return null;
+        }
+
+        return $this->fragmentRenderer->render($actionBlockName, $options);
     }
 
     private function getActionBlock(string $actionBlockName): ?ActionBlockInformation
@@ -71,26 +112,6 @@ readonly class ActionBlockExecutor implements ActionBlockExecutorInterface
         }
 
         return $action;
-    }
-
-    /**
-     * @throws Exception
-     */
-    private function executeActionBlock(ServiceActionItemInterface $action, array $options): ActionExecutionResult
-    {
-        try {
-            $result = $action->execute($options);
-        } catch (Exception $exception) {
-            $this->logger->error('Action ' . $action->getTitle() . ' threw unexpected exception: ' . $exception->getMessage());
-            $this->logger->error($exception->getTraceAsString());
-            if ($this->environment !== 'prod') {
-                throw $exception;
-            }
-
-            return new ActionExecutionResult();
-        }
-
-        return $result;
     }
 
     private function handleRedirect(ActionExecutionResult $result): void

@@ -1,0 +1,2 @@
+perspeqtive_sulu_action_blocks:
+    resource: '@SuluActionBlocksBundle/config/routes.yaml'

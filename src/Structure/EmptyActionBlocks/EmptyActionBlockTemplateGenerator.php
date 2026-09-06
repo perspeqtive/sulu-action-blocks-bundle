@@ -36,7 +36,7 @@ readonly class EmptyActionBlockTemplateGenerator implements EmptyActionBlockTemp
         $xpath->registerNamespace('template', self::TEMPLATE_NAMESPACE);
 
         $fields = $xpath->query('//template:' . $fieldName);
-        /** @var DOMElement $keyField */
+        /** @var DOMElement $field */
         $field = $fields[0];
         $field->nodeValue = $nodeValue;
     }

@@ -1,0 +1,36 @@
+<template xmlns="http://schemas.sulu.io/template/template"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://schemas.sulu.io/template/template http://schemas.sulu.io/template/template-1.0.xsd"
+>
+    <key>news-teaser</key>
+    <meta>
+        <title>News teaser</title>
+    </meta>
+    <properties>
+        <property name="category" type="single_select">
+            <meta>
+                <title lang="en">Category</title>
+            </meta>
+            <params>
+                <param name="default_value" value="all"/>
+                <param name="values" type="collection">
+                    <param name="all">
+                        <meta>
+                            <title lang="en">All categories</title>
+                        </meta>
+                    </param>
+                    <param name="press">
+                        <meta>
+                            <title lang="en">Press releases</title>
+                        </meta>
+                    </param>
+                </param>
+            </params>
+        </property>
+        <property name="limit" type="number">
+            <meta>
+                <title lang="en">Number of teasers</title>
+            </meta>
+        </property>
+    </properties>
+</template>
