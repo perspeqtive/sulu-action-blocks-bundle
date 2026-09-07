@@ -250,9 +250,7 @@ ESI has to be enabled in the framework configuration, and a reverse proxy that u
 # config/packages/framework.yaml
 framework:
     esi: true
-    http_cache:
-        enabled: true
-        esi: true
+    fragment: true
 ```
 
 `framework.http_cache` uses Symfony's built-in reverse proxy and is the quickest way to get started. In production a dedicated proxy such as Varnish is the usual choice — make sure ESI processing is enabled there as well. Sulu's `SuluHttpCacheBundle` proxy builds on Symfony's `HttpCache` and supports ESI too.
